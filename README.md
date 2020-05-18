@@ -1,38 +1,12 @@
 # base-bundle
 
-Wraps some common tools 
-@todo:
+A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  
+In particular, it sets up and uses the following:
 
-Add new Bundle directory convention consistent with standard skeletons:
+* AdminLTE Bundle, with AdminLTE version 3 based on Boostrap 4 and jQuery
+* Knp Menu for sidebar and top nagivation
+* webpack encore 
 
-    └── MyBundle/
-        ├── config/
-        ├── public/
-        ├── src/
-        │   └── MyBundle.php
-        ├── templates/
-        └── translations/
-    
-        class MyBundle extends Bundle
-        {
-            public function getPath(): string
-            {
-                return \dirname(__DIR__);
-            }
-        }
-
-
-A moderately-opinionated bundle that provides a quick way to get up and running with Symfony, using best practices.  
-
-Besides the Symfony web skeleton, this bundle also requires:
-
-* Javascript: jquery, bootstrap
-* Symfony: KnpMenu, WebpackEncore
-
-and recommends:
-
-* Javascript: fontawesome
-* Symfony: EasyAdminBundle
 
 ### Goals
 
@@ -42,7 +16,7 @@ This bundle was created originally to isolate issues with other bundles and to g
 ### Requirements
 
 * composer
-* PHP 7.1+
+* PHP 7.2+
 * yarn
 * Symfony CLI (for running a local server, creating project, etc.)
 
@@ -56,39 +30,36 @@ on github.com with no files (no README or license), clone it to some directory a
 
      REPO=base-bundle-demo && git clone git@github.com:survos/$REPO.git && cd $REPO 
      
-* Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.
+* Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
      
     mv .git .. && symfony new --full . --no-git  && mv ../.git .
-    
-* Bug report, missing toolbar:
-
-   DIR=toolbar-bug && symfony new --full $DIR --no-git && cd $DIR && symfony server:start
-    
-Create the project on heroku, after logging in
+    composer config extra.symfony.allow-contrib true
+        
+* Create the project on heroku, after logging in.  Optionally create database.
 
     heroku create $REPO
+    
+* We always want some security, so certain routes can be secured.
+
     bin/console make:user User --is-entity --identity-property-name=email --with-password -n
 
-    # composer config extra.symfony.allow-contrib true
+* Create LoginFormAuthenticator
 
-    # interaction is required for the next commands, so if you're cutting and pasting, stop here!
-    
-    # use the defaults (App\Entity\User)
-
-### Create LoginFormAuthenticator
 ```bash
 bin/console make:auth
-
    1 # Login Form Authenticator
    AppAuthenticator
    <return> # SecurityController
    <return> # /logout
 ```
     
-    # Optional, since SurvosBaseBundle has this already, formatted for mobile
+# Optional, since SurvosBaseBundle has this already, formatted for mobile
+
     bin/console make:registration-form
     
-    # Now install the Base (SurvosBase?) bundle
+# Now install the Survos BaseBundle
+
+
     composer config minimum-stability dev
     composer req survos/base-bundle
     
