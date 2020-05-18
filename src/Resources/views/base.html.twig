@@ -1,0 +1,12 @@
+{% extends "@AdminLTE/layout/default-layout.html.twig" %}
+
+{% block logo_mini %}{{ logo_mini|default('LM') }}{% endblock %}
+{% block logo_large %} {{ logo_large|default('App Logo')}} {% endblock %}
+
+{% block sidebar_nav %}
+    {% include '@SurvosBase/render_sidebar_menu.html.twig' %}
+{% endblock %}
+
+{% block page_content %}
+    {{ block('body') }}
+{% endblock %}
