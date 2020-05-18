@@ -22,7 +22,7 @@
         </service>
 
 
-        <service id="Survos\BaseBundle\Controller\BaseController" public="true" autowire="true">
+        <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">
             <tag name="container.service_subscriber" />
             <tag name="controller.service_arguments" />
         </service>
