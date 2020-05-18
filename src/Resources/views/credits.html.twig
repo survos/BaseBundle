@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Bundle Versions and Credits' %}
+{% block body %}
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            {{ block('bundleTable')  }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bundleTable %}
+    <table class="table table-sm table-striped table-condensed">
+        <thead>
+        <tr>
+            <th>Bundle</th>
+            <th>Minimum Version</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for bundle, version in composerData.require %}
+            <tr>
+                <td>{{ bundle }}</td>
+                <td>{{ version }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

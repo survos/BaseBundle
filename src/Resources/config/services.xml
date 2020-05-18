@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
+        <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >
+            <argument type="service" id="?"/>
+            <argument type="service" id="oauth2.registry"/>
+            <argument type="service" id="knpu.oauth2.provider_factory"/>
+        </service>
+
+        <service id="Survos\BaseBundle\Security\AppEmailAuthenticator" alias="survos_base_bundle.app_email_authenticator" public="true"/>
+        <service id="survos_base_bundle.app_email_authenticator" class="Survos\BaseBundle\Security\AppEmailAuthenticator" >
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="security.password_encoder"/>
+        </service>
+
+
+        <service id="Survos\BaseBundle\Controller\BaseController" public="true" autowire="true">
+            <tag name="container.service_subscriber" />
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="Survos\BaseBundle\Controller\OAuthController" public="true" autowire="true">
+            <tag name="container.service_subscriber" />
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="Survos\BaseBundle\Twig\Extensions" public="true" autowire="true">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Survos\BaseBundle\Command\SurvosSetupHerokuCommand" class="Survos\BaseBundle\Command\SurvosSetupHerokuCommand" public="false">
+            <tag name="console.command" />
+        </service>
+
+        <service id="Survos\BaseBundle\Command\SurvosBuildDocsCommand" class="Survos\BaseBundle\Command\SurvosBuildDocsCommand" public="false">
+            <argument type="service" id="twig"/>
+            <tag name="console.command" />
+        </service>
+
+        <service id="maker.param_converter" class="Survos\BaseBundle\Renderer\ParamConverterRenderer" public="false">
+            <argument type="service" id="maker.generator"/>
+        </service>
+
+        <service id="Survos\BaseBundle\Maker\MakeParamConverter"
+                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="false">
+            <argument type="service" id="maker.doctrine_helper" />
+            <argument type="service" id="maker.param_converter" />
+            <tag name="maker.command" />
+        </service>
+
+        <service id="Survos\BaseBundle\Maker\MakeCrud"
+                 class="Survos\BaseBundle\Maker\MakeCrud" public="false">
+            <argument type="service" id="maker.doctrine_helper" />
+            <argument type="service" id="maker.renderer.form_type_renderer" />
+            <tag name="maker.command" />
+        </service>
+
+        <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
+            <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="security.user.provider.concrete.app_user_provider" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Survos\BaseBundle\Command\SurvosSetupCommand" class="Survos\BaseBundle\Command\SurvosSetupCommand" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="twig" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Survos\BaseBundle\Command\SurvosInitCommand" class="Survos\BaseBundle\Command\SurvosInitCommand" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="twig" />
+            <tag name="console.command" />
+        </service>
+
+    </services>
+</container>
