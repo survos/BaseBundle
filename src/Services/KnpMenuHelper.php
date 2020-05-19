@@ -20,10 +20,15 @@ class KnpMenuHelper
                 'login',
                 ['route' => 'app_login', 'label' => 'menu.login', 'childOptions' => $childOptions]
             )->setLabelAttribute('icon', 'fas fa-sign-in-alt');
-            $menu->addChild(
-                'register',
-                ['route' => 'app_register', 'label' => 'menu.register', 'childOptions' => $childOptions]
-            )->setLabelAttribute('icon', 'fas fa-sign-in-alt');
+            try {
+                $menu->addChild(
+                    'register',
+                    ['route' => 'app_register', 'label' => 'menu.register', 'childOptions' => $childOptions]
+                )->setLabelAttribute('icon', 'fas fa-sign-in-alt');
+            } catch (\Exception $e) {
+                // it's possible that it's a readonly site, with an admin login, so no registration
+                // bin/console make:registration
+            }
         }
 
     }
