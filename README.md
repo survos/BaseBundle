@@ -61,10 +61,9 @@ bin/console make:auth
 
 
     composer config minimum-stability dev
-    composer req survos/base-bundle
     
-    composer config repositories.adminlte '{"type": "vcs", "url": "git@github.com:tacman/AdminLTEBundle.git"}'
-    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3
+    composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+    composer req survos/base-bundle
     
     composer config repositories.blog '{"type": "vcs", "url": "git@github.com:survos/OdiseoBlogBundle.git"}'
 
