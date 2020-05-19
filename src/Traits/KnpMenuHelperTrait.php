@@ -20,6 +20,11 @@ trait KnpMenuHelperTrait
         $child = $menu->addChild($options['id'], $options);
         $child->setChildrenAttribute('class', 'branch');
 
+        if ($options['external']) {
+            $child->setLinkAttribute('target',  '_blank');
+            $options['icon'] = 'fas fa-external-alt';
+        }
+
         if ($icon = $options['icon']) {
             $child->setLabelAttribute('icon', $icon);
         }
@@ -42,6 +47,7 @@ trait KnpMenuHelperTrait
                 'id' => null,
                 'route' => null,
                 'rp' => null,
+                'external' => false,
                 '_fragment' => null,
                 'label' => null,
                 'icon' => null,
