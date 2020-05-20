@@ -38,12 +38,6 @@
             "email": "tacman@gmail.com"
         }
     ],
-    "repositories": {
-        "adminlte": {
-            "type": "vcs",
-            "url": "git@github.com:tacman/AdminLTEBundle.git"
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"

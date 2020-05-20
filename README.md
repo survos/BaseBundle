@@ -33,6 +33,7 @@ on github.com with no files (no README or license), clone it to some directory a
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
      
     mv .git .. && symfony new --full . --no-git  && mv ../.git .
+    
     composer config extra.symfony.allow-contrib true
         
 * Create the project on heroku, after logging in.  Optionally create database.
@@ -63,7 +64,9 @@ bin/console make:auth
     composer config minimum-stability dev
     
     composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
-    composer req survos/base-bundle
+    composer req survos/base-bundle  --no-scripts 
+    
+    composer require "almasaeed2010/adminlte=~3.0"
     
     composer config repositories.blog '{"type": "vcs", "url": "git@github.com:survos/OdiseoBlogBundle.git"}'
 

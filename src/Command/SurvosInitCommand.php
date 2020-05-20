@@ -48,7 +48,9 @@ class SurvosInitCommand extends Command
         'jquery',
         'bootstrap',
         'fontawesome',
-        'popper.js'
+        'popper.js',
+        'sass-loader',
+        'node-sass'
     ];
 
     public function __construct(KernelInterface $kernel, EntityManagerInterface $em, \Twig\Environment $twig, string $name = null)
@@ -113,26 +115,26 @@ class SurvosInitCommand extends Command
 
         // configure the route
         if ($prefix = $io->ask("Base Route Prefix", '/')) {
-$config =
-    "
-survos_base: {path: /, controller: 'Survos\BaseBundle\Controller\BaseController::base'}
-app_homepage: {path: /, controller: 'Survos\BaseBundle\Controller\BaseController::base'}
-app_logo: {path: /logo, controller: 'Survos\BaseBundle\Controller\BaseController::logo'}
-app_profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\BaseController::profile'}
-profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\BaseController::profile'}
-logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\BaseController::logout'}
+$routes_by_name_config = <<< END
+
+survos_landing: {path: /landing, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
+app_homepage: {path: /, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
+app_logo: {path: /logo, controller: 'Survos\BaseBundle\Controller\LandingController::logo'}
+app_profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
+profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
+logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::logout'}
 # required if app_profile is used, since you can change the password from the profile
-app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\BaseController::changePassword'}
-app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\BaseController::typography'}
-survos_base_credits: {path: /credits, controller: 'Survos\BaseBundle\Controller\BaseController::credits'}
-    ";
+app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\LandingController::changePassword'}
+app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\LandingController::typography'}
+survos_base_credits: {path: /credits, controller: 'Survos\BaseBundle\Controller\LandingController::credits'}
+END;
             $fn = '/config/routes/survos_base.yaml';
             $config = [
-                'survos_base_bundle' => [
-                    'resource' => '@SurvosBaseBundle/Controller/LandingController.php',
-                    'prefix' => $prefix,
-                    'type' => 'annotation'
-                ],
+//                'survos_base_bundle' => [
+//                    'resource' => '@SurvosBaseBundle/Controller/LandingController.php',
+//                    'prefix' => $prefix,
+//                    'type' => 'annotation'
+//                ],
                 'survos_base_bundle_oauth' => [
                     'resource' => '@SurvosBaseBundle/Controller/OAuthController.php',
                     'prefix' => $prefix,
@@ -140,7 +142,7 @@ survos_base_credits: {path: /credits, controller: 'Survos\BaseBundle\Controller\
                 ],
 
             ];
-            file_put_contents($output = $this->projectDir . $fn, Yaml::dump($config));
+            file_put_contents($output = $this->projectDir . $fn, Yaml::dump($config) . "\n\n" . $routes_by_name_config);
             $io->comment($fn . " written.");
         }
 
@@ -259,9 +261,11 @@ survos_base_credits: {path: /credits, controller: 'Survos\BaseBundle\Controller\
 
     private function setupDatabase(SymfonyStyle $io) {
         $localExists = file_exists($fn = $this->projectDir . '/.env.local');
+        $data = "MAILER_DSN=smtp://localhost\n\n"; // hack, why doesn't symfony do this??  Maybe do it in the survos recipe?
         if (!$localExists && $io->confirm('Use sqlite database in .env.local', true)) {
+            $data .= "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db";
             if (!file_exists($fn = $this->projectDir . '/.env.local')) {
-                file_put_contents($fn, "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db");
+                file_put_contents($fn, $data);
             }
         }
     }

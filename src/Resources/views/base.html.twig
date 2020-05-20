@@ -7,6 +7,23 @@
     {% include '@SurvosBase/render_sidebar_menu.html.twig' %}
 {% endblock %}
 
+
 {% block page_content %}
     {{ block('body') }}
+{% endblock %}
+
+{% block body %}
+    Extending the base bundle requires a 'body' block.
+
+    The current route is <em>{{ app.request.get('_route') }}</em>
+
+    Next steps:
+    <ul>
+        <li>Create the sidebar menu</li>
+        <li>Create the Login/Register</li>
+        <li><code>bin/console make:controller AppController</code>, then set the route app_homepage.  That will get rid of this page. </li>
+        <li><code>bin/console survos:make:entity</code> (@todo).  For now, use make:entity, then extend SurvosBaseEntity and set the uniqueID </li>
+    </ul>
+
+
 {% endblock %}

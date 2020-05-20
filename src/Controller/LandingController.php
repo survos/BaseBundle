@@ -46,11 +46,12 @@ class LandingController extends AbstractController
     }
 
     /**
+     * @Route("/landing", name="app_landing")
      * @Route("/", name="app_homepage")
      */
-    public function base(Request $request)
+    public function landing(Request $request)
     {
-        return $this->render("@SurvosBase/base.html.twig", [
+        return $this->render("base.html.twig", [
         ]);
     }
 

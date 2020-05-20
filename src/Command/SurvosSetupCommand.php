@@ -36,7 +36,9 @@ class SurvosSetupCommand extends Command
 
     CONST requiredJsLibraries = [
         'jquery',
-        'bootstrap',
+        'add sass-loader@^8.0.0',
+        'node-sass',
+//        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
         '@fortawesome/fontawesome-free',
         'popper.js'
@@ -69,12 +71,16 @@ class SurvosSetupCommand extends Command
     {
         $this->io = $io = new SymfonyStyle($input, $output);
 
+        // $this->checkEntities($io);
+        $this->createConfig($io);
+
+        // handle fontawesomefree
+        file_put_contents($this->projectDir . '/.npmrc', "@fortawesome:registry=");
+
         $bundles = $this->checkBundles($io);
         $yarnPackages = $this->checkYarn($io);
         $this->updateAssets($io, ['bundles' => $bundles, 'yarnPackages' => $yarnPackages]);
 
-        // $this->checkEntities($io);
-        $this->createConfig($io);
 
         $io->success('Base Configuration Complete.');
         return 0;
@@ -145,53 +151,40 @@ class SurvosSetupCommand extends Command
     private function createConfig(SymfonyStyle $io) {
 
         $yaml = <<< END
-services:
-  survos.base_menu_builder:
-    class: Survos\BaseBundle\Menu\BaseMenuBuilder
-    arguments:
-      - "@knp_menu.factory"
-      - "@security.authorization_checker"
-      - "@security.token_storage"
-      - "@knpu.oauth2.registry"
-    tags:
-      #      - { name: knp_menu.menu_builder, method: createMainMenu, alias: base_menu } # The alias is what is used to retrieve the menu
-      - { name: knp_menu.menu_builder, method: createSocialMenu, alias: social_menu }
-      - { name: knp_menu.menu_builder, method: createTestMenu, alias: base_menu }
-      - { name: knp_menu.menu_builder, method: createAuthMenu, alias: auth_menu }
+admin_lte:
+  knp_menu:
+    enable: true
+    main_menu: adminlte_main
+    breadcrumb_menu: true
 
-  app.menu_builder:
-    class: App\Menu\MenuBuilder
-    arguments:
-      - "@knp_menu.factory"
-      - "@security.authorization_checker"
-      - "@security.token_storage"
-      - "@knpu.oauth2.registry"
-    tags:
-      - { name: knp_menu.menu_builder, method: createMainMenu, alias: base_menu }
-      - { name: knp_menu.menu_builder, method: createMainMenu, alias: base_content_menu }
-      
-twig:
-  globals:
-    base_menu_route: base_menu
-    base_content_menu_route: base_menu
+  routes:
+    adminlte_welcome: app_homepage
+    adminlte_login: app_login
+    adminlte_profile: app_profile
+
       
 END;
 
-        if ($prefix = $io->ask("Application Menu Class", 'App/Menu/MenuBuilder')) {
-            $dir = $this->projectDir . '/src/Menu';
-            $fn = '/src/Menu/MenuBuilder.php';
-            if (!is_dir($dir)) {
-                mkdir($dir);
+        $dir = $this->projectDir . '/src/EventSubscriber';
+        $fn = $dir . '/KnpMenuSubscriber.php';
+
+        if (!file_exists($fn)) {
+            // why ask?
+            if ($prefix = $io->ask("Application Menu Subscriber Class", 'App/EventSubscriber/KnpMenuSubscriber')) {
+                if (!is_dir($dir)) {
+                    mkdir($dir);
+                }
+                $php = $this->twig->render("@SurvosBase/KnpMenuSubscriber.php.twig", []);
+
+                // $yaml =  Yaml::dump($config);
+                file_put_contents($output = $fn, $php);
+                $io->comment($fn . " written.");
             }
-            $php = $this->twig->render("@SurvosBase/MenuBuilder.php.twig", []);
-
-            // $yaml =  Yaml::dump($config);
-            file_put_contents($output = $this->projectDir . $fn, $php);
-            $io->comment($fn . " written.");
-
+        }
 
             // use twig? Php?
-            $fn = '/config/packages/survos_base.yaml';
+        $fn = '/config/packages/survos_base.yaml';
+        if (!file_exists($fn)) {
             file_put_contents($output = $this->projectDir . $fn, $yaml);
             $io->comment($fn . "  written.");
         }
