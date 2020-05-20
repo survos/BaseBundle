@@ -36,8 +36,9 @@ class SurvosSetupCommand extends Command
 
     CONST requiredJsLibraries = [
         'jquery',
-        'add sass-loader@^8.0.0',
+        'sass-loader',
         'node-sass',
+        'admin-lte@^3.0',
 //        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
         '@fortawesome/fontawesome-free',
@@ -89,7 +90,7 @@ class SurvosSetupCommand extends Command
     private function checkYarn(SymfonyStyle $io)
     {
         if (!file_exists($this->projectDir . '/yarn.lock')) {
-            $io->error("run yarn install or bin/console survos:prepare first");
+            $io->error("run yarn install or bin/console survos:init first");
             die();
         }
 
@@ -150,20 +151,6 @@ class SurvosSetupCommand extends Command
 
     private function createConfig(SymfonyStyle $io) {
 
-        $yaml = <<< END
-admin_lte:
-  knp_menu:
-    enable: true
-    main_menu: adminlte_main
-    breadcrumb_menu: true
-
-  routes:
-    adminlte_welcome: app_homepage
-    adminlte_login: app_login
-    adminlte_profile: app_profile
-
-      
-END;
 
         $dir = $this->projectDir . '/src/EventSubscriber';
         $fn = $dir . '/KnpMenuSubscriber.php';
@@ -182,12 +169,6 @@ END;
             }
         }
 
-            // use twig? Php?
-        $fn = '/config/packages/survos_base.yaml';
-        if (!file_exists($fn)) {
-            file_put_contents($output = $this->projectDir . $fn, $yaml);
-            $io->comment($fn . "  written.");
-        }
     }
 
     private function checkEntities(SymfonyStyle $io) {
@@ -208,7 +189,7 @@ END;
             // @todo: specific to yarn packages
             try {
                 $this->writeFile('/assets/js/app.js', $this->twig->render("@SurvosBase/app.js.twig", $params) );
-                $this->writeFile('/assets/css/app.css', $this->twig->render("@SurvosBase/app.css.twig", $params) );
+                $this->writeFile('/assets/css/app.scss', $this->twig->render("@SurvosBase/app.css.twig", $params) );
             } catch (\Exception $e) {
                 $io->error($e->getMessage());
             }

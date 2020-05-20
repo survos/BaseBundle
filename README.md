@@ -64,7 +64,7 @@ bin/console make:auth
     composer config minimum-stability dev
     
     composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
-    composer req survos/base-bundle  --no-scripts 
+    composer req survos/base-bundle
     
     composer require "almasaeed2010/adminlte=~3.0"
     

@@ -92,7 +92,7 @@ class SurvosInitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = $io = new SymfonyStyle($input, $output);
-        $all = in_array('all', $input->getOption('tools'));
+        $all = true; // for now.  in_array('all', $input->getOption('tools'));
 
 
         if ($input->getOption('heroku')) {
@@ -147,6 +147,29 @@ END;
             file_put_contents($output = $this->projectDir . $fn, Yaml::dump($config) . "\n\n" . $routes_by_name_config);
             $io->comment($fn . " written.");
         }
+
+        // use twig? Php?
+
+        $yaml = <<< END
+admin_lte:
+  knp_menu:
+    enable: true
+    main_menu: adminlte_main
+    breadcrumb_menu: true
+
+  routes:
+    adminlte_welcome: app_homepage
+    adminlte_login: app_login
+    adminlte_profile: app_profile
+
+      
+END;
+        $fn = '/config/packages/survos_base.yaml';
+        if (!file_exists($fn)) {
+            file_put_contents($output = $this->projectDir . $fn, $yaml);
+            $io->comment($fn . "  written.");
+        }
+
 
         $io->success("Run xterm -e \"yarn run encore dev-server\" & install more bundles, then run bin/console survos:setup");
         return 0;
