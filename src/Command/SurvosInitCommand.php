@@ -67,7 +67,7 @@ class SurvosInitCommand extends Command
         $this
             ->setDescription('Basic environment: base page, heroku, yarn install, sqlite in .env.local, ')
             ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('tools', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'heroku, easyadmin, favicon', ['all'])
+            ->addOption('heroku', null, InputOption::VALUE_OPTIONAL, 'heroku name')
         ;
     }
 
@@ -95,7 +95,9 @@ class SurvosInitCommand extends Command
         $all = in_array('all', $input->getOption('tools'));
 
 
-        $this->checkHeroku($io);
+        if ($input->getOption('heroku')) {
+            $this->checkHeroku($io);
+        }
 
         $this->createFavicon($io);
 
