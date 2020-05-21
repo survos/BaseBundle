@@ -34,16 +34,6 @@ class SurvosSetupCommand extends Command
         // 'MsgPhpUserBundle' => ['repo' => 'msgphp/user-bundle']
     ];
 
-    CONST requiredJsLibraries = [
-        'jquery',
-        'sass-loader',
-        'node-sass',
-        'admin-lte@^3.0',
-//        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
-        'fontawesome',
-        '@fortawesome/fontawesome-free',
-        'popper.js'
-    ];
 
     public function __construct(KernelInterface $kernel, EntityManagerInterface $em, \Twig\Environment $twig, string $name = null)
     {
@@ -75,11 +65,8 @@ class SurvosSetupCommand extends Command
         // $this->checkEntities($io);
         $this->createConfig($io);
 
-        // handle fontawesomefree
-        file_put_contents($this->projectDir . '/.npmrc', "@fortawesome:registry=");
-
         $bundles = $this->checkBundles($io);
-        $yarnPackages = $this->checkYarn($io);
+        $yarnPackages = []; // used to be $this->checkYarn($io);
         $this->updateAssets($io, ['bundles' => $bundles, 'yarnPackages' => $yarnPackages]);
 
 
@@ -189,7 +176,7 @@ class SurvosSetupCommand extends Command
             // @todo: specific to yarn packages
             try {
                 $this->writeFile('/assets/js/app.js', $this->twig->render("@SurvosBase/app.js.twig", $params) );
-                $this->writeFile('/assets/css/app.scss', $this->twig->render("@SurvosBase/app.css.twig", $params) );
+                $this->writeFile('/assets/css/app.scss', $this->twig->render("@SurvosBase/app.scss.twig", $params) );
             } catch (\Exception $e) {
                 $io->error($e->getMessage());
             }

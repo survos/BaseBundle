@@ -10,6 +10,7 @@
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^1.0",
+        "mindscreen/yarnlock": "^1.0",
         "symfony/mailer": "*",
         "symfony/orm-pack": "*",
         "symfony/string": "^5.0",

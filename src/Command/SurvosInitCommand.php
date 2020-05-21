@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -16,6 +17,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Yaml\Yaml;
+use Twig\Environment;
 
 class SurvosInitCommand extends Command
 {
@@ -38,22 +40,29 @@ class SurvosInitCommand extends Command
         'UserBundle'
     ];
 
+    CONST requiredJsLibraries = [
+        'jquery',
+        'sass-loaderxx',
+        'node-sass',
+//        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
+        'fontawesome',
+        '@fortawesome/fontawesome-free',
+        'admin-lte@^3.0', // @todo, parse and check.  Must be after fontawesome.
+        'popper.js'
+    ];
+
     CONST tools = [
         'heroku',
         'easyadmin',
         'all'
     ];
+    /**
+     * @var ConsoleLogger
+     */
+    private $consoleLogger;
 
-    CONST requiredJsLibraries = [
-        'jquery',
-        'bootstrap',
-        'fontawesome',
-        'popper.js',
-        'sass-loader',
-        'node-sass'
-    ];
-
-    public function __construct(KernelInterface $kernel, EntityManagerInterface $em, \Twig\Environment $twig, string $name = null)
+    public function __construct(KernelInterface $kernel, EntityManagerInterface $em,
+                                Environment $twig, string $name = null)
     {
         parent::__construct($name);
         $this->kernel = $kernel;
@@ -91,9 +100,16 @@ class SurvosInitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->consoleLogger = new ConsoleLogger($output);
+
         $this->io = $io = new SymfonyStyle($input, $output);
         $all = true; // for now.  in_array('all', $input->getOption('tools'));
 
+        // handle fontawesomefree, hack, need to ask
+        file_put_contents($this->projectDir . '/.npmrc', "@fortawesome:registry=");
+
+        $this->checkYarn($io);
+        $this->installYarnLibraries($io);
 
         if ($input->getOption('heroku')) {
             $this->checkHeroku($io);
@@ -105,7 +121,6 @@ class SurvosInitCommand extends Command
         // https://favicon.io/favicon-generator/?t=Fa&ff=Lancelot&fs=99&fc=%23FFFFFF&b=rounded&bc=%23B4B
 
         $this->createTranslations($io);
-        $this->checkYarn($io);
         $this->setupDatabase($io);
         $this->updateBase($io);
 
@@ -245,8 +260,91 @@ END;
             $io->warning("Installing base yarn libraries");
             echo exec('yarn install');
         }
+
+        // install the base yarn commands, this used to be in setup
     }
 
+    private function installYarnLibraries(SymfonyStyle $io)
+    {
+        if (!file_exists($this->projectDir . '/yarn.lock')) {
+            $io->error("run yarn install or bin/console survos:init first");
+            die();
+        }
+            $json = exec(sprintf('yarn list  --json') );
+            $data = json_decode($json, true)['data']['trees'];
+            dd($data[0]);
+
+            $yarnModules = array_map(function ($moduleData) {
+                try {
+                    list($name, $version) = explode('@', $moduleData['name']);
+                    return [$name => $version];
+                } catch (\Exception $e) {
+                    dd($moduleData);
+                }
+                }, $data);
+
+            $missing = array_filter(self::requiredJsLibraries, function ($needle) use ($yarnModules) {
+
+                $missingModule =  !in_array($needle, array_keys($yarnModules));
+                dd(array_keys($yarnModules), $missingModule, $needle);
+                $this->consoleLogger->warning(($missingModule ? 'Missing' : 'found')  . ' ' . $needle, [$needle]);
+
+            });
+            dd($missing);
+
+        try {
+            $modules = array_map(function ($tree) {
+                if (is_string($tree)) {
+                    return $tree;
+                }
+
+                if ( preg_match('/(.*)(@\^?[\d\.]+)$/', $tree['name'], $m) ) {
+                    $name = $m[1];
+                }
+                // [$name, $version] = explode('@', $tree['name']);
+
+                return $name;
+            }, $yarnModules);
+
+            // sort($modules); dump($modules); die();
+        } catch (\Exception $e) {
+            $io->error("Yarn failed -- is it installed? " . $e->getMessage());
+        }
+
+        $missing = array_diff(self::requiredJsLibraries, array_keys($modules));
+        dd($missing);
+
+        if ($missing) {
+            $io->error("Missing " . join(',', $missing));
+            $command = sprintf("yarn add %s --dev", join(' ', $missing));
+            if ($io->confirm("Install them now? with $command? ", true)) {
+                echo exec($command) . "\n";
+                // return $this->checkYarn($io); // recursive hack, should be refactored!
+            } else {
+                die("Cannot continue without yarn modules");
+            }
+        } else {
+            return $modules;
+        }
+
+
+        /* better: */
+        /*
+        $process = new Process(['yarn', 'run', 'encore', 'dev']);
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        echo $process->getOutput();
+        */
+
+
+
+
+    }
     private function checkHeroku(SymfonyStyle $io)
     {
 

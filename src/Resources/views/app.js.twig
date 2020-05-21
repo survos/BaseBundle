@@ -1,12 +1,12 @@
+const $ = require('jquery');
 require('adminlte');
 
-const $ = require('jquery');
 require('bootstrap');
 
 const Popper = require('popper.js');
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/sapp.css');
+require('../css/app.scss');
 
 
 {% if '@fortawesome/fontawesome-free' in yarnPackages %}
@@ -14,8 +14,3 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 {% endif %}
 
-/**
-{% for project in yarnPackages %}
-{{ project }}
-{% endfor %}
-**/

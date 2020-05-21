@@ -2,18 +2,23 @@
 
 namespace Survos\BaseBundle\Controller;
 
+// these should be in oAuthController, I think.  Or handle by and event?
 use App\Entity\ApiToken;
 use App\Entity\LoginToken;
 use App\Entity\User;
 use App\Form\ForgotPasswordFormType;
 use App\Repository\UserRepository;
+
+
 use Doctrine\ORM\EntityManagerInterface;
+use Mindscreen\YarnLock\YarnLock;
 use Survos\BaseBundle\Form\ChangePasswordFormType;
 use Survos\BaseBundle\BaseService;
 use SVG\Nodes\Shapes\SVGCircle;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +30,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class LandingController extends AbstractController
 {
@@ -35,14 +41,23 @@ class LandingController extends AbstractController
      * @var UserProviderInterface
      */
     private $userProvider;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $parameterBag;
 
-    public function __construct(BaseService $baseService, EntityManagerInterface $entityManager, MailerInterface $mailer, UserProviderInterface $userProvider)
+    public function __construct(BaseService $baseService,
+                                EntityManagerInterface $entityManager,
+                                MailerInterface $mailer,
+                                ParameterBagInterface $parameterBag,
+                                UserProviderInterface $userProvider)
     {
         $this->baseService = $baseService;
         $this->entityManager = $entityManager;
 
         $this->mailer = $mailer;
         $this->userProvider = $userProvider;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -144,9 +159,51 @@ class LandingController extends AbstractController
         // bad practice to inject the kernel.  Maybe read composer.json and composer.lock
         $json = file_get_contents('../composer.json');
         $lock = file_get_contents('../composer.lock');
+        $yarnLockFile = $this->parameterBag->get('kernel.project_dir') . '/yarn.lock';
+        $packageFile = $this->parameterBag->get('kernel.project_dir') . '/package.json';
+
+        $packageData = json_decode(file_get_contents($packageFile));
+        $packageDependencies = $packageData->dependencies;
+        $packageDevDependencies = $packageData->devDependencies;
+        // dd($packageDevDependencies);
+        $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
+
+        /*
+        if (file_exists($yarnLockFile)) {
+            $yarnLock = YarnLock::fromString($yarnData = file_get_contents($yarnLockFile));
+            dd($yarnLock, $yarnData);
+            $allPackages = $yarnLock->getPackages();
+        } else {
+            $allPackages = []; // no yarn packages
+        }
+        */
+
+        /*
+        $hasBabelCore = $yarnLock->hasPackage('babel-core', '^6.0.0');
+        $babelCorePackages = $yarnLock->getPackagesByName('babel-core');
+        $babelCoreDependencies = $babelCorePackages[0]->getDependencies();
+        */
+        /*
+        $yarnLock = file_get_contents('../yarn.lock');
+        $modules = array_map(function($libData) {
+            if ($libData) {
+                $x = Yaml::parse($libData);
+                dd($libData, $x);
+            }
+        }, explode("\n", $yarnLock));
+
+        $modules = Yaml::parse($yarnLock);
+        dd($modules);
+        */
+
+        /*
+        $json = exec(sprintf('yarn list  --json') );
+        $data = json_decode($json, true)['data']['trees'];
+        */
 
         return $this->render("@SurvosBase/credits.html.twig", [
             'composerData' => json_decode($json, true),
+            'yarnModules' => $allPackages
         ]);
     }
 

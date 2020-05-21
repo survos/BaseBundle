@@ -18,7 +18,7 @@
     https://github.com/bootstrapthemesco/bootstrap-4-multi-dropdown-navbar
     And set the the use_multilevel = true
     #}
-    {% set use_multilevel = false %}
+    {% set use_multilevel = true %}
 
 
     {% if item.displayed %}
@@ -98,11 +98,8 @@
 {% endblock %}
 
 {% block dropdownlinks %}
-    {% if use_multilevel %}
-        <ul class="dropdown-menu">
-    {% else %}
-        <div class="dropdown-menu">
-    {% endif %}
+    <{{ use_multilevel ? 'ul' : 'div'}} class="dropdown-menu">
+
 
     {% for item in item.children %}
         {{ block('renderDropdownlink') }}
@@ -110,20 +107,18 @@
             {{ block('dropdownlinks') }}
         {% endif %}
     {% endfor %}
-    {% if not use_multilevel %}
-        </div>
-    {% else %}
-        </ul>
-    {% endif %}
+    <{{ use_multilevel ? '/ul' : '/div'}}>
 {% endblock %}
 
 {% block collapselinks %}
     {# the collapseELement block references this id, we might need data-parent #}
     {# isAncestor checks if the item is an ancestor of the currentItem #}
     <div id="collapse_{{itemSlug}}" class="{{ matcher.isAncestor(item) ? 'show' : 'collapse' }}">
+        <{{ use_multilevel ? 'ul' : 'div'}} class="nav-sidebar">
     {% for item in item.children %}
-        {{ block('renderDropdownlink') }}
+            {{ block('renderDropdownlink') }}
     {% endfor %}
+        <{{ use_multilevel ? '/ul' : '/div'}}>
     </div>
 {% endblock %}
 
@@ -134,7 +129,7 @@
     {%- set attributes = item.attributes|merge({'dropdown': null, 'divider_prepend': null, 'divider_append': null }) %}
 
     {% if use_multilevel %}
-        <li>
+        <li class="nav-item list-unstyled">
     {% endif %}
 
     {%- if divider_prepend %}
@@ -143,8 +138,8 @@
 
     {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}
         {# collapse?
-        #}
         {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'dropdown-item') }}
+        #}
         {{ block('linkElement') }}
     {%- else %}
         {{ block('spanElementDropdown') }}
@@ -220,7 +215,7 @@
         {% if item.attribute('icon') is not empty  %}
             <i class="{{ item.attribute('icon') }}"></i>
         {% endif %}
-        {{ block('label') }}
+            {{ block('label') }}
     </a>
 {% endblock %}
 

@@ -5,14 +5,36 @@
 
     <div class="row justify-content-md-center">
         <div class="col-md-6">
+            {{ block('yarnModules')  }}
+        </div>
+        <div class="col-md-6">
             {{ block('bundleTable')  }}
         </div>
     </div>
 
 {% endblock %}
 
+{% block yarnModules %}
+    <table class="table table-sm table-striped table-condensed js-datatable">
+        <thead>
+        <tr>
+            <th>Module</th>
+            <th>Version</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for name, minimumVersion in yarnModules %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ minimumVersion }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
 {% block bundleTable %}
-    <table class="table table-sm table-striped table-condensed">
+    <table class="table table-sm table-striped table-condensed js-datatable">
         <thead>
         <tr>
             <th>Bundle</th>

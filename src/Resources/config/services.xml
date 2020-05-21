@@ -21,7 +21,6 @@
             <argument type="service" id="security.password_encoder"/>
         </service>
 
-
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">
             <tag name="container.service_subscriber" />
             <tag name="controller.service_arguments" />
