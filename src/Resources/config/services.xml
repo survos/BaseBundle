@@ -79,6 +79,7 @@
         <service id="Survos\BaseBundle\Command\SurvosInitCommand" class="Survos\BaseBundle\Command\SurvosInitCommand" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="parameter_bag" />
             <argument type="service" id="twig" />
             <tag name="console.command" />
         </service>

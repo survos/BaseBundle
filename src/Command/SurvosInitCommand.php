@@ -12,6 +12,7 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -60,8 +61,13 @@ class SurvosInitCommand extends Command
      * @var ConsoleLogger
      */
     private $consoleLogger;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $parameterBag;
 
     public function __construct(KernelInterface $kernel, EntityManagerInterface $em,
+                                ParameterBagInterface $parameterBag,
                                 Environment $twig, string $name = null)
     {
         parent::__construct($name);
@@ -69,6 +75,7 @@ class SurvosInitCommand extends Command
         $this->em = $em;
         $this->projectDir = $kernel->getProjectDir();
         $this->twig = $twig;
+        $this->parameterBag = $parameterBag;
     }
     protected function configure()
     {
@@ -270,9 +277,36 @@ END;
             $io->error("run yarn install or bin/console survos:init first");
             die();
         }
-            $json = exec(sprintf('yarn list  --json') );
+
+        $packageFile = $this->parameterBag->get('kernel.project_dir') . '/package.json';
+
+        $packageData = json_decode(file_get_contents($packageFile));
+        $packageDependencies = $packageData->dependencies;
+        $packageDevDependencies = $packageData->devDependencies;
+        // dd($packageDevDependencies);
+        $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
+
+        $missing = [];
+        foreach (self::requiredJsLibraries as $jsLibrary) {
+            if (strpos($jsLibrary, '@')) {
+                list($package, $version) = explode('@', $jsLibrary);
+            } else {
+                $package = $jsLibrary;
+                $version = '*';
+            }
+            dump($jsLibrary, $package, $version);
+            if (!key_exists($package, $allPackages)) {
+                array_push($missing, $jsLibrary);
+                dump($package);
+            } else {
+                $io->write(sprintf("%s already installed as version %s", $jsLibrary, $allPackages[$package]));
+            }
+        }
+
+        dd($allPackages, $missing); // in package.json
+
+        $json = exec(sprintf('yarn list  --json') );
             $data = json_decode($json, true)['data']['trees'];
-            dd($data[0]);
 
             $yarnModules = array_map(function ($moduleData) {
                 try {

@@ -3,10 +3,10 @@
 A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  
 In particular, it sets up and uses the following:
 
-* AdminLTE Bundle, with AdminLTE version 3 based on Boostrap 4 and jQuery
+* AdminLTE (https://adminlte.io/docs/3.0/index.html)
+* AdminLTE Bundle
 * Knp Menu for sidebar and top nagivation
 * webpack encore 
-
 
 ### Goals
 
