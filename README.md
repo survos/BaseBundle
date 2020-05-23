@@ -1,3 +1,4 @@
+
 # base-bundle
 
 A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  

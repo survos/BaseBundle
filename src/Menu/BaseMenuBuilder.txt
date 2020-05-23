@@ -13,6 +13,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Security;
 
+/*
+ * @deprecated
+ */
 class BaseMenuBuilder
 {
     /* protected, so that subclasses can use it. */
@@ -45,6 +48,7 @@ class BaseMenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
+        // these are the attributes on the LI of the children of the ROOT
         $menu->setChildrenAttribute('class', 'nav navbar-nav mr-auto');
         $menu->addChild('Home', ['route' => 'app_homepage'])
             ->setAttribute('icon', 'fa fa-home');

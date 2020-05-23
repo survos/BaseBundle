@@ -4,6 +4,7 @@ namespace Survos\BaseBundle\DependencyInjection;
 
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -22,8 +23,16 @@ class SurvosBaseExtension extends Extension
         $definition->setArgument(0, $config['entities']);
 
 
+        // likely these can be combined
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
+
+//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/container'));
+//        $loader->load('knp-menu.yml');
+
         /* @todo: add menu items based on what bundles are installed (EasyAdminBundle, etc.) */
         $bundles = $container->getParameter('kernel.bundles');
+
         foreach (['KnpUOAuth2ClientBundle'] as $bundleName) {
             if (!isset($bundles[$bundleName])) {
                 throw new \InvalidArgumentException(
@@ -33,6 +42,7 @@ class SurvosBaseExtension extends Extension
                 dd($def, $container);
             }
         }
+
         // dd($bundles); die();
 
         // $configManager = $container->get('easyadmin.config.manager');

@@ -14,8 +14,16 @@
 {% block page_title 'home.title'|trans %}
 {% block page_subtitle 'home.description'|trans %}
 
-{% block page_content %}
+{% block navbar_user %}
+    <li class="nav-item active">
+        USER
+        <a href="{{ path('app_login') }}">Login</a>
+    </li>
 
+    {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::userAction')) }}
+{% endblock %}
+
+{% block page_content %}
     {{ block('body') }}
 {% endblock %}
 

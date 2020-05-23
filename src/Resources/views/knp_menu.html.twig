@@ -1,5 +1,16 @@
 {% extends '@KnpMenu/menu.html.twig' %}
 
+{% block root %}
+    {% set listAttributes = item.childrenAttributes %}
+    
+    {% set listAttributes = item.childrenAttributes %}
+    <nav class="mt-2 navbar-dark">
+        {{ block('list') -}}
+    </nav>
+{% endblock %}
+
+
+
 {% macro setCssClassAttribute(item, type, add) %}
     {% set getter = 'get' ~ type %}
     {% set setter = 'set' ~ type %}
@@ -99,7 +110,6 @@
 
 {% block dropdownlinks %}
     <{{ use_multilevel ? 'ul' : 'div'}} class="dropdown-menu">
-
 
     {% for item in item.children %}
         {{ block('renderDropdownlink') }}
@@ -308,13 +318,6 @@
     <span class="right badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span>
 {% endmacro %}
 
-{% block root %}
-    {% set listAttributes = item.childrenAttributes %}
-    <nav class="mt-2">
-        {{ block('list') -}}
-    </nav>
-{% endblock %}
-
 {% block list %}
     {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
         {% import "knp_menu.html.twig" as macros %}
@@ -323,7 +326,7 @@
             {%- set listAttributes = listAttributes|merge({class: (listAttributes.class|default(''))|trim}) -%}
         {% endif %}
         {% if not item.isRoot %}
-            {%- set listAttributes = listAttributes|merge({class: (listAttributes.class|default('') ~ ' nav-treeview')|trim}) -%}
+            {%- set listAttributes = listAttributes|merge({class: (listAttributes.class|default('') ~ ' xxxnav-treeview')|trim}) -%}
         {% endif %}
         <ul{{ macros.attributes(listAttributes) }}>
             {{ block('children') }}
