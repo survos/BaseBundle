@@ -61,7 +61,8 @@ class BaseMenuSubscriber
         return $child;
 
     }
-    private function menuOptions(array $options, array $extra = []): array
+    /** @deprecated Avoid if possible, so this can be private. */
+    public function menuOptions(array $options, array $extra = []): array
     {
         // idea: make the label a . version of the route, e.g. project_show could be project.show
         // we could also set a default icon for things like edit, show

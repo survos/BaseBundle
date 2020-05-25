@@ -140,11 +140,11 @@ class SurvosSetupCommand extends Command
 
 
         $dir = $this->projectDir . '/src/EventSubscriber';
-        $fn = $dir . '/KnpMenuSubscriber.php';
+        $fn = $dir . '/SidebarMenuSubscriber.php';
 
         if (!file_exists($fn)) {
             // why ask?
-            if ($prefix = $io->ask("Application Menu Subscriber Class", 'App/EventSubscriber/KnpMenuSubscriber')) {
+            if ($prefix = $io->ask("Application Menu Subscriber Class", 'App/EventSubscriber/SidebarMenuSubscriber')) {
                 if (!is_dir($dir)) {
                     mkdir($dir);
                 }
