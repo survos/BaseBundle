@@ -1,6 +1,9 @@
-{{
+{% if menuCode is not defined %}
+    {% set menuCode = admin_lte_context.knp_menu.main_menu %}
+{% endif %}
 
-knp_menu_render(admin_lte_context.knp_menu.main_menu, {
+{{
+knp_menu_render(menuCode, {
 
     "template"      : "@SurvosBase/knp_menu.html.twig",
     "currentClass"  : "active",
