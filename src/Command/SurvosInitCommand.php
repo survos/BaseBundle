@@ -217,7 +217,7 @@ END;
         $url = $host . http_build_query($params);
         $io->writeln("Download zip file at $url");
 
-        $zipFile = 'favicon.zip';
+        $zipFile = 'favicon_io.zip';
 
         $fn = $io->ask("path to $zipFile?  Use ! to skip", './');
         if ($fn === '!') {
