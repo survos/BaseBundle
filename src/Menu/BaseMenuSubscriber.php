@@ -38,7 +38,7 @@ class BaseMenuSubscriber
         // must pass in either route, icon or menu_code
 
         if (!$options['id']) {
-            $options['id'] = $options['route'] ?: (u($options['label'] ?: $options['icon'])->snake() );
+            $options['id'] = md5(json_encode($options));
         }
 
         $child = $menu->addChild($options['id'], $options);

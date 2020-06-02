@@ -150,7 +150,7 @@ logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingContro
 # required if app_profile is used, since you can change the password from the profile
 app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\LandingController::changePassword'}
 app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\LandingController::typography'}
-survos_base_credits: {path: /credits, controller: 'Survos\BaseBundle\Controller\LandingController::credits'}
+survos_base_credits: {path: "/credits/{type}", controller: 'Survos\BaseBundle\Controller\LandingController::credits'}
 END;
             $fn = '/config/routes/survos_base.yaml';
             $config = [

@@ -1,7 +1,7 @@
 {% extends "@AdminLTE/layout/default-layout.html.twig" %}
 
-{% block logo_mini %}{{ logo_mini|default('LM') }}{% endblock %}
-{% block logo_large %} {{ logo_large|default('App Logo')}} {% endblock %}
+{% block logo_mini %}{{ logo_mini|default('home.code'|trans) }}{% endblock %}
+{% block logo_large %} {{ logo_large|default('home.title'|trans)}} {% endblock %}
 
 {% block sidebar_nav %}
     {% include '@SurvosBase/render_sidebar_menu.html.twig' with {menuCode: 'survos_sidebar_menu'} %}
@@ -23,10 +23,14 @@
 {% block page_subtitle 'home.description'|trans %}
 
 {% block navbar_user %}
-    <li class="nav-item active">
-        USER
-        <a href="{{ path('app_login') }}">Login</a>
-    </li>
+    userAction!!
+    {% if not is_granted('ROLE_USER') %}
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="{{ path('app_login') }}">Login</a>
+            </li>
+        </ul>
+    {% endif %}
 
     {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::userAction')) }}
 {% endblock %}

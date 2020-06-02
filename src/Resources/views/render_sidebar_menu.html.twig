@@ -2,7 +2,6 @@
     {% set menuCode = admin_lte_context.knp_menu.main_menu %}
 {% endif %}
 
-<h2>{{ menuCode }} {{ app.request.get('_route') }}</h2>
 {{
 knp_menu_render(menuCode, {
 

@@ -152,9 +152,9 @@ class LandingController extends AbstractController
     }
 
     /**
-     * @Route("/credits", name="survos_base_credits")
+     * @Route("/credits/{type}", name="survos_base_credits")
      */
-    public function credits(Request $request)
+    public function credits(Request $request, string $type)
     {
         // bad practice to inject the kernel.  Maybe read composer.json and composer.lock
         $json = file_get_contents('../composer.json');
@@ -163,10 +163,11 @@ class LandingController extends AbstractController
         $packageFile = $this->parameterBag->get('kernel.project_dir') . '/package.json';
 
         $packageData = json_decode(file_get_contents($packageFile));
-        $packageDependencies = $packageData->dependencies;
-        $packageDevDependencies = $packageData->devDependencies;
+        $packageDependencies = $packageData->dependencies ?? [];
+        $packageDevDependencies = $packageData->devDependencies ?? [];
         // dd($packageDevDependencies);
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
+
 
         /*
         if (file_exists($yarnLockFile)) {
