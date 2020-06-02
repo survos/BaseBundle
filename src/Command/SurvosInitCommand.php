@@ -43,7 +43,7 @@ class SurvosInitCommand extends Command
 
     CONST requiredJsLibraries = [
         'jquery',
-        'sass-loaderxx',
+        'sass-loader',
         'node-sass',
 //        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
@@ -281,8 +281,9 @@ END;
         $packageFile = $this->parameterBag->get('kernel.project_dir') . '/package.json';
 
         $packageData = json_decode(file_get_contents($packageFile));
-        $packageDependencies = $packageData->dependencies;
-        $packageDevDependencies = $packageData->devDependencies;
+
+        $packageDependencies = $packageData->dependencies ?? [];
+        $packageDevDependencies = $packageData->devDependencies ?? [];
         // dd($packageDevDependencies);
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
 
@@ -294,7 +295,6 @@ END;
                 $package = $jsLibrary;
                 $version = '*';
             }
-            dump($jsLibrary, $package, $version);
             if (!key_exists($package, $allPackages)) {
                 array_push($missing, $jsLibrary);
                 dump($package);
@@ -303,8 +303,9 @@ END;
             }
         }
 
-        dd($allPackages, $missing); // in package.json
+        // dd($allPackages, $missing); // in package.json
 
+        /* old way...
         $json = exec(sprintf('yarn list  --json') );
             $data = json_decode($json, true)['data']['trees'];
 
@@ -346,7 +347,7 @@ END;
         }
 
         $missing = array_diff(self::requiredJsLibraries, array_keys($modules));
-        dd($missing);
+        */
 
         if ($missing) {
             $io->error("Missing " . join(',', $missing));
