@@ -70,10 +70,12 @@ bin/console make:auth
 
     composer req survos/base-bundle
     
+    
 ## @TODO: recipes!
 
+## Step 1: Initialize Yarn Packages
 
-
+    bin/console survos:init
 
     composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
     

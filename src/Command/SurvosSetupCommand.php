@@ -148,7 +148,7 @@ class SurvosSetupCommand extends Command
                 if (!is_dir($dir)) {
                     mkdir($dir);
                 }
-                $php = $this->twig->render("@SurvosBase/KnpMenuSubscriber.php.twig", []);
+                $php = $this->twig->render("@SurvosBase/SidebarMenuSubscriber.php.twig", []);
 
                 // $yaml =  Yaml::dump($config);
                 file_put_contents($output = $fn, $php);
@@ -175,6 +175,9 @@ class SurvosSetupCommand extends Command
         if ($io->confirm("Replace app assets (js and css)?")) {
             // @todo: specific to yarn packages
             try {
+                $file = $this->projectDir . '/webpack.config.js';
+                $this->writeFile('/./webpack.config.js',
+                    $x = str_replace('//.enableSassLoader()','.enableSassLoader()', file_get_contents($file)));
                 $this->writeFile('/assets/js/app.js', $this->twig->render("@SurvosBase/app.js.twig", $params) );
                 $this->writeFile('/assets/css/app.scss', $this->twig->render("@SurvosBase/app.scss.twig", $params) );
             } catch (\Exception $e) {

@@ -176,7 +176,7 @@ END;
 admin_lte:
   knp_menu:
     enable: true
-    main_menu: adminlte_main
+    main_menu: survos_sidebar_menu
     breadcrumb_menu: true
 
   routes:
@@ -186,6 +186,10 @@ admin_lte:
 
       
 END;
+
+        // should we remove admin_lte.yaml??
+        @unlink('/config/packages/admin_lte.yaml');
+
         $fn = '/config/packages/survos_base.yaml';
         if (!file_exists($fn)) {
             file_put_contents($output = $this->projectDir . $fn, $yaml);
@@ -213,13 +217,14 @@ END;
         $url = $host . http_build_query($params);
         $io->writeln("Download zip file at $url");
 
+        $zipFile = 'favicon.zip';
 
-        $fn = $io->ask("zip file name?  Use ~ to skip", './favicon_io.zip');
-        if ($fn === '~') {
+        $fn = $io->ask("path to $zipFile?  Use ! to skip", './');
+        if ($fn === '!') {
             return;
         }
 
-        if (!file_exists($fn)) {
+        if (!file_exists($fn . $zipFile)) {
             // re-ask
         }
         $zip = new \ZipArchive();
