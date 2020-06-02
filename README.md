@@ -68,6 +68,7 @@ bin/console make:auth
     composer config repositories.admin_lte_bundle '{"type": "vcs", "url": "git@github.com:tacman/AdminLTEBundle.git"}'
     composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 
+    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3
     composer req survos/base-bundle
     
     
