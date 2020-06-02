@@ -1,16 +1,8 @@
-require('admin-lte/dist/js/adminlte');
+// require('admin-lte/dist/js/adminlte');
+
 require('../css/app.scss');
-
-
 const $ = require('jquery');
-// require('adminlte');
-// require('bootstrap');
-
 const Popper = require('popper.js');
-
-// any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.scss');
-
 
 {% if '@fortawesome/fontawesome-free' in yarnPackages %}
 require('@fortawesome/fontawesome-free/css/all.min.css');
