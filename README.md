@@ -61,7 +61,6 @@ bin/console make:auth
     
 # Now install the Survos BaseBundle
 
-
     composer config minimum-stability dev
     composer config prefer-stable true
     
