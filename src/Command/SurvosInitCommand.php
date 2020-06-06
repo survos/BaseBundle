@@ -112,15 +112,17 @@ class SurvosInitCommand extends Command
         $this->io = $io = new SymfonyStyle($input, $output);
         $all = true; // for now.  in_array('all', $input->getOption('tools'));
 
+        // we should look in .git/config for the heroku repo
+        if ($input->getOption('heroku')) {
+            $this->checkHeroku($io);
+        }
+
         // handle fontawesomefree, hack, need to ask
         file_put_contents($this->projectDir . '/.npmrc', "@fortawesome:registry=");
 
         $this->checkYarn($io);
         $this->installYarnLibraries($io);
 
-        if ($input->getOption('heroku')) {
-            $this->checkHeroku($io);
-        }
 
         // @todo: use this in the base bundle!!  Or prompt and use SVG, then colors could be used for environment.
         $this->createFavicon($io);
@@ -405,7 +407,7 @@ END;
     private function checkHeroku(SymfonyStyle $io)
     {
 
-        $this->io->write("Checking Heroku");
+        $this->io->writeln("Checking Heroku");
         // @todo: check buildpacks
         $this->io->writeln(exec("heroku buildpacks:add heroku/php"));
         $this->io->writeln(exec("heroku buildpacks:add heroku/nodejs"));
