@@ -15,6 +15,7 @@ use Mindscreen\YarnLock\YarnLock;
 use Survos\BaseBundle\Form\ChangePasswordFormType;
 use Survos\BaseBundle\BaseService;
 use SVG\Nodes\Shapes\SVGCircle;
+use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,15 +80,15 @@ class LandingController extends AbstractController
         $doc = $image->getDocument();
 
 // circle with radius 20 and green border, center at (50, 50)
-        $doc->addChild(
-            (new SVGCircle(50, 50, 20))
+        $circle = $doc->addChild(
+            (new SVGRect(0, 0, 100, 50))
                 ->setStyle('fill', 'none')
                 ->setStyle('stroke', '#0F0')
                 ->setStyle('stroke-width', '2px')
         );
 
-        $doc->addChild(
-            (new SVGText('{Tn}', 33, 55))
+        $circle->addChild(
+            (new SVGText('{Tn}', 25+12, 30))
             ->setStyle('text-size', '12px')
         );
 
