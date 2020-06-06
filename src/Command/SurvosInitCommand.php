@@ -122,10 +122,8 @@ class SurvosInitCommand extends Command
             $this->checkHeroku($io);
         }
 
+        // @todo: use this in the base bundle!!  Or prompt and use SVG, then colors could be used for environment.
         $this->createFavicon($io);
-
-        // $this->handleFavicon($io);
-        // https://favicon.io/favicon-generator/?t=Fa&ff=Lancelot&fs=99&fc=%23FFFFFF&b=rounded&bc=%23B4B
 
         $this->createTranslations($io);
         $this->setupDatabase($io);
@@ -210,17 +208,35 @@ END;
 
     private function createFavicon(SymfonyStyle $io)
     {
+        // $this->handleFavicon($io);
+        // https://favicon.io/favicon-generator/?t=Fa&ff=Lancelot&fs=99&fc=%23FFFFFF&b=rounded&bc=%23B4B
+
+
         $host = 'https://favicon.io/favicon-generator/?';
         $params = [
-            't' => $this->getAppCode()
+            't' => $this->getAppCode(), // @todo, just get the first letters, e.g. something-demo => sd
+            'ff' => 'Lancelot',
+            'fs' => 80,
+            'b' => 'rounded',
+            // @todo random colors, etc.
         ];
         $url = $host . http_build_query($params);
-        $io->writeln("Download zip file at $url");
+        $io->writeln("\n\nDownload zip file at $url");
 
         $zipFile = 'favicon_io.zip';
 
-        $fn = $io->ask("path to $zipFile?  Use ! to skip", './');
-        if ($fn === '!') {
+
+        do {
+            $path = $io->ask("path to $zipFile?  Defaults to directory ABOVE the repo.  Use ! to skip", '../');
+            $fn = $path . $zipFile;
+            if ($path !== '!') {
+                if (!file_exists($fn)) {
+                    $this->io->error("$fn does not exist.");
+                }
+            }
+        } while (( $path !== '!') && !file_exists($fn) );
+
+        if ($path === '!') {
             return;
         }
 
@@ -228,6 +244,7 @@ END;
             // re-ask
         }
         $zip = new \ZipArchive();
+
         if ($zip->open($fn) === TRUE) {
             $publicDir = $this->projectDir . '/./public';
             for($i = 0; $i < $zip->numFiles; $i++) {
@@ -304,7 +321,7 @@ END;
                 array_push($missing, $jsLibrary);
                 dump($package);
             } else {
-                $io->write(sprintf("%s already installed as version %s", $jsLibrary, $allPackages[$package]));
+                $io->writeln(sprintf("%s  installed as version %s", $jsLibrary, $allPackages[$package]));
             }
         }
 
@@ -364,7 +381,7 @@ END;
                 die("Cannot continue without yarn modules");
             }
         } else {
-            return $modules;
+            return [];
         }
 
 
