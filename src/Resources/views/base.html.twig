@@ -1,6 +1,18 @@
+{#  \Survos\BaseBundle\SurvosBaseBundle base.html.twig #}
 {% extends "@AdminLTE/layout/default-layout.html.twig" %}
 
-{% block logo_mini %}{{ logo_mini|default('home.code'|trans) }}{% endblock %}
+{% block logo_mini %}
+    {# could use the styles "opacity: .8" or class img-circle to indicate environment? style="opacity: .8" #}
+
+    <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >
+    <span class="brand-text font-weight-light">{{ logo_large|default('home.title'|trans)}}</span>
+
+
+    {#
+    <img src="{{ asset('favicon-32x32.png') }}" alt="logo" />
+    {{ logo_mini|default('home.code'|trans) }}
+    #}
+    {% endblock %}
 {% block logo_large %} {{ logo_large|default('home.title'|trans)}} {% endblock %}
 
 {% block sidebar_nav %}
@@ -16,6 +28,11 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('app') }}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 {% endblock %}
 
 
