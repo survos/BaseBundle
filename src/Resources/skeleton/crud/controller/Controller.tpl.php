@@ -15,7 +15,7 @@ use <?= $repository_full_class_name ?>;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Survos\BaseBundle\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("<?= $route_path ?>")
