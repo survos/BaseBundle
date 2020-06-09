@@ -47,7 +47,6 @@ class SurvosInitCommand extends Command
         'node-sass',
 //        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
-        '@fortawesome/fontawesome-free',
         'admin-lte@^3.0', // @todo, parse and check.  Must be after fontawesome.
         'popper.js'
     ];
@@ -118,7 +117,10 @@ class SurvosInitCommand extends Command
         }
 
         // handle fontawesomefree, hack, need to ask
-        file_put_contents($this->projectDir . '/.npmrc', "@fortawesome:registry=");
+
+        if (!file_exists($npmRcFile = $this->projectDir . '/.npmrc')) {
+            file_put_contents($npmRcFile, "@fortawesome:registry=");
+        }
 
         $this->checkYarn($io);
         $this->installYarnLibraries($io);
@@ -312,8 +314,15 @@ END;
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
 
         $missing = [];
-        foreach (self::requiredJsLibraries as $jsLibrary) {
-            if (strpos($jsLibrary, '@')) {
+
+        $pro = true; // also need to set .npmrc or the env var
+
+        $requiredJsLibraries = self::requiredJsLibraries;
+        $fa = '@fortawesome/fontawesome-' . ($pro ? 'pro' : 'free');
+        array_push($requiredJsLibraries, $fa);
+
+        foreach ($requiredJsLibraries as $jsLibrary) {
+            if (strpos($jsLibrary, '@') > 3) {
                 list($package, $version) = explode('@', $jsLibrary);
             } else {
                 $package = $jsLibrary;
