@@ -1,10 +1,17 @@
-'use strict';
+// 'use strict';
 
 /*  When the class is wrapped in this, not sure how to pass everything.
 (function(window, $, Routing, swal) {
     class SurvosDataTable {
 })(window, jQuery, Routing, swal);
 */
+
+const $ = global.$;
+let _ = global._;
+
+console.warn('Warning: This is the SurvosDataTable.js in base-bundle/public/js!!');
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 var commonButtons = {
     'json': {
@@ -56,25 +63,26 @@ let buttons =    [
 ];
 
 export default class SurvosDataTable {
-        constructor($el, columns, options) {
-            if (!options) {
-                options = {};
-            }
-            this.el = $el;
-            this.columns = columns;
-            this.url = options.url || $el.data('dtAjax');
-            this.buttons = options.buttons ? options.buttons : [
-                commonButtons['json'],
-                commonButtons['refresh'],
-                commonButtons['selectVisible']
-            ];
-            // @todo: add custom buttons
-
-            console.log("Setting up " + $el.attr('id') + ' with ' + this.url);
-
-            this.debug = false;
-
+    constructor($el, columns, options) {
+        if (!options) {
+            options = {};
         }
+        this.el = $el;
+        this.columns = columns;
+
+        this.url = options.url || $el.data('dtAjax'); // ??
+        this.buttons = options.buttons ? options.buttons : [
+            commonButtons['json'],
+            commonButtons['refresh'],
+            commonButtons['selectVisible']
+        ];
+        // @todo: add custom buttons
+
+        console.log("Setting up " + $el.attr('id') + ' with ' + this.url);
+
+        this.debug = false;
+
+    }
 
 
     initFooter() {
@@ -166,139 +174,139 @@ export default class SurvosDataTable {
         }
     }
 
-    initDataTableWidgets(container, $table) {
+    initDataTableWidgets() {
+        let $table = this.el;
         var info = $table.dataTable().api().page.info();
-        var card = $table.closest('.card');
+
+        var card = $table.closest('.card'); // go up to the card
+        var cardHeader = card.find('.card-header ');
+        var buttons = card.find('.js-dt-buttons').first(); // the buttons div, defined in dom:
+        console.warn(buttons);
+        // $("#source").appendTo("#destination");
+        // destination.appendChild(source);
+        // cardHeader.appendChild(buttons);
+        buttons.detach();
+        buttons.appendTo(cardHeader);
+        console.error('did the buttons move?', cardHeader, buttons);
+        // cardHeader.prepend(buttons);
         card.find('[data-totals="rows"]').html(info.recordsDisplay);
         card.find('[data-totals="progress"]').html(Math.round((info.start / info.recordsDisplay) * 100));
         this.debug && console.log('page info', info);
     }
 
     getAccessToken() {
-            return $('body').data('accessToken');
+        return $('body').data('accessToken');
+    }
+
+    dataTableParamsToApiPlatformParams(params) {
+        var apiData = {
+            page: 1
+        };
+
+        if (params.length) {
+            apiData.itemsPerPage = params.length;
         }
 
-        dataTableParamsToApiPlatformParams(params) {
-            var apiData = {
-                page: 1
+        // this is the global search, should really be elasticsearch!  Or it could be the primary text field, like title, defined in the table, search-field
+        if (params.search && params.search.value) {
+            apiData.description = params.search.value;
+            console.error(params, apiData);
+        }
+
+        params.columns.forEach(function(column, index) {
+            // console.log(column);
+            if (column.search && column.search.value) {
+                let value = column.search.value;
+                // check the first character for a range filter operator
+
+                // data is the column field, at least for right now.
+                apiData[column.data] = value;
+            }
+        });
+
+        if (params.start) {
+            // was apiData.page = Math.floor(params.start / params.length) + 1;
+            apiData.page = Math.floor(params.start / apiData.itemsPerPage) + 1;
+        }
+
+        return apiData;
+    }
+
+    apiRequest(options, apiData) {
+
+        if (typeof options === 'string') {
+            options = {
+                url: options
             };
-
-            if (params.length) {
-                apiData.itemsPerPage = params.length;
-            }
-
-            // this is the global search, should really be elasticsearch!  Or it could be the primary text field, like title, defined in the table, search-field
-            if (params.search && params.search.value) {
-                apiData.description = params.search.value;
-                console.error(params, apiData);
-            }
-
-            params.columns.forEach(function(column, index) {
-                console.log(column);
-                if (column.search && column.search.value) {
-                    let value = column.search.value;
-                    // check the first character for a range filter operator
-
-                    // data is the column field, at least for right now.
-                    apiData[column.data] = value;
-                }
-            });
-
-            if (params.start) {
-                // was apiData.page = Math.floor(params.start / params.length) + 1;
-                apiData.page = Math.floor(params.start / apiData.itemsPerPage) + 1;
-            }
-
-            return apiData;
         }
 
-        apiRequest(options, apiData) {
+        // this was _.defaults(), changed to remove the _ dependency, BUT this may be problematic!!
+        //  must be a better way!  https://www.sitepoint.com/es6-default-parameters/
+        $.extend(options, {
+            headers: {},
+            dataType: 'json',
+        });
+        $.extend(options.headers, {
+            Authorization: 'Bearer ' + this.getAccessToken(),
+            Accept: 'application/ld+json'
+        });
 
-            if (typeof options === 'string') {
-                options = {
-                    url: options
-                };
-            }
+        /*
+        console.log('------',apiData.itemsPerPage, params.length);
+        if (params.start) {
+            apiData.page = Math.floor(params.start / params.length) + 1;
+        }
+        */
 
-            // this was _.defaults(), changed to remove the _ dependency, BUT this may be problematic!!
-            //  must be a better way!  https://www.sitepoint.com/es6-default-parameters/
-            $.extend(options, {
-                headers: {},
-                dataType: 'json',
-            });
-            $.extend(options.headers, {
-                Authorization: 'Bearer ' + this.getAccessToken(),
-                Accept: 'application/ld+json'
-            });
+        let that = this;
+        return function (params, callback, settings) {
+            var out = [];
 
-            /*
-            console.log('------',apiData.itemsPerPage, params.length);
-            if (params.start) {
-                apiData.page = Math.floor(params.start / params.length) + 1;
-            }
-            */
+            // this is the data sent to API platform!
+            options.data = that.dataTableParamsToApiPlatformParams(params);
+            this.debug && console.log(params, options.data);
+            console.log(`DataTables is requesting ${params.length} starting at ${params.start}`);
 
-            let that = this;
-            return function (params, callback, settings) {
-                var out = [];
-
-                // this is the data sent to API platform!
-                options.data = that.dataTableParamsToApiPlatformParams(params);
-                this.debug && console.log(params, options.data);
-                console.log(`DataTables is requesting ${params.length} starting at ${params.start}`);
-
-                console.log(options.url, JSON.stringify(options.data));
+            console.log(options.url, JSON.stringify(options.data));
 
 
-                var jqxhr = $.ajax(options)
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        console.error(textStatus, errorThrown);
-                    })
-                    .done(function (hydraData, textStatus, jqXHR) {
+            var jqxhr = $.ajax(options)
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.error(textStatus, errorThrown);
+                })
+                .done(function (hydraData, textStatus, jqXHR) {
 
-                        // get the next page from hydra
-                        let next = hydraData["hydra:view"]['hydra:next'];
-                        var total = hydraData['hydra:totalItems'];
-                        var itemsReturned = hydraData['hydra:member'].length;
-                        let apiOptions = options.data;
+                    // get the next page from hydra
+                    let next = hydraData["hydra:view"]['hydra:next'];
+                    var total = hydraData['hydra:totalItems'];
+                    var itemsReturned = hydraData['hydra:member'].length;
+                    let apiOptions = options.data;
 
-                        if (params.search) {
-                            console.log(`dt search: ${params.search.value}`);
-                        }
-                        console.log(`dt request: ${params.length} starting at ${params.start}`);
+                    if (params.search) {
+                        console.log(`dt search: ${params.search.value}`);
+                    }
+                    console.log(`dt request: ${params.length} starting at ${params.start}`);
 
-                        let first = (apiOptions.page-1) * apiOptions.itemsPerPage;
-                        let d = hydraData['hydra:member'];
-                        this.debug && console.log(d.map( obj => obj.id ));
+                    let first = (apiOptions.page-1) * apiOptions.itemsPerPage;
+                    let d = hydraData['hydra:member'];
+                    this.debug && console.log(d.map( obj => obj.id ));
 
-                        // this one could be a partial, just json, etc.  Also we don't need it if it's on a page boundary
-                        if (next) {
-                            $.ajax({
-                                url: next,
-                                Accept: 'application/ld+json'
-                            }).done(function(json)
-                            {
-                                d = d.concat(json['hydra:member']);
-                                this.debug && console.log(d.map( obj => obj.id ));
-                                if (this.debug && console && console.log) {
-                                    console.log(`  ${itemsReturned} (of ${total}) returned, page ${apiOptions.page}, ${apiOptions.itemsPerPage}/page first: ${first} :`, d);
-                                }
-                                d = d.slice(params.start - first, (params.start - first) + params.length);
+                    // this one could be a partial, just json, etc.  Also we don't need it if it's on a page boundary
+                    if (next) {
+                        $.ajax({
+                            url: next,
+                            Accept: 'application/ld+json'
+                        }).done(function(json)
+                        {
+                            d = d.concat(json['hydra:member']);
+                            this.debug && console.log(d.map( obj => obj.id ));
+                            if (this.debug && console && console.log) {
+                                console.log(`  ${itemsReturned} (of ${total}) returned, page ${apiOptions.page}, ${apiOptions.itemsPerPage}/page first: ${first} :`, d);
+                            }
+                            d = d.slice(params.start - first, (params.start - first) + params.length);
 
-                                itemsReturned = d.length;
-                                console.log(`2-page callback with ${total} records`);
-                                callback({
-                                    draw: params.draw,
-                                    data: d,
-                                    recordsTotal: total,
-                                    recordsFiltered: itemsReturned,
-                                });
-
-                                // console.log(params, hydraData, total);
-                                // could check hydra:view to see if it's partial
-                            });
-                        } else {
-                            console.log(`Only-page callback with ${itemsReturned} records`);
+                            itemsReturned = d.length;
+                            console.log(`2-page callback with ${total} records`);
                             callback({
                                 draw: params.draw,
                                 data: d,
@@ -306,55 +314,79 @@ export default class SurvosDataTable {
                                 recordsFiltered: itemsReturned,
                             });
 
-                        }
+                            // console.log(params, hydraData, total);
+                            // could check hydra:view to see if it's partial
+                        });
+                    } else {
+                        console.log(`Only-page callback with ${itemsReturned} records`);
+                        callback({
+                            draw: params.draw,
+                            data: d,
+                            recordsTotal: total,
+                            recordsFiltered: itemsReturned,
+                        });
 
-                        // likely need caching, since in most cases we'll need two requests
+                    }
+
+                    // likely need caching, since in most cases we'll need two requests
 
 
-                    });
+                });
 
-                /*
-                    jqxhr.on('xhr.dt', function ( e, settings, json, xhr ) {
-                        console.log(e, settings, json);
-                        // Note no return - manipulate the data directly in the JSON object.
-                    } );
-                */
+            /*
+                jqxhr.on('xhr.dt', function ( e, settings, json, xhr ) {
+                    console.log(e, settings, json);
+                    // Note no return - manipulate the data directly in the JSON object.
+                } );
+            */
 
-                // return jqxhr;
+            // return jqxhr;
+        }
+    }
+
+
+    render() {
+        $('<div class="loading">Loading</div>').appendTo('body');
+
+        // var url = this.el.data('ajax'); // or options?
+        $.ajaxSetup({ cache: true});
+
+        // console.log(this.buttons);
+
+        this.el.DataTable({
+            ajax: this.apiRequest({
+                url: this.url
+            }),
+            orderCellsTop: true,
+            id: '@id',
+            columns: this.columns,
+            columnDefs: [{
+                "targets": '_all',
+                "defaultContent": ""
+            }],
+            initComplete: (settings, json) => {
+                this.initDataTableWidgets();
+                console.log('initComplete');
+                $('div.loading').remove();
+            },
+
+            serverSide: true,
+            processing: true,
+            scrollY: '50vh', // vh is percentage of viewport height, https://css-tricks.com/fun-viewport-units/
+            // scrollY: true,
+            deferRender: true,
+            // displayLength: 17, // not sure how to adjust the 'length' sent to the server
+            // pageLength: 14,
+            dom: '<"js-dt-buttons"B><"js-dt-info"i>ft',
+            buttons: this.buttons,
+            scroller: {
+                // rowHeight: 20,
+                displayBuffer: 3,
+                loadingIndicator: true,
             }
-        }
-
-
-        render() {
-            // var url = this.el.data('ajax'); // or options?
-            $.ajaxSetup({ cache: true});
-
-            console.log(this.buttons);
-
-            this.el.DataTable({
-                ajax: this.apiRequest({
-                    url: this.url
-                }),
-                orderCellsTop: true,
-                id: '@id',
-                columns: this.columns,
-                serverSide: true,
-                processing: true,
-                scrollY: '50vh', // vh is percentage of viewport height, https://css-tricks.com/fun-viewport-units/
-                // scrollY: true,
-                deferRender: true,
-                // displayLength: 17, // not sure how to adjust the 'length' sent to the server
-                // pageLength: 14,
-                dom: 'iBft',
-                buttons: this.buttons,
-                scroller: {
-                    // rowHeight: 20,
-                    displayBuffer: 3,
-                    loadingIndicator: true,
-                }
-            });
-            this.debug && console.warn(this.el.attr('id') + ' rendered!');
-            this.debug && console.log(this.url); // , this.el.data());
-        }
+        });
+        this.debug && console.warn(this.el.attr('id') + ' rendered!');
+        this.debug && console.log(this.url); // , this.el.data());
+    }
 
 }

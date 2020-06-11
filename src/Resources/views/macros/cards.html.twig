@@ -141,7 +141,7 @@
             {% endif %}
 
     >
-        <div class="card card-heading card-header text-primary card-info clearfix">
+        <div class="card card-heading text-primary card-info clearfix">
             <a name="{{ id }}_anchor"></a>
 
 
@@ -174,8 +174,6 @@
                 {%  set title = title|trans(options.title_parameters) %}
             {% endif %}
 
-            <div class="card border-success mb-3">
-
                 <div class="card-header bg-info text-white border-success">
 
                     <div class="float-right card-title">
@@ -189,7 +187,7 @@
                         {% endif %}
                         {% if options.api %}
                             <div class="float-right">
-                                {% set dataUrl = path(options.api.call, options.api.filter) %}
+                                {% set dataUrl = path(options.api.call, options.api.filter|default([])) %}
                                 <a href="javascript:void(0)"><i class="fab fa-file-excel export-to-csv" data-api="{{ dataUrl }}"> CSV Export</i> </a>
                             </div>
                         {% endif %}
@@ -266,9 +264,6 @@
                     <div class="card-footer bg-transparent border-success">End of {{ id }} Panel</div>
                 </div>
             </div>
-
-
-        </div>
 
     </div>
 {% endmacro %}
@@ -471,9 +466,6 @@
     {% import _self as macros %}
 
     {% set options = optionsResolver({
-        'wave': null,
-        'survey': null,
-        'member': null,
         extraColumns: false,
         class: null,
         marking: null,

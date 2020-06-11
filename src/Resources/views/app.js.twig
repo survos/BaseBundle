@@ -1,11 +1,20 @@
-// require('admin-lte/dist/js/adminlte');
+// make sure $ and jquery are global
+const $ = require('jquery');
+global.$ = $;
+require('popper.js');
+
+
+require('admin-lte'); // the javascript for bootstrap, plus some adminlte utilities.  This comes from yarn add admin-lte
 
 require('../css/app.scss');
-const $ = require('jquery');
-const Popper = require('popper.js');
+
+$('button:contains(Save)').addClass('btn-primary');
+$('button:contains(Update)').addClass('btn-primary');
 
 {% if '@fortawesome/fontawesome-free' in yarnPackages %}
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
+{% else %}
+// @todo: add fontawesome pro
 {% endif %}
 
