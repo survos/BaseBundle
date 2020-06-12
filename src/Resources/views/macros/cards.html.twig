@@ -493,7 +493,7 @@
     <table
             id="{{ id }}"
             {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
-            data-ajax="{{ dataUrl }}"
+            data-json-ld-url="{{ dataUrl }}"
             data-api="{{ api|json_encode }}"
             class="table table-striped no-wrap {{ options.class  }}"
     >

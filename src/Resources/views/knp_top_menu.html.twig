@@ -1,26 +1,13 @@
-{% extends '@KnpMenu/menu.html.twig' %}
+{% extends '@SurvosBase/knp_menu.html.twig' %}
 
 {% block root %}
     {% set listAttributes = item.childrenAttributes %}
     
     {% set listAttributes = item.childrenAttributes %}
-
-    <nav class="{{ item.attributes|join(' ') }}">
+    <nav class="mt-2 navbar navbar-expand navbar-white navbar-light">
         {{ block('list') -}}
     </nav>
 {% endblock %}
-
-
-
-{% macro setCssClassAttribute(item, type, add) %}
-    {% set getter = 'get' ~ type %}
-    {% set setter = 'set' ~ type %}
-    {% set value = attribute(item, getter, ['class']) %}
-    {% if value is iterable %}
-        {% set value = value|join(' ') %}
-    {% endif %}
-    {% do attribute(item, setter, ['class', value ~ ' ' ~ add]) %}
-{% endmacro %}
 
 {% block item %}
     {% import "knp_menu.html.twig" as macros %}

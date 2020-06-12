@@ -70,7 +70,10 @@ export default class SurvosDataTable {
         this.el = $el;
         this.columns = columns;
 
-        this.url = options.url || $el.data('dtAjax'); // ??
+        this.url = $el.data('jsonLdUrl'); // ??
+        if (this.url === 'undefined') {
+            console.error('missing jsonLdUrl');
+        }
         this.buttons = options.buttons ? options.buttons : [
             commonButtons['json'],
             commonButtons['refresh'],

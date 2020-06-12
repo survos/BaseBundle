@@ -58,12 +58,16 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root', [
             'childrenAttributes' => [
-                'class' => 'nav nav-navbar navbar-dark list-unstyled ',
-                'data-widget' => 'nav',
+                'class' => 'nav nav-pills  ',
+                // 'data-widget' => 'nav',
                 'data-accordion' => false,
-                'role' => 'menu'
+                // 'role' => 'menu'
             ],
         ]);
+
+        $menu
+            ->addChild('title', ['label' => $options['title'], 'uri' => '#'])
+            ->setAttribute('class', 'h5 float-right');
 
         $childOptions = [
             'attributes' =>
