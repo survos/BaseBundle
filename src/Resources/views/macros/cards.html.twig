@@ -416,6 +416,10 @@
 {% macro tour(tourOptions) %}
 {% endmacro %}
 
+{% macro external_link(link, text) %}
+<a href="{{ link }}" target="_blank"'>{{ text }} '<i class="fas fa-external-link"></i></a>
+{% endmacro %}
+
 {% macro tr(prompt, response, link, options) %}
     {% set o = optionsResolver({
         nowrap: false,
