@@ -172,9 +172,10 @@
     {{ ownmacro.setCssClassAttribute(item, 'LabelAttribute', 'dropdown-header') }}
     <div {{ macros.attributes(item.labelAttributes) }}>
         {% if item.attribute('icon') is not empty  %}
-            <i class="{{ item.attribute('icon') }}">   </i>
+            <i class="{{ item.attribute('icon') }}"></i>
             {{ item.attribute('icon')  }}
         {% endif %}
+
         {{ block('label') }}
     </div>
 {% endblock %}
