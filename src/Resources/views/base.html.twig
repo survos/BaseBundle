@@ -32,7 +32,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 #}
 {% block body_start_tag %}
-<body{% block body_start %}{% endblock %} class="{{ admin_lte_context.skin|default("")|body_class }} ">
+<body {% block body_start %}{% endblock %} class="{{ admin_lte_context.skin|default("")|body_class }} ">
 {% endblock %}
 {% block after_body_start %}{% endblock %}
 <div class="wrapper">
@@ -106,7 +106,6 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
     {% block sidebar %}
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-
             <a href="{% block logo_path %}{{ path('adminlte_welcome'|route_alias) }}{% endblock %}" class="brand-link ">
                 {% block logo_mini %}
                     <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >
@@ -121,6 +120,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                         {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction')) }}
                     {% endif %}
                 {% endblock %}
+
 
                 {% block sidebar_nav %}
                     {% include '@SurvosBase/render_sidebar_menu.html.twig' with {menuCode: 'survos_sidebar_menu'} %}
