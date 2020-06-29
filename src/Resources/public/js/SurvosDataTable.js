@@ -261,14 +261,13 @@ export default class SurvosDataTable {
         }
         */
 
-        let that = this;
-        return function (params, callback, settings) {
-            var out = [];
-
+        return (params, callback, settings) => {
+            console.error(params);
             // this is the data sent to API platform!
-            options.data = that.dataTableParamsToApiPlatformParams(params);
-            this.debug && console.log(params, options.data);
-            console.log(`DataTables is requesting ${params.length} starting at ${params.start}`);
+            options.data = this.dataTableParamsToApiPlatformParams(params);
+            // this.debug &&
+            // console.log(params, options.data);
+            console.log(`DataTables is requesting ${params.length} records starting at ${params.start}`, options.data);
 
             console.log(options.url, JSON.stringify(options.data));
 
@@ -277,7 +276,7 @@ export default class SurvosDataTable {
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     console.error(textStatus, errorThrown);
                 })
-                .done(function (hydraData, textStatus, jqXHR) {
+                .done(  (hydraData, textStatus, jqXHR) => {
 
                     // get the next page from hydra
                     let next = hydraData["hydra:view"]['hydra:next'];
@@ -285,9 +284,10 @@ export default class SurvosDataTable {
                     var itemsReturned = hydraData['hydra:member'].length;
                     let apiOptions = options.data;
 
-                    if (params.search) {
+                    if (params.search.value) {
                         console.log(`dt search: ${params.search.value}`);
                     }
+
                     console.log(`dt request: ${params.length} starting at ${params.start}`);
 
                     let first = (apiOptions.page-1) * apiOptions.itemsPerPage;
@@ -299,7 +299,7 @@ export default class SurvosDataTable {
                         $.ajax({
                             url: next,
                             Accept: 'application/ld+json'
-                        }).done(function(json)
+                        }).done( json =>
                         {
                             d = d.concat(json['hydra:member']);
                             this.debug && console.log(d.map( obj => obj.id ));
@@ -309,7 +309,9 @@ export default class SurvosDataTable {
                             d = d.slice(params.start - first, (params.start - first) + params.length);
 
                             itemsReturned = d.length;
-                            console.log(`2-page callback with ${total} records`);
+
+                            console.log(`2-page callback with ${total} records (${itemsReturned} items)`);
+                            console.log(d);
                             callback({
                                 draw: params.draw,
                                 data: d,
@@ -361,7 +363,7 @@ export default class SurvosDataTable {
                 url: this.url
             }),
             orderCellsTop: true,
-            id: '@id',
+            id: '@id', // id, @id is also a candidate, it's a string rather than an int.
             columns: this.columns,
             columnDefs: [{
                 "targets": '_all',
@@ -378,13 +380,13 @@ export default class SurvosDataTable {
             scrollY: '50vh', // vh is percentage of viewport height, https://css-tricks.com/fun-viewport-units/
             // scrollY: true,
             deferRender: true,
-            // displayLength: 17, // not sure how to adjust the 'length' sent to the server
-            // pageLength: 14,
+            // displayLength: 10000, // not sure how to adjust the 'length' sent to the server
+            pageLength: 100,
             dom: '<"js-dt-buttons"B><"js-dt-info"i>ft',
             buttons: this.buttons,
             scroller: {
                 // rowHeight: 20,
-                displayBuffer: 3,
+                displayBuffer: 20,
                 loadingIndicator: true,
             }
         });
