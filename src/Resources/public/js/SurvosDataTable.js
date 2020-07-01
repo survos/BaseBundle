@@ -9,7 +9,9 @@
 const $ = global.$;
 let _ = global._;
 
-console.warn('Warning: This is the SurvosDataTable.js in base-bundle/public/js!!');
+console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
+
+// hacks for linking this
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
@@ -57,17 +59,15 @@ var commonButtons = {
     },
 };
 
-let buttons =    [
-    // 'selectAll',
-    // 'selectNone',
-];
-
 export default class SurvosDataTable {
     constructor($el, columns, options) {
         if (!options) {
             options = {};
         }
-        this.el = $el;
+        this.el = $el; // the <table> element, with an id and some data- attributes
+        this.dataTableElement = false; // the DataTable object after it's been rendered
+
+
         this.columns = columns;
 
         this.url = $el.data('jsonLdUrl'); // ??
@@ -122,7 +122,7 @@ export default class SurvosDataTable {
         var tr = $('<tr>');
         var that = this;
         console.log(this.columns);
-        this.columns.forEach(function (column, index) {
+        this.columns.forEach( (column, index) => {
             console.log(column, index);
             var td = $('<td>');
             if (column.filter !== undefined) {
@@ -132,7 +132,7 @@ export default class SurvosDataTable {
                 } else if (column.filter.type === 'select') {
                     el = handleSelect(column);
                 }
-                that.handleFieldSearch(that.el, el, index);
+                that.handleFieldSearch(this.el, el, index);
 
                 td.append(el);
             }
@@ -156,6 +156,7 @@ export default class SurvosDataTable {
 
     handleFieldSearch($table, $field, columnIndex) {
         var that = this;
+
         function getValue($el) {
             if ($el.is(':checkbox')) {
                 return $el.filter(':checked').val();
@@ -165,8 +166,8 @@ export default class SurvosDataTable {
                 return $el.val();
             }
         }
-        var filter = function () {
-            that.removeTableSelection($table);
+        var filter =  ()  => {
+            this.removeTableSelection($table);
             var value = getValue($field);
             console.log(value);
             $table.dataTable().api().column(columnIndex).search(value).draw();
@@ -190,7 +191,7 @@ export default class SurvosDataTable {
         // cardHeader.appendChild(buttons);
         buttons.detach();
         buttons.appendTo(cardHeader);
-        console.error('did the buttons move?', cardHeader, buttons);
+        console.warn('Buttons should now be in the card header.', cardHeader, buttons);
         // cardHeader.prepend(buttons);
         card.find('[data-totals="rows"]').html(info.recordsDisplay);
         card.find('[data-totals="progress"]').html(Math.round((info.start / info.recordsDisplay) * 100));
@@ -262,14 +263,12 @@ export default class SurvosDataTable {
         */
 
         return (params, callback, settings) => {
-            console.error(params);
             // this is the data sent to API platform!
             options.data = this.dataTableParamsToApiPlatformParams(params);
             // this.debug &&
             // console.log(params, options.data);
             console.log(`DataTables is requesting ${params.length} records starting at ${params.start}`, options.data);
-
-            console.log(options.url, JSON.stringify(options.data));
+            console.log(params, options.url, JSON.stringify(options.data));
 
 
             var jqxhr = $.ajax(options)
@@ -290,12 +289,16 @@ export default class SurvosDataTable {
 
                     console.log(`dt request: ${params.length} starting at ${params.start}`);
 
+                    // the first item of this page, for the boundary
                     let first = (apiOptions.page-1) * apiOptions.itemsPerPage;
                     let d = hydraData['hydra:member'];
-                    this.debug && console.log(d.map( obj => obj.id ));
+                    // we could get rid of the first part if the starting_at is not at the beginning.
+                    // d = d.slice(0, params.length - first);
+                    // this.debug &&
+                    // console.log(d.map( obj => obj.id ));
 
-                    // this one could be a partial, just json, etc.  Also we don't need it if it's on a page boundary
-                    if (next) {
+                    // this one could be a partial, just json, etc.  Also we don't need it if it's on a page boundary  Usually okay on the first call
+                    if ( next && (params.start > 0) ) { // && itemsReturned !== params.length
                         $.ajax({
                             url: next,
                             Accept: 'application/ld+json'
@@ -316,19 +319,20 @@ export default class SurvosDataTable {
                                 draw: params.draw,
                                 data: d,
                                 recordsTotal: total,
-                                recordsFiltered: itemsReturned,
+                                recordsFiltered: total // was itemsReturned,
                             });
 
                             // console.log(params, hydraData, total);
                             // could check hydra:view to see if it's partial
                         });
                     } else {
-                        console.log(`Only-page callback with ${itemsReturned} records`);
+                        console.log(`D${params.draw} Single page callback with ${itemsReturned} of ${total} records`);
                         callback({
                             draw: params.draw,
                             data: d,
                             recordsTotal: total,
-                            recordsFiltered: itemsReturned,
+                          //  recordsFiltered: itemsReturned,
+                            recordsFiltered: total,
                         });
 
                     }
@@ -350,6 +354,10 @@ export default class SurvosDataTable {
     }
 
 
+    dt() {
+        return this.dataTableElement;
+    }
+
     render() {
         $('<div class="loading">Loading</div>').appendTo('body');
 
@@ -358,12 +366,12 @@ export default class SurvosDataTable {
 
         // console.log(this.buttons);
 
-        this.el.DataTable({
+        this.dataTableElement = this.el.DataTable({
             ajax: this.apiRequest({
                 url: this.url
             }),
             orderCellsTop: true,
-            id: '@id', // id, @id is also a candidate, it's a string rather than an int.
+            id: 'id', // id, @id is also a candidate, it's a string rather than an int.
             columns: this.columns,
             columnDefs: [{
                 "targets": '_all',
@@ -377,12 +385,13 @@ export default class SurvosDataTable {
 
             serverSide: true,
             processing: true,
+            paging: true,
             scrollY: '50vh', // vh is percentage of viewport height, https://css-tricks.com/fun-viewport-units/
             // scrollY: true,
             deferRender: true,
             // displayLength: 10000, // not sure how to adjust the 'length' sent to the server
-            pageLength: 100,
-            dom: '<"js-dt-buttons"B><"js-dt-info"i>ft',
+            pageLength: 15,
+            dom: '<"js-dt-buttons"B><"js-dt-info"i>ftp',
             buttons: this.buttons,
             scroller: {
                 // rowHeight: 20,
