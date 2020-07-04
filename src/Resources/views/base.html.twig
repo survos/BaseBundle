@@ -137,8 +137,8 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                         <h1 class="m-0 text-dark">
                             {% block back_link %}{% endblock %}
                             {% block page_title 'home.title'|trans %}
-                            {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
                         </h1>
+                        {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
                     </div>
                     <div class="col-sm-6">
                         {% block breadcrumb %}

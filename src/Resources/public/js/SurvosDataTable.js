@@ -11,6 +11,11 @@ let _ = global._;
 
 console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
 
+require('datatables.net-bs4');
+require('datatables.net-scroller-bs4');
+require('datatables.net-buttons-bs4');
+require('datatables.net-select-bs4');
+
 // hacks for linking this
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -185,7 +190,6 @@ export default class SurvosDataTable {
         var card = $table.closest('.card'); // go up to the card
         var cardHeader = card.find('.card-header ');
         var buttons = card.find('.js-dt-buttons').first(); // the buttons div, defined in dom:
-        console.warn(buttons);
         // $("#source").appendTo("#destination");
         // destination.appendChild(source);
         // cardHeader.appendChild(buttons);
@@ -289,14 +293,11 @@ export default class SurvosDataTable {
 
                     console.log(`dt request: ${params.length} starting at ${params.start}`);
 
-                    // the first item of this page, for the boundary
                     let first = (apiOptions.page-1) * apiOptions.itemsPerPage;
                     let d = hydraData['hydra:member'];
                     // we could get rid of the first part if the starting_at is not at the beginning.
                     // d = d.slice(0, params.length - first);
-                    // this.debug &&
-                    // console.log(d.map( obj => obj.id ));
-
+                    //this.debug &&
                     // this one could be a partial, just json, etc.  Also we don't need it if it's on a page boundary  Usually okay on the first call
                     if ( next && (params.start > 0) ) { // && itemsReturned !== params.length
                         $.ajax({
@@ -371,7 +372,7 @@ export default class SurvosDataTable {
                 url: this.url
             }),
             orderCellsTop: true,
-            id: 'id', // id, @id is also a candidate, it's a string rather than an int.
+            rowId: 'id', // id, @id is also a candidate, it's a string rather than an int.
             columns: this.columns,
             columnDefs: [{
                 "targets": '_all',

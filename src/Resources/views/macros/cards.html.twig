@@ -489,9 +489,11 @@
 
 
     {% set id = options.id %}
+    <div class="js-ajax-message text-success">AJAX message</div>
+    <div class="js-ajax-errors text-danger"></div>
 
     {% if app.debug %}
-        <code>{{ id }}</code><i class="fa fa-rss"></i> {{ api.call ?  api|json_encode }} {{ dataUrl }}
+        <code>{{ id }}</code><i class="fas fa-rss"></i> {{ api.call ?  api|json_encode }} {{ dataUrl }}
         <br />
     {% endif %}
     <table
