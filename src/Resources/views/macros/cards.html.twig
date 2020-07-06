@@ -489,13 +489,26 @@
 
 
     {% set id = options.id %}
-    <div class="js-ajax-message text-success">AJAX message</div>
+    <div class="js-ajax-message text-success"></div>
     <div class="js-ajax-errors text-danger"></div>
 
-    {% if app.debug %}
+    {% if false and app.debug %}
         <code>{{ id }}</code><i class="fas fa-rss"></i> {{ api.call ?  api|json_encode }} {{ dataUrl }}
         <br />
     {% endif %}
+
+
+    {% if options.marking %}
+        <b>@Markings: </b>
+        {% for m, meta in options.marking %}
+            <a class="btn" href="{{ path(app.request.get('_route'), {markings: m}) }}">
+                <span class="border border-primary marking marking-{{ m }}">{{ meta.label|default(m) }}</span> |
+            </a>
+        {% endfor %}
+        <br />
+    {% endif %}
+    <b>Transition Key: </b>
+
     <table
             id="{{ id }}"
             {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
@@ -504,8 +517,79 @@
             class="table table-striped no-wrap {{ options.class  }}"
     >
     </table>
+{% endmacro %}
+
+{% macro markingForm(markingData, flowCode, selected) %}
+    {% set tableType = flowCode %}
+    <div class="float-left">
+        <a target="_blank" href="{{ path('survos_workflow', {flowCode: flowCode} ) }}"><i class="fas fa-project-diagram"></i> </a>
+    </div>
+
+    {#
+    <form name="markingForm" id="marking-form">
+        {% for m in markingData %}
+            {% set label = m.label|default(m.marking|humanize) %}
+        <label>
+            <input class="btn btn-outline-light" name="places[]" type="checkbox"
+            {{  m.marking in selected ? "checked='checked'" }}
+            value="{{ m.marking }}"
+            />
+            {{ label }}
+        </label>
+        <span class="marking marking-{{ m.marking }}"></span>
+        {% endfor %}
+    </form>
+    #}
+
+<label>
+    <select name="places[]" id="{{ flowCode }}-places" class="places-selectpicker" multiple
+            data-width="auto">
+    {% for m in markingData %}
+        {% set label = m.label|default(m.marking|humanize) %}
+        <option  {{  m.marking in selected ? "selected='selected'" }}
+                value="{{ m.marking }}"
+        >
+            <span class="marking marking-{{ m.marking }}">{{ label }}</span>
+        </option>
+    {% endfor %}
+    </select>
+</label>
+
+    {#
+    <label>
+        <select name="places[]" id="{{ flowCode }}-places" class="places-selectpicker" multiple
+                   data-width="auto">
+                    {% for m in markingData %}
+                        {% set label = m.label|default(m.marking|humanize) %}
+
+                        <option  {{  m.marking in selected ? "selected='selected'" }}
+                                value="{{ m.marking }}"
+                        >
+                            <span class="marking marking-{{ m.marking }}">{{ label }}</span>
+                        </option>
+                    {% endfor %}
+        </select>
+    </label>
+
+    <form style="display: inline-block;"
+          id="{{ tableType }}_control_form"
+          title="{{ tableType }}_control_form"
+          class="control-form form form-inline"
+          role="form"
+          data-table-type="{{ tableType }}">
+    </form>
+    #}
+
+    <span id='{{ tableType }}-all-switch-span' >
+        <label for='{{ tableType }}-all-switch'>{{ tableType }} Act On:</label>
+    <input id='{{ tableType }}-all-switch'
+           class="btn-sm global-switch" type="checkbox" name='{{ tableType }}-switch'
+           data-table-type="{{ tableType }}"
+           data-toggle="toggle" />
+    </span>
 
 
 {% endmacro %}
+
 
 

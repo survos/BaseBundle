@@ -85,8 +85,10 @@ class BaseMenuSubscriber
         // rename rp
         if (is_object($options['rp'])) {
             $options['routeParameters'] = $options['rp']->getRp();
-            $iconConstant = get_class($options['rp']) . '::ICON';
-            $options['icon'] = defined($iconConstant) ? constant($iconConstant) : 'fas fa-database'; // generic database entity
+            if (empty($options['icon'])) {
+                $iconConstant = get_class($options['rp']) . '::ICON';
+                $options['icon'] =  defined($iconConstant) ? constant($iconConstant) : 'fas fa-database'; // generic database entity
+            }
         } elseif (is_array($options['rp'])) {
             $options['routeParameters'] = $options['rp'];
         }
@@ -127,6 +129,7 @@ class BaseMenuSubscriber
         // move the icon to attributes, where it belongs
         if ($options['icon']) {
             $options['attributes']['icon'] = $options['icon'];
+            $options['attributes']['class'] = 'text-danger';
             $options['label_attributes']['icon'] = $options['icon'];
             // unset($options['icon']);
         }

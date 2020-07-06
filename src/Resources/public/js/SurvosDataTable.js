@@ -9,7 +9,7 @@
 const $ = global.$;
 let _ = global._;
 
-console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
+// console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
 
 require('datatables.net-bs4');
 require('datatables.net-scroller-bs4');
@@ -71,7 +71,6 @@ export default class SurvosDataTable {
         }
         this.el = $el; // the <table> element, with an id and some data- attributes
         this.dataTableElement = false; // the DataTable object after it's been rendered
-
 
         this.columns = columns;
 
@@ -217,13 +216,15 @@ export default class SurvosDataTable {
 
         // this is the global search, should really be elasticsearch!  Or it could be the primary text field, like title, defined in the table, search-field
         if (params.search && params.search.value) {
-            apiData.description = params.search.value;
-            console.error(params, apiData);
+            // @todo: what is the configured search field?
+
+            apiData.name = params.search.value;
+            console.error('searching by name field only', params, apiData);
         }
 
         params.columns.forEach(function(column, index) {
-            // console.log(column);
             if (column.search && column.search.value) {
+                console.error(column);
                 let value = column.search.value;
                 // check the first character for a range filter operator
 
@@ -236,6 +237,9 @@ export default class SurvosDataTable {
             // was apiData.page = Math.floor(params.start / params.length) + 1;
             apiData.page = Math.floor(params.start / apiData.itemsPerPage) + 1;
         }
+
+        // add our own filters
+        // apiData['marking'] = ['fetch_success'];
 
         return apiData;
     }
@@ -268,9 +272,11 @@ export default class SurvosDataTable {
 
         return (params, callback, settings) => {
             // this is the data sent to API platform!
+
+
             options.data = this.dataTableParamsToApiPlatformParams(params);
             // this.debug &&
-            // console.log(params, options.data);
+            console.log(params, options.data);
             console.log(`DataTables is requesting ${params.length} records starting at ${params.start}`, options.data);
             console.log(params, options.url, JSON.stringify(options.data));
 
@@ -279,6 +285,7 @@ export default class SurvosDataTable {
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     console.error(textStatus, errorThrown);
                 })
+                // use .dataFilter instead?  At some point, we should get rid of jQuery and use fetch.
                 .done(  (hydraData, textStatus, jqXHR) => {
 
                     // get the next page from hydra
