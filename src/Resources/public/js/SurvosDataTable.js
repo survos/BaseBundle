@@ -217,7 +217,6 @@ export default class SurvosDataTable {
         // this is the global search, should really be elasticsearch!  Or it could be the primary text field, like title, defined in the table, search-field
         if (params.search && params.search.value) {
             // @todo: what is the configured search field?
-
             apiData.name = params.search.value;
             console.error('searching by name field only', params, apiData);
         }
@@ -379,11 +378,11 @@ export default class SurvosDataTable {
                 url: this.url
             }),
             orderCellsTop: true,
-            rowId: 'id', // id, @id is also a candidate, it's a string rather than an int.
+            rowId: 'id', // id, @id is also a candidate, it's a string rather than an int
             columns: this.columns,
             columnDefs: [{
                 "targets": '_all',
-                "defaultContent": ""
+                "defaultContent": "~~"
             }],
             initComplete: (settings, json) => {
                 this.initDataTableWidgets();

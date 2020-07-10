@@ -295,6 +295,8 @@
                 {%- if options.id %} id="{{ options.id }}" {% endif -%}
                 {%- if options.data_extra_columns %} data-extra-columns="{{ options.data_extra_columns }}" {% endif -%}
                data-ajax="{{ options.url }}">
+            <tfoot></tfoot>
+
         </table>
     {% endif %}
     {#
@@ -457,21 +459,13 @@
     {% endif %}
 {% endmacro %}
 
-{% macro survey(survey) %}
-    {% set id = "%s_survey"|format(survey.code) %}
-    <a id="{{ id }}" title="{{ id }}"
-       href="{{ path('survey_show', survey.routeParams) }}">
-        <i class="fa fa-check"></i> {{ survey.display }}</a>
-{% endmacro %}
-
-
-
 {% macro entityTable(options) %}
     {% import _self as macros %}
 
     {% set options = optionsResolver({
         extraColumns: false,
         class: null,
+        workflow: null,
         marking: null,
     }, options|default({}), ['api', 'id']) %}
 
@@ -489,34 +483,60 @@
 
 
     {% set id = options.id %}
-    <div class="js-ajax-message text-success"></div>
-    <div class="js-ajax-errors text-danger"></div>
+    <span class="js-ajax-message text-success"></span>
+    <span class="js-ajax-errors text-danger"></span>
 
     {% if false and app.debug %}
         <code>{{ id }}</code><i class="fas fa-rss"></i> {{ api.call ?  api|json_encode }} {{ dataUrl }}
         <br />
     {% endif %}
 
+    {% if options.workflow %}
+    <b>Transition Key: </b>
+    {% for transition in options.workflow.definition.transitions %}
+        {% set currentMarking = app.request.get('markings') %} {# hack! #}
+        {% set show = currentMarking ? currentMarking in transition.froms : true %}
+        {% if show %}
+            <span class="transtion transition-{{ transition.name }}">{{ transition.name|trans }}</span>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
 
     {% if options.marking %}
+        <div class="card card-primary card-outline card-tabs">
+        <div class="card-header p-0 pt-1 border-bottom-0">
         <b>@Markings: </b>
+        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
         {% for m, meta in options.marking %}
-            <a class="btn" href="{{ path(app.request.get('_route'), {markings: m}) }}">
-                <span class="border border-primary marking marking-{{ m }}">{{ meta.label|default(m) }}</span> |
-            </a>
+            {% set url = path(app.request.get('_route'), app.request.get('_route_params')|merge({markings: meta.marking})) %}
+            {% set label =  meta.label|default(meta.marking)  %}
+            <li class="nav-item">
+                <a class="nav-link {{ meta.marking == app.request.get('markings') ? 'active' }} marking marking-{{ meta.marking }}" id="custom-tabs-two-home-tab" xxdata-toggle="pill" href="{{ url }}" role="tab"
+                   aria-controls="custom-tabs-two-home" aria-selected="true">
+                    {{ label }}
+                </a>
+            </li>
         {% endfor %}
-        <br />
     {% endif %}
-    <b>Transition Key: </b>
+            </ul>
+        </div>
 
-    <table
-            id="{{ id }}"
-            {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
-            data-json-ld-url="{{ dataUrl }}"
-            data-api="{{ api|json_encode }}"
-            class="table table-striped no-wrap {{ options.class  }}"
-    >
-    </table>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-two-tabContent">
+                <table
+                        id="{{ id }}"
+                        {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
+                        data-json-ld-url="{{ dataUrl }}"
+                        data-api="{{ api|json_encode }}"
+                        class="table table-striped no-wrap {{ options.class  }}"
+                >
+                    <tfoot></tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
 {% endmacro %}
 
 {% macro markingForm(markingData, flowCode, selected) %}
@@ -541,6 +561,7 @@
     </form>
     #}
 
+    {#
 <label>
     <select name="places[]" id="{{ flowCode }}-places" class="places-selectpicker" multiple
             data-width="auto">
@@ -554,6 +575,7 @@
     {% endfor %}
     </select>
 </label>
+#}
 
     {#
     <label>

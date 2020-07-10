@@ -57,17 +57,20 @@ class MenuBuilder
     public function createPageMenu(array $options)
     {
         $menu = $this->factory->createItem('root', [
+            'class' => 'float-right',
             'childrenAttributes' => [
-                'class' => 'nav nav-pills  ',
+                'class' => 'nav nav-pills',
                 // 'data-widget' => 'nav',
                 'data-accordion' => false,
                 // 'role' => 'menu'
             ],
         ]);
 
+        /* this doesnt seem to work well.
         $menu
             ->addChild('title', ['label' => $options['title'], 'uri' => '#'])
-            ->setAttribute('class', 'h5 float-right');
+            ->setAttribute('class', 'h6 float-right');
+        */
 
         $childOptions = [
             'attributes' =>
