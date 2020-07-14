@@ -73,6 +73,7 @@ export default class SurvosDataTable {
         this.dataTableElement = false; // the DataTable object after it's been rendered
 
         this.columns = columns;
+        this.searchField = options.searchField || 'name';
 
         this.url = $el.data('jsonLdUrl'); // ??
         if (this.url === 'undefined') {
@@ -217,8 +218,9 @@ export default class SurvosDataTable {
         // this is the global search, should really be elasticsearch!  Or it could be the primary text field, like title, defined in the table, search-field
         if (params.search && params.search.value) {
             // @todo: what is the configured search field?
-            apiData.name = params.search.value;
-            console.error('searching by name field only', params, apiData);
+
+            apiData[this.searchField] = params.search.value;
+            console.error(`searching by ${this.searchField} field only`, params, apiData);
         }
 
         params.columns.forEach(function(column, index) {

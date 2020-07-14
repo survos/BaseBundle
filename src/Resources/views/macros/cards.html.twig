@@ -466,6 +466,7 @@
         extraColumns: false,
         class: null,
         workflow: null,
+        searchField: 'name',
         marking: null,
     }, options|default({}), ['api', 'id']) %}
 
@@ -492,12 +493,19 @@
     {% endif %}
 
     {% if options.workflow %}
+        {# argh, it'd be nice to get this from the workflow directly, because getting the metadata requires an object, not a string
     <b>Transition Key: </b>
+        {{ dump(options.workflow.name) }}
+        {{ dump(options.workflow.definition) }}
+        #}
     {% for transition in options.workflow.definition.transitions %}
         {% set currentMarking = app.request.get('markings') %} {# hack! #}
         {% set show = currentMarking ? currentMarking in transition.froms : true %}
-        {% if show %}
-            <span class="transtion transition-{{ transition.name }}">{{ transition.name|trans }}</span>
+        {% if false and show %}
+        {# @todo: remove system transitions and user transitions that only happen in an edit form, like manual fetch #}
+            {% if not workflow_metadata('article', 'internal', transition)|default(false) %}
+            <span class="transition transition-{{ transition.name }}">{{ 'transitions.%s.label'|format(transition.name)|trans }}</span>
+                {% endif %}
         {% endif %}
     {% endfor %}
     {% endif %}
@@ -505,17 +513,20 @@
     {% if options.marking %}
         <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
-        <b>@Markings: </b>
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
         {% for m, meta in options.marking %}
+
+            {% if not meta.temp|default(false) %}
             {% set url = path(app.request.get('_route'), app.request.get('_route_params')|merge({markings: meta.marking})) %}
             {% set label =  meta.label|default(meta.marking)  %}
             <li class="nav-item">
                 <a class="nav-link {{ meta.marking == app.request.get('markings') ? 'active' }} marking marking-{{ meta.marking }}" id="custom-tabs-two-home-tab" xxdata-toggle="pill" href="{{ url }}" role="tab"
                    aria-controls="custom-tabs-two-home" aria-selected="true">
                     {{ label }}
+                    {% if meta.count %}<sup><span class="badge badge-info">{{ meta.count }}</span></sup>{% endif %}
                 </a>
             </li>
+            {% endif %}
         {% endfor %}
     {% endif %}
             </ul>

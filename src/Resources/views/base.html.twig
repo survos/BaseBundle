@@ -67,8 +67,12 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                 {% endblock %}
             {% endblock %}
 
+
             <ul class="navbar-nav ml-auto">
+
                 {% block navbar_start %}{% endblock %}
+
+                {% block navbar_actions %}
                 {% block navbar_messages %}
                     {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::messagesAction')) }}
                 {% endblock %}
@@ -77,6 +81,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                 {% endblock %}
                 {% block navbar_tasks %}
                     {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::tasksAction')) }}
+                {% endblock %}
                 {% endblock %}
 
                 {% block navbar_user %}
