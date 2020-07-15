@@ -293,7 +293,8 @@ App\Entity\Song:
 
 ### Deploy to heroku
 
-    heroku create $projectName
+    heroku create $projectName --buildpack heroku/php
+    heroku buildpacks:add heroku/nodejs
     
     echo "web:  vendor/bin/heroku-php-nginx -C heroku-nginx.conf  -F fpm_custom.conf public/" > Procfile
 
