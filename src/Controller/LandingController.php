@@ -88,7 +88,7 @@ class LandingController extends AbstractController
         );
 
         $circle->addChild(
-            (new SVGText('{Tn}', 25+12, 30))
+            (new SVGText('/HH/', 25+12, 30))
             ->setStyle('text-size', '12px')
         );
 

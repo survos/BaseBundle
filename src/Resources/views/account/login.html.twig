@@ -29,7 +29,9 @@
                 </div>
                 <div class="card fat">
                     <div class="card-body">
+                        {#
                         <h4 class="card-title">Login</h4>
+                        #}
                         <form method="POST" class="my-login-validation" novalidate="">
                             <div class="form-group">
                                 <label for="email">E-Mail Address</label>
@@ -41,9 +43,11 @@
 
                             <div class="form-group">
                                 <label for="password">Password
+                                    {# @todo:
                                     <a href="forgot.html" class="float-right">
                                         Forgot Password?
                                     </a>
+                                    #}
                                 </label>
                                 <input id="password" type="password" class="form-control" name="password" required data-eye>
                                 <div class="invalid-feedback">
@@ -72,14 +76,16 @@
                             <div class="mt-4 text-center">
                                 Don't have an account? <a href="{{ path('app_register')}}">Create One</a>
                             </div>
+
+                            {# @todo
                             <div class="mt-4 text-center">
                                 {{ render(controller('Survos\\BaseBundle\\Controller\\OAuthController::socialMediaButtons', { style: 'login' } )) }}
                             </div>
+                            #}
                         </form>
                     </div>
                 </div>
                 <div class="footer">
-                    Copyright &copy; 2017 &mdash; Your Company
                 </div>
             </div>
         </div>
