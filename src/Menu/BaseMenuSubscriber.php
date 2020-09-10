@@ -12,7 +12,7 @@ use function Symfony\Component\String\u;
 class BaseMenuSubscriber
 {
 
-    private AuthorizationCheckerInterface $authorizationChecker;
+    private ?AuthorizationCheckerInterface $authorizationChecker=null;
 
     private ?array $options;
     private $childOptions;
