@@ -3,6 +3,8 @@
 {% block title 'User Profile' %}
 {% block body %}
 
+
+    {% include "@SurvosBase/app_profile.html.twig" %}
     {% if app.environment == 'dev' %}
     <p>
         For inspiration, see <a href="https://symfonycasts.com/profile/show">https://symfonycasts.com/profile/show</a>

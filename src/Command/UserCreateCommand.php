@@ -12,10 +12,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class UserCreateCommand extends Command
 {
@@ -30,10 +32,15 @@ class UserCreateCommand extends Command
      * @var GuardAuthenticatorHandler
      */
     private $guardHandler;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder,
                                 // GuardAuthenticatorHandler $guardHandler,
                                 UserProviderInterface $userProvider,
+//                                EventDispatcherInterface $eventDispatcher,
                                 EntityManagerInterface $entityManager,  string $name = null)
     {
         parent::__construct($name);
@@ -41,6 +48,7 @@ class UserCreateCommand extends Command
         $this->userProvider = $userProvider;
         $this->entityManager = $entityManager;
 //        $this->guardHandler = $guardHandler;
+//        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function configure()

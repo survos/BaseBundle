@@ -12,6 +12,8 @@
 namespace Survos\BaseBundle\Maker;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Common\Inflector\Inflector as LegacyInflector;
+use Doctrine\Inflector\InflectorFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Survos\BaseBundle\Controller\LandingController;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
@@ -29,10 +31,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Inflector\Inflector;
+use Symfony\Component\String\Inflector\EnglishInflector as Inflector;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Validator\Validation;
+use function Symfony\Component\String\u;
 
 /**
  * @author Sadicov Vladimir <sadikoff@gmail.com>
@@ -44,10 +47,16 @@ final class MakeCrud extends AbstractMaker
 
     private $formTypeRenderer;
 
+    private $inflector;
+
     public function __construct(DoctrineHelper $doctrineHelper, FormTypeRenderer $formTypeRenderer)
     {
         $this->doctrineHelper = $doctrineHelper;
         $this->formTypeRenderer = $formTypeRenderer;
+        if (class_exists(InflectorFactory::class)) {
+            $this->inflector = InflectorFactory::create()->build();
+        }
+
     }
 
     public static function getCommandName(): string
@@ -106,7 +115,7 @@ final class MakeCrud extends AbstractMaker
             $repositoryVars = [
                 'repository_full_class_name' => $repositoryClassDetails->getFullName(),
                 'repository_class_name' => $repositoryClassDetails->getShortName(),
-                'repository_var' => lcfirst(Inflector::singularize($repositoryClassDetails->getShortName())),
+                'repository_var' => lcfirst($this->singularize($repositoryClassDetails->getShortName())),
             ];
         }
 
@@ -126,8 +135,8 @@ final class MakeCrud extends AbstractMaker
             ++$iter;
         } while (class_exists($formClassDetails->getFullName()));
 
-        $entityVarPlural = lcfirst(Inflector::pluralize($entityClassDetails->getShortName()));
-        $entityVarSingular = lcfirst(Inflector::singularize($entityClassDetails->getShortName()));
+        $entityVarPlural = lcfirst($this->pluralize($entityClassDetails->getShortName()));
+        $entityVarSingular = lcfirst($this->singularize($entityClassDetails->getShortName()));
 
         $entityTwigVarPlural = Str::asTwigVariable($entityVarPlural);
         $entityTwigVarSingular = Str::asTwigVariable($entityVarSingular);
@@ -267,4 +276,23 @@ final class MakeCrud extends AbstractMaker
             'annotations'
         );
     }
+
+    private function pluralize(string $word): string
+    {
+        if (null !== $this->inflector) {
+            return $this->inflector->pluralize($word);
+        }
+
+        return LegacyInflector::pluralize($word);
+    }
+
+    private function singularize(string $word): string
+    {
+        if (null !== $this->inflector) {
+            return $this->inflector->singularize($word);
+        }
+
+        return LegacyInflector::singularize($word);
+    }
+
 }

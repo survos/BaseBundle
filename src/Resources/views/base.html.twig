@@ -63,7 +63,8 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
             {% block navbar_search %}
                 {% block sidebar_search %}
-                    {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::searchFormAction')) }}
+
+                    {{ 0 and render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::searchFormAction')) }}
                 {% endblock %}
             {% endblock %}
 
@@ -138,14 +139,14 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                         <h1 class="m-0 text-dark">
                             {% block back_link %}{% endblock %}
                             {% block page_title 'home.title'|trans %}
                         </h1>
                         {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                         {% block breadcrumb %}
                             {% include '@AdminLTE/Breadcrumb/knp-breadcrumb.html.twig' %}
                         {% endblock %}
