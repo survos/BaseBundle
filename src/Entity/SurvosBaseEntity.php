@@ -6,6 +6,9 @@ abstract class SurvosBaseEntity
 {
     abstract function getUniqueIdentifiers();
 
+    // hack for https://github.com/symfony/symfony/issues/35574
+    public function __sleep() { return []; }
+
     public function getRP(?Array $addlParams=[]): array
     {
         return array_merge($this->getUniqueIdentifiers(), $addlParams);
