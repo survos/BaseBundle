@@ -13,7 +13,6 @@
         "mindscreen/yarnlock": "^1.0",
         "doctrine/common": "^2.0|^3.0",
         "symfony/mailer": "*",
-        "symfony/orm-pack": "*",
         "symfony/string": "^5.0",
         "symfony/webpack-encore-bundle": "^1.6|^2",
         "symfony/yaml": "*",
