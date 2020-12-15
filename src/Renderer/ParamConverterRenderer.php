@@ -15,19 +15,25 @@ use Doctrine\Common\Inflector\Inflector;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Util\ClassNameDetails;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 class ParamConverterRenderer
 {
     private $generator;
 
+    private EnglishInflector $inflector;
+
     public function __construct(Generator $generator)
     {
         $this->generator = $generator;
+        $this->inflector = new EnglishInflector();
     }
 
     public function render(ClassNameDetails $formClassDetails, array $formFields,
                            ClassNameDetails $boundClassDetails = null, array $constraintClasses = [], array $extraUseClasses = [])
     {
+
+        $inflector = new EnglishInflector();
         $fieldTypeUseStatements = [];
         $fields = [];
         foreach ($formFields as $name => $fieldTypeOptions) {
@@ -45,7 +51,7 @@ class ParamConverterRenderer
         $mergedTypeUseStatements = array_merge($fieldTypeUseStatements, $extraUseClasses);
         sort($mergedTypeUseStatements);
 
-        $entityVarSingular = lcfirst(Inflector::singularize($boundClassDetails->getShortName()));
+        $entityVarSingular = lcfirst($this->inflector->singularize($boundClassDetails->getShortName())[0]);
 
         /*
         $entityTwigVarPlural = Str::asTwigVariable($entityVarPlural);
@@ -69,7 +75,7 @@ class ParamConverterRenderer
                 'shortClassName' => $formClassDetails->getShortName(),
             ]
         );
-    dump($generatedFilename, $v, $formClassDetails);
+//    dump($generatedFilename, $v, $formClassDetails);
     $contents = $this->generator->getFileContentsForPendingOperation($generatedFilename);
     }
 }
