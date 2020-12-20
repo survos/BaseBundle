@@ -27,6 +27,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,6 +69,25 @@ class LandingController extends AbstractController
      */
     public function landing(Request $request)
     {
+        return $this->render("@SurvosBase/landing.html.twig", [
+        ]);
+    }
+
+    /**
+     * @Route("/heroku", name="app_heroku")
+     */
+    public function heroku(Request $request)
+    {
+        $process = new Process(['heroku', 'apps:info', '-j']);
+        $process->run();
+// executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $appInfo = json_decode($process->getOutput());
+        dd($appInfo);
+
         return $this->render("@SurvosBase/landing.html.twig", [
         ]);
     }

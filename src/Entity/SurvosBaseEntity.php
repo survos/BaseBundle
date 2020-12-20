@@ -4,7 +4,6 @@ namespace Survos\BaseBundle\Entity;
 
 abstract class SurvosBaseEntity
 {
-    abstract function getUniqueIdentifiers();
 
     // hack for https://github.com/symfony/symfony/issues/35574
     public function __sleep() { return []; }
@@ -34,7 +33,7 @@ abstract class SurvosBaseEntity
     {
         // this or self?
         $shortName = strtolower( (new \ReflectionClass($this))->getShortName() );
-        return $shortName . '_';
+        return $shortName;
     }
 
     public function getNextRouteChoices(): array
@@ -42,11 +41,16 @@ abstract class SurvosBaseEntity
         $routes = [];
         foreach (['edit', 'show', 'index'] as $routeType ) {
             // @todo: security
-            $routes[$this->getRoutePrefix() . $routeType] = $this->getRoutePrefix() . $routeType; // @todo add translation
+            $routes[$this->getRoutePrefix() . '_' .  $routeType] = $this->getRoutePrefix() . $routeType; // @todo add translation
         }
         return $routes;
         // by default, list and show
+    }
 
+    // default, so this works with the default for ParamConverter
+    function getUniqueIdentifiers()
+    {
+        return [$this->getRoutePrefix() . 'Id' => $this->getId()];
     }
 
 }

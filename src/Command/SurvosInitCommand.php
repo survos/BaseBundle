@@ -139,10 +139,11 @@ $routes_by_name_config = <<< END
 
 survos_landing: {path: /landing, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
 app_homepage: {path: /, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
+app_heroku: {path: /heroku, controller: 'Survos\BaseBundle\Controller\LandingController::heroku'}
 app_logo: {path: /logo, controller: 'Survos\BaseBundle\Controller\LandingController::logo'}
 app_profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
 profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
-logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::logout'}
+#logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::logout'}
 # required if app_profile is used, since you can change the password from the profile
 app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\LandingController::changePassword'}
 app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\LandingController::typography'}

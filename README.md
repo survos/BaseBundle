@@ -41,8 +41,17 @@ composer config extra.symfony.allow-contrib true
         
 * Create the project on heroku, after logging in.  Optionally create database.
 
-    heroku create $REPO
-    
+  
+OR if you're using Sqlite.
+
+```bash
+heroku create $REPO
+heroku addons:create heroku-postgresql:hobby-dev
+echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.local
+# Without heroku, use sqlite (or setup MySQL)
+echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
+```
+
 We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.
 
 ```bash

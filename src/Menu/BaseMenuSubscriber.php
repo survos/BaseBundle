@@ -94,8 +94,10 @@ class BaseMenuSubscriber
         }
         // if (isset($options['rp'])) { dd($options);}
         unset($options['rp']);
-        if (empty($options['label']) && $options['route']) {
-            $options['label'] = u($options['route'])->replace('_', ' ')->title(true)->afterLast(' ')->toString();
+        if (empty($options['label']) && ($route = $options['route'])) {
+            // _index is commonly used to list entities
+            $route = preg_replace('/_index$/', '', $route);
+            $options['label'] = u($route)->replace('_', ' ')->title(true)->afterLast(' ')->toString();
         }
 
         if (empty($options['label']) && $options['menu_code']) {

@@ -7,7 +7,7 @@ use <?= $entity_full_class_name ?>;
     use <?= $repository_full_class_name ?>;
 <?php endif ?>
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
