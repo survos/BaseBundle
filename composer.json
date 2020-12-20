@@ -41,7 +41,7 @@
         }
     ],
     "repositories": {
-        "adminlte": {
+        "admin_lte_bundle": {
             "type": "vcs",
             "url": "git@github.com:survos/AdminLTEBundle.git"
         }
