@@ -77,7 +77,7 @@ class SurvosInitCommand extends Command
         $this
             ->setDescription('Basic environment: base page, heroku, yarn install, sqlite in .env.local, ')
             ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('heroku', null, InputOption::VALUE_OPTIONAL, 'heroku name')
+            ->addOption('heroku', null, InputOption::VALUE_NONE, 'configure heroku (must be logged in.)')
         ;
     }
 
@@ -106,9 +106,10 @@ class SurvosInitCommand extends Command
         $this->io = $io = new SymfonyStyle($input, $output);
         $all = true; // for now.  in_array('all', $input->getOption('tools'));
 
-        // we should look in .git/config for the heroku repo
         if ($input->getOption('heroku')) {
+        // we should look in .git/config for the heroku repo
             $this->checkHeroku($io);
+            return 1;
         }
 
         // handle fontawesomefree, hack, need to ask

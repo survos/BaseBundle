@@ -66,14 +66,16 @@ sed "s|// For example :||" src/Security/AppAuthenticator.php
     
 # Now install the Survos BaseBundle
 
-    composer config minimum-stability dev
-    composer config prefer-stable true
-    
-    composer config repositories.admin_lte_bundle '{"type": "vcs", "url": "git@github.com:tacman/AdminLTEBundle.git"}'
-    composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+```bash
+composer config minimum-stability dev
+composer config prefer-stable true
 
-    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
-    composer require "almasaeed2010/adminlte=~3.0"
+composer config repositories.admin_lte_bundle '{"type": "vcs", "url": "git@github.com:survos/AdminLTEBundle.git"}'
+composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+
+composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
+composer require "almasaeed2010/adminlte=~3.0"
+```
 
 
   # Survos Dev only

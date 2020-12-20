@@ -18,15 +18,17 @@ abstract class SurvosBaseEntity
         return join('-', array_values($this->getUniqueIdentifiers()));
     }
 
-    public function populateFromOptions(array $options ): array
+    public function populateFromOptions(array $options ): self
     {
-        unset($options['_token']);
-        unset($options['_next_route']);
+//        unset($options['_token']);
+//        unset($options['_next_route']);
         foreach ($options as $var=>$val) {
             // isn't there a property accessor method?
-            $this->{'set' . $var}($val);
+            if (method_exists($this, $setter = 'set' . $var)) {
+                $this->{$setter}($val);
+            }
         }
-        return $options;
+        return $this;
     }
 
     public function getRoutePrefix()
