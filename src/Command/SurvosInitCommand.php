@@ -43,7 +43,7 @@ class SurvosInitCommand extends Command
 
     CONST requiredJsLibraries = [
         'jquery',
-        'sass-loader',
+        'sass-loader@^10.0.5',
         'node-sass',
 //        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
@@ -56,14 +56,9 @@ class SurvosInitCommand extends Command
         'easyadmin',
         'all'
     ];
-    /**
-     * @var ConsoleLogger
-     */
-    private $consoleLogger;
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
+
+    private ConsoleLogger $consoleLogger;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(KernelInterface $kernel, EntityManagerInterface $em,
                                 ParameterBagInterface $parameterBag,
@@ -125,7 +120,6 @@ class SurvosInitCommand extends Command
         $this->checkYarn($io);
         $this->installYarnLibraries($io);
 
-
         // @todo: use this in the base bundle!!  Or prompt and use SVG, then colors could be used for environment.
         $this->createFavicon($io);
 
@@ -185,8 +179,6 @@ admin_lte:
     adminlte_welcome: app_homepage
     adminlte_login: app_login
     adminlte_profile: app_profile
-
-      
 END;
 
         // should we remove admin_lte.yaml??
@@ -199,8 +191,8 @@ END;
         }
 
 
-        $io->success("Run xterm -e \"yarn run encore dev-server\" & install more bundles, then run bin/console survos:setup");
-        return 0;
+        $io->success("Run xterm -e \"yarn run encore dev-server\" & install more bundles, then run bin/console survos:configure");
+        return self::SUCCESS;
     }
 
     private function updateBase(SymfonyStyle $io) {
@@ -290,7 +282,7 @@ END;
     private function checkYarn(SymfonyStyle $io)
     {
         if (!file_exists($this->projectDir . '/yarn.lock')) {
-            $io->warning("Installing base yarn libraries");
+            $io->warning("Installing base yarn libraries with 'yarn install'");
             echo exec('yarn install');
         }
 

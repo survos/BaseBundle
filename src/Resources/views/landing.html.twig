@@ -93,9 +93,6 @@
 {% endblock %}
 
 {% block body %}
-
-    body
-
     <!-- Page Content -->
     <div class="container">
 
@@ -112,8 +109,8 @@
             <!-- /.col-lg-8 -->
             <div class="col-lg-4">
                 <h1>{{ 'home.title'|trans }}</h1>
-                <p>{{ 'home.description'|trans|raw }}</p>
-                {% if 'home.call-to-action'|trans != 'home.call-to-action' %}
+                <p>{{ 'home.description'|trans|markdown|raw }}</p>
+                {% if 'home.call-to-action'|markdown|trans != 'home.call-to-action' %}
                 <a class="btn btn-primary btn-lg" href="#">{{ 'home.call-to-action'|trans }} </a>
                 {% endif %}
             </div>

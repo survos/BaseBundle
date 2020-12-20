@@ -29,33 +29,26 @@ This bundle was created originally to isolate issues with other bundles and to g
 
 on github.com with no files (no README or license), clone it to some directory and go there.
 
-     REPO=base-bundle-demo && git clone git@github.com:survos/$REPO.git && cd $REPO 
+     REPO=base-bundle-demo 
+     git clone git@github.com:survos/$REPO.git && cd $REPO 
      
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
-     
-    mv .git .. && symfony new --full . --no-git  && mv ../.git .
-    
-    composer config extra.symfony.allow-contrib true
+
+```bash
+mv .git .. && symfony new --full . --no-git  && mv ../.git .
+composer config extra.symfony.allow-contrib true
+```     
         
 * Create the project on heroku, after logging in.  Optionally create database.
 
     heroku create $REPO
     
-* We always want some security, so certain routes can be secured.
-
-    bin/console make:user User --is-entity --identity-property-name=email --with-password -n
-
-* Create LoginFormAuthenticator.  Return to home after login.
+We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.
 
 ```bash
+bin/console make:user User --is-entity --identity-property-name=email --with-password -n
 echo "1,AppAuthenticator,SecurityController,/logout," | sed "s/,/\n/g"  | bin/console make:auth
 sed "s|// For example :||" src/Security/AppAuthenticator.php 
-
-bin/console make:auth
-   1 # Login Form Authenticator
-   AppAuthenticator
-   <return> # SecurityController
-   <return> # /logout
 ```
     
 # Optional, since SurvosBaseBundle has this already, formatted for mobile

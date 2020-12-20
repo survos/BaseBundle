@@ -19,5 +19,9 @@ require('@fortawesome/fontawesome-free/js/all.js');
 // @todo: add fontawesome pro
 {% endif %}
 
-// start the Stimulus application
+// start the Stimulus application. This is NOT the Bootstrap library at getbootstrap.com
 import './bootstrap';
+
+// the sidebar needs this to open nested menus.
+// eslint-disable-next-line new-cap
+$('.js-toggle-sidebar').PushMenu({});

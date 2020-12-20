@@ -71,7 +71,7 @@ class SurvosSetupCommand extends Command
 
 
         $io->success('Base Configuration Complete.');
-        return 0;
+        return self::SUCCESS;
     }
 
     private function checkYarn(SymfonyStyle $io)
