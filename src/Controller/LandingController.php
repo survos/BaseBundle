@@ -67,7 +67,7 @@ class LandingController extends AbstractController
      */
     public function landing(Request $request)
     {
-        return $this->render("base.html.twig", [
+        return $this->render("@SurvosBase/landing.html.twig", [
         ]);
     }
 
@@ -113,7 +113,7 @@ class LandingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
         }
         return $this->render('@SurvosBase/profile.html.twig', [
 

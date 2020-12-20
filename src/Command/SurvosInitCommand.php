@@ -118,9 +118,9 @@ class SurvosInitCommand extends Command
 
         // handle fontawesomefree, hack, need to ask
 
-        if (!file_exists($npmRcFile = $this->projectDir . '/.npmrc')) {
-            file_put_contents($npmRcFile, "@fortawesome:registry=");
-        }
+//        if (!file_exists($npmRcFile = $this->projectDir . '/.npmrc')) {
+//            file_put_contents($npmRcFile, "@fortawesome:registry=");
+//        }
 
         $this->checkYarn($io);
         $this->installYarnLibraries($io);
@@ -315,7 +315,7 @@ END;
 
         $missing = [];
 
-        $pro = true; // also need to set .npmrc or the env var
+        $pro = false; // also need to set .npmrc or the env var
 
         $requiredJsLibraries = self::requiredJsLibraries;
         $fa = '@fortawesome/fontawesome-' . ($pro ? 'pro' : 'free');

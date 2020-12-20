@@ -45,9 +45,12 @@ on github.com with no files (no README or license), clone it to some directory a
 
     bin/console make:user User --is-entity --identity-property-name=email --with-password -n
 
-* Create LoginFormAuthenticator
+* Create LoginFormAuthenticator.  Return to home after login.
 
 ```bash
+echo "1,AppAuthenticator,SecurityController,/logout," | sed "s/,/\n/g"  | bin/console make:auth
+sed "s|// For example :||" src/Security/AppAuthenticator.php 
+
 bin/console make:auth
    1 # Login Form Authenticator
    AppAuthenticator
@@ -65,31 +68,21 @@ bin/console make:auth
     composer config prefer-stable true
     
     composer config repositories.admin_lte_bundle '{"type": "vcs", "url": "git@github.com:tacman/AdminLTEBundle.git"}'
-    
-    composer config repositories.fos_elastica '{"type": "vcs", "url": "https://github.com/COil/FOSElasticaBundle.git"}'
     composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 
-    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3
-    composer req survos/base-bundle
+    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
+    composer require "almasaeed2010/adminlte=~3.0"
+
+
+  # Survos Dev only
+    composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
+    composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
+    composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
     
     
 ## @TODO: recipes!
 
-## Step 1: Initialize Yarn Packages
 
-    bin/console survos:init
-
-    composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
-    
-    composer require "almasaeed2010/adminlte=~3.0"
-    
-    composer config repositories.blog '{"type": "vcs", "url": "git@github.com:survos/OdiseoBlogBundle.git"}'
-
-    # local dev: create a symlink
-
-    composer config repositories.survosbase '{"type": "path", "url": "../Survos/BaseBundle"}'
-    composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
-    composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
     
     composer config repositories.multisearch '{"type": "vcs", "url": "git@github.com:tacman/PetkoparaMultiSearchBundle.git"}'
     
@@ -114,8 +107,8 @@ bin/console make:auth
     phpstorm .env
 
 OR
+## Step 1: Initialize Yarn Packages via Survos Init
 
-    composer req survos/base-bundle
 
     # creates survos_base.yaml (a recipe would be nicer!)    
     bin/console survos:init

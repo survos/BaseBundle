@@ -94,9 +94,10 @@
 
 {% block body %}
 
+    body
+
     <!-- Page Content -->
     <div class="container">
-
 
         <!-- Heading Row -->
         {% block jumbotron %}
@@ -130,8 +131,9 @@
             </div>
         </div>
 
-        {# no try/catch, so this is now REQUIRED!  Might be better to set this as an option in survos_base.yaml #}
+        {# no try/catch, so this is now REQUIRED!  Might be better to set this as an option in survos_base.yaml
         {{ knp_menu_render(base_content_menu_route, {currentClass: 'active', template: '@SurvosBase/base_menu_blocks.html.twig'}) }}
+        #}
         {% endblock %}
 
     </div>

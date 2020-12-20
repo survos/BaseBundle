@@ -178,8 +178,8 @@ class SurvosSetupCommand extends Command
                 $file = $this->projectDir . '/webpack.config.js';
                 $this->writeFile('/./webpack.config.js',
                     $x = str_replace('//.enableSassLoader()','.enableSassLoader()', file_get_contents($file)));
-                $this->writeFile('/assets/js/app.js', $this->twig->render("@SurvosBase/app.js.twig", $params) );
-                $this->writeFile('/assets/css/app.scss', $this->twig->render("@SurvosBase/app.scss.twig", $params) );
+                $this->writeFile('/assets/app.js', $this->twig->render("@SurvosBase/app.js.twig", $params) );
+                $this->writeFile('/assets/styles/app.scss', $this->twig->render("@SurvosBase/app.scss.twig", $params) );
             } catch (\Exception $e) {
                 $io->error($e->getMessage());
             }
