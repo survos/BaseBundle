@@ -52,12 +52,13 @@ echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.local
 echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
 ```
 
-We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.
+We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.  Set the MAILER_URL to the default.
 
 ```bash
 bin/console make:user User --is-entity --identity-property-name=email --with-password -n
 echo "1,AppAuthenticator,SecurityController,/logout," | sed "s/,/\n/g"  | bin/console make:auth
-sed "s|// For example :||" src/Security/AppAuthenticator.php 
+sed -i "s|// For example :||" src/Security/AppAuthenticator.php 
+sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 ```
     
 # Optional, since SurvosBaseBundle has this already, formatted for mobile
