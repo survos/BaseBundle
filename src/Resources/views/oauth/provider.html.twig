@@ -82,13 +82,20 @@
 {% block title 'Provider ' ~ provider.type %}
 {% block body %}
 
-    <input type="text" id="copyTarget" value="Text to Copy"> <button id="copyButton">Copy</button><br><br>
+    <input type="text" id="copyTarget" value="{{ path('app_homepage') }}"> <button id="copyButton">Copy Homepage</button><br><br>
     <input type="text" placeholder="Click here and press Ctrl-V to see clipboard contents">
     <hr />
     <p id="p1">P1: I am paragraph 1</p>
     <p id="p2">P2: I am a second paragraph</p>
-    <button onclick="jQuerycopyToClipboard('#p1')">Copy P1</button>
-    <button onclick="jQuerycopyToClipboard('#p2')">Copy P2</button>
+    <p id="p3">composer req {{ provider.library }}</p>
+    Need copy.js
+    <input type="text" class="input-md" value="" />
+
+
+    <button onclick="jQuerycopyToClipboard('#p1')">Copy Homepage</button>
+    <button onclick="jQuerycopyToClipboard('#p2')">Copy Redirect</button>
+    <button onclick="jQuerycopyToClipboard('#p3')">Copy Composer</button>
+
     <br/><br/><input type="text" placeholder="Paste here for test" />
 
     {% if provider.clients|length %}
@@ -109,9 +116,6 @@
         <i class="far fa-check-square text-success"></i>
         Installed.
     {% endif %}
-
-    Need copy.js
-    <input type="text" class="input-md" value="composer req {{ provider.library }}" />
 
     <h3>Setup your environment (.env)</h3>
     <textarea cols="80" rows="2">{% for var in provider.env_vars %}{{ var }}=~

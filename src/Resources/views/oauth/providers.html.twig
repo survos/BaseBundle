@@ -16,7 +16,10 @@
         <tbody>
         {% for providerKey, providerData in clients %}
             <tr>
-                <td><a href="{{ path('oauth_provider', {providerKey:providerKey}) }}">{{ providerKey }}</a></td>
+                <td><a class="btn btn-primary btn-sm" href="{{ path('oauth_provider', {providerKey:providerKey}) }}">
+                        Configure {{ providerKey }}</a>
+                </td>
+
                 <td>{{ providerData.client_id }}</td>
                 <td><a target="_blank" href="{{ providerData.apps_url }}">{{ providerData.apps_url }}</a></td>
                 <td>
