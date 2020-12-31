@@ -29,13 +29,9 @@ use Twig\Environment;
 class OAuthController extends AbstractController
 {
 
-    /** @var ClientRegistry  */
-    private $clientRegistry;
-    private $baseService;
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private ClientRegistry $clientRegistry;
+    private BaseService $baseService;
+    private RouterInterface $router;
 
     public function __construct(BaseService $baseService,
                                 EntityManagerInterface $entityManager,
@@ -274,6 +270,7 @@ class OAuthController extends AbstractController
             'token' => $token
         ]));
     }
+
 
 
 }

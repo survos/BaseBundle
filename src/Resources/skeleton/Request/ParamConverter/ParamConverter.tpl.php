@@ -17,10 +17,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class <?= $shortClassName ?> implements ParamConverterInterface
 {
 
-    private $registry;
+    private ManagerRegistry $registry;
 
     /**
-     * @param ManagerRegistry $registry Manager registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry = null)
     {
@@ -60,7 +60,7 @@ class <?= $shortClassName ?> implements ParamConverterInterface
         // Check, if route attributes exists
         if (null === $<?= $entity_unique_name ?> ) {
             if (!isset($params['<?= $entity_unique_name ?>'])) {
-                return; // no <?= $entity_unique_name ?> in the route, so leave.  Could throw an exception.
+                return false; // no <?= $entity_unique_name ?> in the route, so leave.  Could throw an exception.
             }
         }
 
@@ -77,6 +77,7 @@ class <?= $shortClassName ?> implements ParamConverterInterface
 
         // Map found <?= $entity_var_name ?> to the route's parameter
         $request->attributes->set($configuration->getName(), $<?= $entity_var_name ?>);
+        return true;
     }
 
 }

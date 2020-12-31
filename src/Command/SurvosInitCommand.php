@@ -45,7 +45,8 @@ class SurvosInitCommand extends Command
         'jquery',
         'sass-loader@^10.0.5',
         'node-sass',
-//        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
+        'simulus',
+        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
         'fontawesome',
         'admin-lte@^3.0', // @todo, parse and check.  Must be after fontawesome.
         'popper.js'

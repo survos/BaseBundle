@@ -18,16 +18,25 @@ abstract class SurvosBaseEntity
         return join('-', array_values($this->getUniqueIdentifiers()));
     }
 
-    public function populateFromOptions(array $options ): self
+
+    public function populateFromOptions(\Traversable $options ): self
     {
 //        unset($options['_token']);
 //        unset($options['_next_route']);
         foreach ($options as $var=>$val) {
+
             // isn't there a property accessor method?
             if (method_exists($this, $setter = 'set' . $var)) {
                 $this->{$setter}($val);
+            } elseif (property_exists($this, $var)) {
+                    $this->{$var} = $val;
+                dump($var, $val, $options, $this);
+            } else {
+                //not mapped.
+                dd($var, $val, $options, $this);
             }
         }
+        dd($options, $this);
         return $this;
     }
 

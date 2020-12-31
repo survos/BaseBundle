@@ -4,13 +4,11 @@
 {% endif %}
 <hr />
 
-{% if clientKeys is defined %}
-{% for clientKey in clientKeys %}
+{% for clientKey in clientKeys|default([]) %}
 <button>
     <a xxclass="btn btn-lg" href="{{ path('oauth_connect_start', {clientKey: clientKey}) }}"><i class="fab fa-{{clientKey}}"></i>{{ clientKey|title }}</a>
 </button>
 {% endfor %}
-{% endif %}
 
 {#
 <div class="login-social-set text-center">

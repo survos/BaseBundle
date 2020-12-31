@@ -77,6 +77,7 @@ class BaseMenuSubscriber
                 '_fragment' => null,
                 'label' => null,
                 'icon' => null,
+                'uri' => null,
                 'childOptions' => $this->childOptions,
                 'description' => null,
                 'attributes' => []

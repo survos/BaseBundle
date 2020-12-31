@@ -16,14 +16,14 @@ class SidebarMenuSubscriber extends BaseMenuSubscriber implements EventSubscribe
 {
     use KnpMenuHelperTrait;
 
-    private $security;
+    private AuthorizationCheckerInterface $security;
 
     public function __construct(AuthorizationCheckerInterface $security)
     {
         $this->security = $security;
     }
 
-    public function onKnpMenuEvent(KnpMenuEvent $event)
+    public function onKnpMenuEvent(KnpMenuEvent $event): void
     {
         $menu = $event->getMenu();
         $this->addMenuItem($menu, ['route' => 'app_homepage']);
@@ -42,6 +42,9 @@ class SidebarMenuSubscriber extends BaseMenuSubscriber implements EventSubscribe
 
     }
 
+    /*
+    * @return array The event names to listen to
+    */
     public static function getSubscribedEvents()
     {
         return [

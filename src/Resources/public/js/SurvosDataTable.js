@@ -272,8 +272,8 @@ export default class SurvosDataTable {
         */
 
         return (params, callback, settings) => {
+            console.warn(params, callback, settings);
             // this is the data sent to API platform!
-
 
             options.data = this.dataTableParamsToApiPlatformParams(params);
             // this.debug &&
@@ -336,6 +336,7 @@ export default class SurvosDataTable {
                         });
                     } else {
                         console.log(`D${params.draw} Single page callback with ${itemsReturned} of ${total} records`);
+                        console.warn(callback);
                         callback({
                             draw: params.draw,
                             data: d,

@@ -5,13 +5,20 @@
 
     SiteURL: <input value="{{ url('app_homepage') }}" /><br />
 
-    <table class="table">
+    <table class="table js-datatable">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Client ID</th>
+            <th>Apps Url</th>
+        </tr>
+        </thead>
         <tbody>
         {% for providerKey, providerData in clients %}
             <tr>
                 <td><a href="{{ path('oauth_provider', {providerKey:providerKey}) }}">{{ providerKey }}</a></td>
                 <td>{{ providerData.client_id }}</td>
-                <td>{{ providerData.apps_url }}</td>
+                <td><a target="_blank" href="{{ providerData.apps_url }}">{{ providerData.apps_url }}</a></td>
                 <td>
                     {{ providerData.clients ? providerData.clients|length }}
                 </td>

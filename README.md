@@ -57,7 +57,8 @@ We always want some security, so certain routes can be secured. Create a User en
 ```bash
 bin/console make:user User --is-entity --identity-property-name=email --with-password -n
 echo "1,AppAuthenticator,SecurityController,/logout," | sed "s/,/\n/g"  | bin/console make:auth
-sed -i "s|// For example :||" src/Security/AppAuthenticator.php 
+sed -i "s|// For example.*;|return new RedirectResponse(\$this->urlGenerator->generate('app_homepage'));|" src/Security/AppAuthenticator.php 
+sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FILE__\);||" src/Security/AppAuthenticator.php 
 sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 ```
     
