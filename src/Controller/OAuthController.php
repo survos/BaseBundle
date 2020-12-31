@@ -126,7 +126,7 @@ class OAuthController extends AbstractController
                 'github' => [
                     "user:email", "read:user",
                 ],
-                'facebook' => []
+                'facebook' => ['email', 'public_profile']
             ];
         ;
         // will redirect to an external OAuth server
