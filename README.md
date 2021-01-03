@@ -47,7 +47,7 @@ OR if you're using Sqlite.
 ```bash
 heroku create $REPO
 heroku addons:create heroku-postgresql:hobby-dev
-echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.local
+echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.heroku
 # Without heroku, use sqlite (or setup MySQL)
 echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
 ```
@@ -214,6 +214,13 @@ app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Con
 
 {% block page_title 'KPA Admin' %}
 {% block page_subtitle 'Songs and Music!' %}
+
+### 2021 Goal: Remove jQuery
+
+https://tobiasahlin.com/blog/move-from-jquery-to-vanilla-javascript/
+
+use vue or react instead.
+https://www.smashingmagazine.com/2020/07/desktop-apps-electron-vue-javascript/k
 
 #### Now install some bundles!
      

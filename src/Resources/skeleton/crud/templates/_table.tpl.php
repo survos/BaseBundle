@@ -1,4 +1,7 @@
-<table class="table">
+<?php $entity_rp = $entity_twig_var_singular . '.rp'; ?>
+
+
+<table class="table js-datatable">
     <thead>
     <tr>
         <th>actions</th>
@@ -12,7 +15,7 @@
     <tr>
         <td>
             <a href="{{ path('<?= $route_name ?>_show', <?= $entity_rp ?>) }}">
-                <span class="fas fa-file-invoice"></span>
+                <span class="fas fa-eye"></span>
             </a>
             <a href="{{ path('<?= $route_name ?>_edit', <?= $entity_rp ?>) }}">
                 <span class="fas fa-edit"></span></a>

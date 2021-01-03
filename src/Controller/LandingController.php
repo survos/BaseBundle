@@ -86,9 +86,9 @@ class LandingController extends AbstractController
         }
 
         $appInfo = json_decode($process->getOutput());
-        dd($appInfo);
 
-        return $this->render("@SurvosBase/landing.html.twig", [
+        return $this->render("@SurvosBase/heroku.html.twig", [
+            'appInfo' => $appInfo
         ]);
     }
 

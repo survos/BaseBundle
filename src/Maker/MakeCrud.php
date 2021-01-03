@@ -204,6 +204,14 @@ final class MakeCrud extends AbstractMaker
                 'entity_class_name' => $entityClassDetails->getShortName(),
                 'route_name' => $routeName,
             ],
+            '_table' => [
+                'entity_class_name' => $entityClassDetails->getShortName(),
+                'entity_twig_var_singular' => $entityTwigVarSingular,
+                'entity_twig_var_plural' => $entityTwigVarPlural,
+                'entity_identifier' => $entityDoctrineDetails->getIdentifier(),
+                'entity_fields' => $entityDoctrineDetails->getDisplayFields(),
+                'route_name' => $routeName,
+            ],
             'show' => [
                 'entity_class_name' => $entityClassDetails->getShortName(),
                 'entity_twig_var_singular' => $entityTwigVarSingular,

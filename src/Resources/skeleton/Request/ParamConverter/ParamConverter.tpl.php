@@ -1,4 +1,5 @@
 <?= "<?php\n" ?>
+declare(strict_types=1);
 
 namespace <?= $namespace ?>;
 
@@ -22,7 +23,7 @@ class <?= $shortClassName ?> implements ParamConverterInterface
     /**
      * @param ManagerRegistry $registry
      */
-    public function __construct(ManagerRegistry $registry = null)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
