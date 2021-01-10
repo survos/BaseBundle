@@ -2,6 +2,10 @@
 
 namespace Survos\BaseBundle\Entity;
 
+use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 abstract class SurvosBaseEntity
 {
 
@@ -19,27 +23,48 @@ abstract class SurvosBaseEntity
     }
 
 
-    public function populateFromOptions(\Traversable $options ): self
+    public function populateFromOptions( $options ): self
     {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
 //        unset($options['_token']);
 //        unset($options['_next_route']);
         foreach ($options as $var=>$val) {
 
             // isn't there a property accessor method?
-            if (method_exists($this, $setter = 'set' . $var)) {
-                $this->{$setter}($val);
-            } elseif (property_exists($this, $var)) {
-                    $this->{$var} = $val;
-                dump($var, $val, $options, $this);
-            } else {
-                //not mapped.
-                dd($var, $val, $options, $this);
+            try {
+                $propertyAccessor->setValue($this, $var, $val);
+            } catch (NoSuchPropertyException $exception) {
+                //
+            } catch (InvalidArgumentException $exception) {
+                // it might be a date string
+                try {
+                    $date = new \DateTimeImmutable($val);
+                    $propertyAccessor->setValue($this, $var, $date);
+
+                } catch (\Exception $e) {
+                    dd($var, $val, $e);
+                }
+
             }
+
+//            if (method_exists($this, $setter = 'set' . $var)) {
+//                try {
+//                    $this->{$setter}($val);
+//                } catch (\Exception $exception) {
+//                    dd($setter, $val);
+//                }
+//            } elseif (property_exists($this, $var)) {
+//                $this->{$var} = $val;
+////                dump($var, $val, $options, $this);
+//            } else {
+//                //not mapped.  @todo: check for source_date v sourceDate (and convert dates!)
+////                dd($var, $val, $options, $this, __METHOD__);
+//            }
         }
-        dd($options, $this);
+//        dd($options, $this, __METHOD__);
         return $this;
     }
-
+    
     public function getRoutePrefix()
     {
         // this or self?
