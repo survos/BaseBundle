@@ -2,9 +2,8 @@
     {% set menuCode = admin_lte_context.knp_menu.main_menu %}
 {% endif %}
 
-{{
-knp_menu_render(menuCode, {
-
+{{ knp_menu_render(menuCode, {
+    'menu_code'     : menuCode,
     "template"      : "@SurvosBase/knp_menu.html.twig",
     "attributes"    : "mt-2 navbar navbar-dark",
     "currentClass"  : "active",

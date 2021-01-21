@@ -8,7 +8,7 @@
         "ext-zip": "*",
         "doctrine/common": "^2.0|^3.0",
         "kevinpapst/adminlte-bundle": "dev-adminlte-v3",
-        "knplabs/knp-markdown-bundle": "^1.8",
+        "knplabs/knp-markdown-bundle": "^feature-php8",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^2.0",
@@ -41,6 +41,10 @@
         }
     ],
     "repositories": {
+        "survos_knp_markdown_bundle": {
+            "type": "vcs",
+            "url": "git@github.com:survos/KnpMarkdownBundle.git"
+        },
         "admin_lte_bundle": {
             "type": "vcs",
             "url": "git@github.com:survos/AdminLTEBundle.git"

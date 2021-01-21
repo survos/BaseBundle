@@ -22,6 +22,11 @@ Copied from '@AdminLTE/layout/default-layout.html.twig' and adjusted for Survos
         <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     {% endblock %}
 
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+
+
 </head>
 {#
 Apply one of the following classes for the skin:
@@ -48,16 +53,17 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                         </a>
                     </li>
                 {% endblock %}
+
                 {% block navbar_links %}
                     {# TODO document me #}
                     {#
+                    #}
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="../../index3.html" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="#" class="nav-link">Contact</a>
                     </li>
-                    #}
                 {% endblock %}
             </ul>
 
@@ -129,6 +135,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 
                 {% block sidebar_nav %}
+BASE
                     {% include '@SurvosBase/render_sidebar_menu.html.twig' with {menuCode: 'survos_sidebar_menu'} %}
                 {% endblock %}
             </div>
@@ -187,12 +194,6 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 </div>
 
-{% block javascripts %}
-    {# if this is removed, PushMenu stops working
-    <script src="{{ asset('bundles/adminlte/adminlte-bundle.js') }}"></script>
-    #}
-        {{ encore_entry_script_tags('app') }}
-{% endblock %}
 
 </body>
 </html>
