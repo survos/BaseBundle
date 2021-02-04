@@ -64,7 +64,7 @@ abstract class SurvosBaseEntity
 //        dd($options, $this, __METHOD__);
         return $this;
     }
-    
+
     public function getRoutePrefix()
     {
         // this or self?

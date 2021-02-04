@@ -266,7 +266,7 @@ END;
     }
 
     private function createTranslations(SymfonyStyle $io) {
-        $fn = '/translations/messages.en.yaml'; // @todo: get current default language code
+        $fn = '/translations/messages+intl-icu.en.yaml'; // @todo: get current default language code
         if ($io->confirm("Replace $fn?")) {
             $appCode = $this->getAppCode();
             $appCode =  $io->ask("Short Code?", $appCode);
