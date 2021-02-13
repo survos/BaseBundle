@@ -48,7 +48,7 @@ class OAuthController extends AbstractController
         $this->router = $router;
     }
 
-    public function socialMediaButtons($style)
+    public function socialMediaButtons($style='')
     {
         return $this->render('@SurvosBase/_social_media_login_buttons.html.twig', [
             'clientKeys' =>  $this->clientRegistry->getEnabledClientKeys(),
