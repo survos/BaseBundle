@@ -42,7 +42,7 @@ class BaseMenuSubscriber
         }
 
         $child = $menu->addChild($options['id'], $options);
-        $child->setChildrenAttribute('class', 'branch');
+//        $child->setChildrenAttribute('class', 'branch');
 
         if ($options['external']) {
             $child->setLinkAttribute('target',  '_blank');
@@ -55,6 +55,15 @@ class BaseMenuSubscriber
         if (!empty($extra['safe_label'])) {
             $child->setExtra('safe_label', true);
         }
+
+        // if this is a collapsible menu item, we need to set the data target to next element.  OR we can let knp_menu renderer handle it.
+        if (!$options['route'] && !$options['uri']) {
+            // only if there are children, but otherwise this is just a label
+//            $child->setAttribute('collapse_type', 'collapse');
+//            $child->setAttribute('class', 'collapse collapsed');
+//            $child->setAttribute('data-bs-target', 'hmm');
+        }
+
 
 
 

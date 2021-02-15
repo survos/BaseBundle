@@ -274,15 +274,16 @@
     {% endif %}
     {%- set attributes = item.linkAttributes %}
     {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
-    {%- set attributes = attributes|merge({'data-toggle': 'collapse'}) %}
-    {%- set attributes = attributes|merge({'data-accordion': 'false'}) %}
-    <a href="#collapse_{{itemSlug}}" {{ macros.attributes(attributes) }}>
-        {% if item.attribute('icon') is not empty  %}
-            <i class="{{ item.attribute('icon') }}"></i>
-        {% endif %}
-        {{ block('label') }}
-        <b class="caret"></b>
-    </a>
+    {%- set attributes = attributes|merge({'data-bs-toggle': 'collapse'}) %}
+{#    {%- set attributes = attributes|merge({'data-bs-target': '#collapse_{{itemSlug}}'}) %}#}
+{#    {%- set attributes = attributes|merge({'data-accordion': 'false'}) %}#}
+        <a href="#collapse_{{itemSlug}}" {{ macros.attributes(attributes) }}>
+            {% if item.attribute('icon') is not empty  %}
+                <i class="{{ item.attribute('icon') }}"></i>
+            {% endif %}
+            {{ block('label') }}
+            <div class="link-arrow"><span class="fas fa-chevron-right"></span></div>
+        </a>
 {% endblock %}
 
 {% block label %}
@@ -295,14 +296,15 @@
         {% if item.labelAttribute('data-image') %}<img src="{{ item.labelAttribute('data-image') }}" alt="{{ item.name }}" class="menu-thumbnail"/>{% endif %}
 
         {% import _self as selfMacros %}
-        {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
-            <span class="float-right">
-            {{ selfMacros.badges(item) }}
-            <i class="fas fa-angle-left pull-right"></i>
-        </span>
-        {% else %}
-            {{ selfMacros.badges(item) }}
-        {% endif %}
+    {{ selfMacros.badges(item) }}
+{#        {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}#}
+{#            <span class="float-right">#}
+{#            {{ selfMacros.badges(item) }}#}
+{#            <i class="fas fa-angle-left pull-right"></i>#}
+{#        </span>#}
+{#        {% else %}#}
+{#            {{ selfMacros.badges(item) }}#}
+{#        {% endif %}#}
 {% endblock %}
 
 {% macro badges(item) %}
@@ -337,6 +339,7 @@
 {% endblock %}
 
 {% block children %}
+    <!-- {{ _self }}::children -->
     {# save current variables #}
     {% set currentOptions = options %}
     {% set currentItem = item %}
@@ -360,6 +363,7 @@
             {%- set classes = classes|merge([ 'show']) %}
             {%- set childrenClasses = childrenClasses|merge(['collapse-item']) %}
         {%- endif %}
+
         {{ block('item') }}
     {% endfor %}
     {# restore current variables #}

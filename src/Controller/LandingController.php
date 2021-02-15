@@ -225,6 +225,7 @@ class LandingController extends AbstractController
         */
 
         return $this->render("@SurvosBase/credits.html.twig", [
+            'type' => $type,
             'composerData' => json_decode($json, true),
             'yarnModules' => $allPackages
         ]);

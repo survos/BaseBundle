@@ -12,9 +12,9 @@
 
         {% import _self as selfMacros %}
         {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
-            <span class="pull-right-container">
+            <span class="float-right pull-right-container">
             {{ selfMacros.badges(item) }}
-            <i class="fas fa-angle-left pull-right"></i>
+            <i class="fas fa-angle-left float-right"></i>
         </span>
         {% else %}
             {{ selfMacros.badges(item) }}

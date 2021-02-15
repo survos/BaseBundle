@@ -37,18 +37,21 @@ class MenuBuilder
 //        throw new \Exception("??");
 //        dd('is this used?');
         $menu = $this->factory->createItem('root', [
+            'attributes' => [
+//                'class' => 'nav nav-sidebar flex-column',
+            ],
             'childrenAttributes' => [
-                'class' => 'nav nav-sidebar flex-column',
-                'data-widget' => 'treeview',
-                'data-accordion' => false,
-                'role' => 'menu'
+//                'class' => 'nav-child-attributes',
+//                'data-widget' => 'treeview',
+//                'data-accordion' => false,
+//                'role' => 'menu'
             ],
         ]);
 
         $childOptions = [
-            'attributes' => ['class' => 'show treeview'],
-            'childrenAttributes' => ['class' => 'list-unstyled nav-treeview show menu-open branch'],
-            'labelAttributes' => ['safe_html'=>true, 'data-toggle' => 'collapse'],
+//            'attributes' => ['class' => 'show treeview'],
+//            'childrenAttributes' => ['class' => 'list-unstyled nav-treeview show menu-open branch'],
+            'labelAttributes' => ['safe_html'=>true, 'data-bs-toggle' => 'collapse'],
         ];
 
         $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions),
