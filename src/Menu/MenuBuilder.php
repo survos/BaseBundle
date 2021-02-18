@@ -9,7 +9,7 @@
 
 namespace Survos\BaseBundle\Menu;
 
-use KevinPapst\AdminLTEBundle\Event\KnpMenuEvent;
+use Survos\BaseBundle\Event\KnpMenuEvent;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

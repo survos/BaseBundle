@@ -7,7 +7,6 @@
         "ext-json": "*",
         "ext-zip": "*",
         "doctrine/common": "^2.0|^3.0",
-        "kevinpapst/adminlte-bundle": "dev-adminlte-v3",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^2.0",
