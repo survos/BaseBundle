@@ -204,7 +204,7 @@ app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Con
 ```
 
 
-{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+{% extends '@SurvosBaseBundle/layout/default-layout.html.twig' %}
 {% block page_content %}
 {{ block('body') }}
 {% endblock %}

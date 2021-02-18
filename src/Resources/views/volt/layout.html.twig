@@ -1,0 +1,99 @@
+{% extends '@SurvosBase/volt/base.html.twig' %}
+
+{% block sidebar %}
+    SIDEBAR!!!
+    <nav id="sidebarMenu" class="sidebar d-md-block bg-dark text-white collapse" data-simplebar>
+        <div class="sidebar-inner px-4 pt-3">
+            <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar lg-avatar me-4">
+                        <img src="@@path/assets/img/team/profile-picture-3.jpg" class="card-img-top rounded-circle border-white"
+                             alt="Bonnie Green">
+                    </div>
+                    <div class="d-block">
+                        <h2 class="h6">Hi, Jane</h2>
+                        <a href="@@path/pages/examples/sign-in.html" class="btn btn-secondary text-dark btn-xs"><span
+                                    class="me-2"><span class="fas fa-sign-out-alt"></span></span>Sign Out</a>
+                    </div>
+                </div>
+                <div class="collapse-close d-md-none">
+                    <a href="#sidebarMenu" class="fas fa-times" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+                       aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
+                </div>
+            </div>
+
+            {% block sidebar_nav %}
+                <ul class="nav flex-column pt-3 pt-md-0">
+                    <li class="nav-item">
+                        <a href="{{ path('app_homepage')}}" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <img src="" height="20" width="20" alt="Volt Logo">
+          </span>
+                            <span class="mt-1 ms-1 sidebar-text">Volt Overview</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <li class="nav-item">
+                    <div
+                            class="nav-link collapsed d-flex justify-content-between align-items-center"
+                            data-bs-toggle="collapse" data-bs-target="#submenu-pages">
+                        <div>
+                            <span class="sidebar-icon"><span class="far fa-file-alt"></span></span>
+                            <span class="sidebar-text">Sidebar Example</span>
+                        </div>
+
+                        <div class="link-arrow"><span class="fas fa-chevron-right"></span></div>
+                    </div>
+
+
+                    <div class="multi-level collapse  " role="list"
+                         id="submenu-pages" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/sign-in.html">
+                                    <span class="sidebar-text">Sign In</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/sign-up.html">
+                                    <span class="sidebar-text">Sign Up</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/forgot-password.html">
+                                    <span class="sidebar-text">Forgot password</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/reset-password.html">
+                                    <span class="sidebar-text">Reset password</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/lock.html">
+                                    <span class="sidebar-text">Lock</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/404.html">
+                                    <span class="sidebar-text">404 Not Found</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@@path/pages/examples/500.html">
+                                    <span class="sidebar-text">500 Not Found</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                Additional sidebar menu...
+                {% include '@SurvosBase/render_sidebar_menu.html.twig' with {menuCode: 'survos_sidebar_menu'} %}
+            {% endblock %}
+        </div>
+    </nav>
+{% endblock %}
+
+

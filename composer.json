@@ -1,6 +1,6 @@
 {
     "name": "survos/base-bundle",
-    "description": "Add some tools and resources to a Symfony5 application",
+    "description": "Add some tools and resources to a Symfony5 application.  No longer depends on         \"kevinpapst/adminlte-bundle\": \"dev-adminlte-v3\",\n",
     "type": "symfony-bundle",
     "keywords": ["generator", "skeleton" , "symfony5"],
     "require": {

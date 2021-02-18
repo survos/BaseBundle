@@ -1,8 +1,15 @@
 <?php
 
 /*
+<<<<<<< HEAD
  * Based on AdminLTE bundle.
  *
+=======
+ * This file is part of the AdminLTE bundle.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+>>>>>>> dev-no-adminlte-bundle
  */
 
 namespace Survos\BaseBundle\Event;
@@ -10,7 +17,6 @@ namespace Survos\BaseBundle\Event;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Contracts\EventDispatcher\Event;
-
 
 /**
  * Collect all MenuItemInterface objects that should be rendered in the menu/navigation section.
@@ -39,26 +45,17 @@ class KnpMenuEvent extends Event
         return $this->menu;
     }
 
-    /**
-     * @return FactoryInterface
-     */
-    public function getFactory()
+    public function getFactory(): FactoryInterface
     {
         return $this->factory;
     }
 
-    /**
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @return array
-     */
-    public function getChildOptions()
+    public function getChildOptions(): array
     {
         return $this->childOptions;
     }

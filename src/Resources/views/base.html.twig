@@ -1,6 +1,6 @@
 {#  \Survos\BaseBundle\SurvosBaseBundle base.html.twig #}
 {#
-Copied from '@AdminLTE/layout/default-layout.html.twig' and adjusted for Survos
+Copied from '@SurvosBaseBundle/layout/default-layout.html.twig' and adjusted for Survos
 
 #}
 <!DOCTYPE html{% block html_start %}{% endblock %}>
@@ -37,7 +37,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 #}
 {% block body_start_tag %}
-<body {% block body_start %}{% endblock %} class="{{ admin_lte_context.skin|default("")|body_class }} ">
+<body {% block body_start %}{% endblock %} class="{{ admin_lte_context.skin|default("") }} ">
 {% endblock %}
 {% block after_body_start %}{% endblock %}
 <div class="wrapper">
@@ -79,6 +79,9 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
                 {% block navbar_start %}{% endblock %}
 
+                @todo: refactor navbar
+                {#
+
                 {% block navbar_actions %}
                     Use HInclude here!
                     {#
@@ -91,8 +94,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                 {% block navbar_tasks %}
                     {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::tasksAction')) }}
                 {% endblock %}
-                    #}
-                {% endblock %}
+                #}
 
                 {% block navbar_user %}
                     {% if not is_granted('ROLE_USER') %}
@@ -120,7 +122,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
     {% block sidebar %}
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="{% block logo_path %}{{ path('adminlte_welcome'|route_alias) }}{% endblock %}" class="brand-link ">
+            <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">
                 {% block logo_mini %}
                     <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >
                     <span class="brand-text font-weight-light">{{ logo_mini|default('home.title'|trans)}}</span>
@@ -131,7 +133,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
             <div class="sidebar">
                 {% block sidebar_user %}
                     {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}
-                        {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction')) }}
+                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))
                     {% endif %}
                 {% endblock %}
 
@@ -158,7 +160,7 @@ BASE
                     <div class="col-sm-3">
                         {% block breadcrumb %}
                             breadcrumbs here
-{#                            {% include '@AdminLTE/Breadcrumb/knp-breadcrumb.html.twig' %}#}
+                             include '@SurvosBaseBundle/Breadcrumb/knp-breadcrumb.html.twig'
                         {% endblock %}
                     </div>
                 </div>
@@ -178,6 +180,7 @@ BASE
                 {% block page_content_start %}
                     {{ include('@SurvosBase/Partials/_flash_messages.html.twig') }}
                 {% endblock %}
+
                 {% block page_content %}
                     {{ block('body') }}
                 {% endblock %}
@@ -192,11 +195,21 @@ BASE
     {% block footer %}
          include '@AdminLTE/Partials/_footer.html.twig'
     {% endblock %}
+
     {% block control_sidebar %}
 {#        {% if admin_lte_context.control_sidebar %}#}
              include '@AdminLTE/Partials/_control-sidebar.html.twig'
 {#        {% endif %}#}
+
+         hinclude '@SurvosBaseBundle/Partials/_footer.html.twig'
     {% endblock %}
+        {# @todo: get this working!  It's pretty cool
+    {% block control_sidebar %}
+        {% if admin_lte_context.control_sidebar %}
+            {% include '@SurvosBaseBundle/Partials/_control-sidebar.html.twig' %}
+        {% endif %}
+    {% endblock %}
+        #}
 
 </div>
 

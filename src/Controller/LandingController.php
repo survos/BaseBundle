@@ -176,7 +176,7 @@ class LandingController extends AbstractController
     /**
      * @Route("/credits/{type}", name="survos_base_credits")
      */
-    public function credits(Request $request, string $type)
+    public function credits(Request $request, string $type='')
     {
         // bad practice to inject the kernel.  Maybe read composer.json and composer.lock
         $json = file_get_contents('../composer.json');
