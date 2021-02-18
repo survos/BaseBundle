@@ -9,6 +9,31 @@ In particular, it sets up and uses the following:
 * Knp Menu for sidebar and top nagivation
 * webpack encore 
 
+### Upgrading to Bootstrap5 and Volt
+
+    use Survos\BaseBundle\Event\KnpMenuEvent; # (instead of KevinPabst)
+    yarn remove jquery
+    yarn remove popper.js
+    yarn add @popperjs/core
+    yarn add Hinclude
+    yarn remove admin-lte
+    yarn upgrade sass-loader@10
+    yarn remove bootstrap && yarn install bootstrap@next
+    yarn upgrade @symfony/webpack-encore@1.1
+    
+
+
+Change app.js:
+
+```javascript
+require('@popperjs/core');
+require('bootstrap');
+require('Hinclude/hinclude');
+require('../css/app.scss');
+
+```
+
+
 ### Goals
 
 This bundle was created originally to isolate issues with other bundles and to get data on a website as quickly and painlessly as possible.  
