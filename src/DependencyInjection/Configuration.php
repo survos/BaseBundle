@@ -9,13 +9,13 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $rootName = 'survos_base';
+        $rootName = 'survos_admin';
         $treeBuilder = new TreeBuilder($rootName);
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
-            ->arrayNode('entities')
+            ->arrayNode('routes')
                 ->normalizeKeys(false)
                 // ->useAttributeAsKey('name', false)
                 ->defaultValue(array())

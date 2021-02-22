@@ -119,12 +119,11 @@ class SurvosInitCommand extends Command
 //            file_put_contents($npmRcFile, "@fortawesome:registry=");
 //        }
 
-        $this->checkYarn($io);
-        $this->installYarnLibraries($io);
+//        $this->checkYarn($io);
+//        $this->installYarnLibraries($io);
 
         // @todo: use this in the base bundle!!  Or prompt and use SVG, then colors could be used for environment.
         $this->createFavicon($io);
-
         $this->createTranslations($io);
         $this->setupDatabase($io);
         $this->updateBase($io);
@@ -201,7 +200,7 @@ END;
     private function updateBase(SymfonyStyle $io) {
         $fn = '/templates/base.html.twig';
         if ($io->confirm("Replace $fn?")) {
-            $this->writeFile($fn, '{% extends "@SurvosBase/base.html.twig" %}');
+            $this->writeFile($fn, '{% extends "@SurvosBase/volt/layout.html.twig" %}');
         }
     }
 

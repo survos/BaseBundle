@@ -1,27 +1,45 @@
 
-# base-bundle
+# Survos Admin Bundle
 
 A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  
 In particular, it sets up and uses the following:
 
-* AdminLTE (https://adminlte.io/docs/3.0/index.html)
-* AdminLTE Bundle
+* Volt Dashboard (Bootstrap 5)
 * Knp Menu for sidebar and top nagivation
 * webpack encore 
+* optional jQuery (for js-tree and datatables)
+
+## Assumptions
+
+While the following can be disabled, by default the bundle assumes you want the following
+
+* Authentication
+* A user and an admin role
+* Users
+* An API (for Vue, DataTables)
+* Bootstrap 5, icons
+* Deployable on Heroku
+
+## Process
+
+Go to ... and fill out the form with what you want.  Run the script to create the Symfony shell.
+
+
 
 ### Upgrading to Bootstrap5 and Volt
 
-    use Survos\BaseBundle\Event\KnpMenuEvent; # (instead of KevinPabst)
+    composer update symfony/flex 
+    yarn upgrade "@symfony/webpack-encore@^1.1"
     yarn remove jquery
     yarn remove popper.js
     yarn add @popperjs/core
     yarn add Hinclude
     yarn remove admin-lte
-    yarn upgrade sass-loader@10
-    yarn remove bootstrap && yarn install bootstrap@next
+    yarn upgrade sass-loader@11
+    yarn remove bootstrap 
+    yarn add bootstrap@next
     yarn upgrade @symfony/webpack-encore@1.1
-    
-
+    use Survos\BaseBundle\Event\KnpMenuEvent; # (instead of KevinPabst)
 
 Change app.js:
 
@@ -29,10 +47,14 @@ Change app.js:
 require('@popperjs/core');
 require('bootstrap');
 require('Hinclude/hinclude');
-require('../css/app.scss');
+require('./css/app.scss');
 
 ```
 
+```scss
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "../../public/bundles/survosbase/volt-dist/css/volt.css";
+```
 
 ### Goals
 
@@ -97,11 +119,23 @@ sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 composer config minimum-stability dev
 composer config prefer-stable true
 
-composer config repositories.admin_lte_bundle '{"type": "vcs", "url": "git@github.com:survos/AdminLTEBundle.git"}'
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer req survos/base-bundle:"*@dev"
 
-composer req kevinpapst/adminlte-bundle:dev-adminlte-v3 survos/base-bundle
-composer require "almasaeed2010/adminlte=~3.0"
+composer require symfony/webpack-encore-bundle
+yarn add sass-loader@^11.0.0 sass --dev
+echo '@import "~bootstrap/dist/css/bootstrap.min.css";' > assets/styles/app.scss
+echo '@import "../../public/bundles/survosbase/volt-dist/css/volt.css";' >>assets/styles/app.scss
+
+sed -i "s|//.enableSassLoader()|.enableSassLoader()|" webpack.config.js
+sed -i "s|import './styles/app.css';|import './styles/app.scss';|" assets/app.js
+
+yarn install
+
+yarn add "@symfony/webpack-encore@^1.0.0"
+yarn add "@symfony/stimulus-bridge@^2.0.0"
+yarn add bootstrap@next
+
 ```
 
 

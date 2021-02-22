@@ -38,12 +38,9 @@ use Symfony\Component\Yaml\Yaml;
 class LandingController extends AbstractController
 {
     private $baseService;
-    private $entityManager;
-    private $mailer;
-    /**
-     * @var UserProviderInterface
-     */
-    private $userProvider;
+    private EntityManagerInterface $entityManager;
+    private MailerInterface $mailer;
+    private UserProviderInterface $userProvider;
     /**
      * @var ParameterBagInterface
      */

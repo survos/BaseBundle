@@ -33,9 +33,6 @@ class MenuBuilder
 
     public function createSidebarMenu(array $options)
     {
-//        dump($options);
-//        throw new \Exception("??");
-//        dd('is this used?');
         $menu = $this->factory->createItem('root', [
             'attributes' => [
 //                'class' => 'nav nav-sidebar flex-column',

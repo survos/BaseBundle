@@ -20,7 +20,7 @@ class SurvosBaseExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $definition = $container->getDefinition('survos_base_bundle.base_service');
 
-        $definition->setArgument(0, $config['entities']);
+        $definition->setArgument(0, $config['routes']);
 
 
         // likely these can be combined
