@@ -119,8 +119,12 @@ sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 composer config minimum-stability dev
 composer config prefer-stable true
 
+composer config repositories.survos_markdown_bundle '{"type": "vcs", "url": "git@github.com:survos/KnpMarkdownBundle.git"}'
+composer req knplabs/knp-markdown-bundle:dev-master
+
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer req survos/base-bundle:"*@dev"
+
 
 composer require symfony/webpack-encore-bundle
 yarn add sass-loader@^11.0.0 sass --dev
