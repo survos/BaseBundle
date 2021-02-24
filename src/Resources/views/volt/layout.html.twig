@@ -1,106 +1,63 @@
-{% extends '@SurvosBase/volt/base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block logo_mini 'volt' %}
-{% block logo_large 'Volt' %}
-{% block sidebar %}
-    <nav id="sidebarMenu" class="sidebar d-md-block bg-dark text-white collapse" data-simplebar>
-        <div class="sidebar-inner px-4 pt-3">
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% endblock %}
 
-            <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
-                {% block sidebar_user %}
+{#    @@include('./_head.html', {#}
+{#    "path": "../..",#}
+{#    "title": "Volt Free Bootstrap Dashboard - Buttons"#}
+{#    })#}
 
-                <div class="d-flex align-items-center">
-                    <div class="user-avatar lg-avatar me-4">
-                        <img src="@@path/assets/img/team/profile-picture-3.jpg" class="card-img-top rounded-circle border-white"
-                             alt="Bonnie Green">
-                    </div>
-                    <div class="d-block">
-                        <h2 class="h6">Hi, Jane</h2>
-                        <a href="@@path/pages/examples/sign-in.html" class="btn btn-secondary text-dark btn-xs"><span
-                                    class="me-2"><span class="fas fa-sign-out-alt"></span></span>Sign Out</a>
-                    </div>
-                </div>
-                {% endblock %}
-                <div class="collapse-close d-md-none">
-                    <a href="#sidebarMenu" class="fas fa-times" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-                       aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
-                </div>
+    <title>{% block title %}{% block page_title _self %}{% endblock %}</title>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+
+        {#        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">#}
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+
+</head>
+
+<body>
+
+{#{% include "_dynamic/partials/_navigation.html.twig" %}#}
+
+{% block sidebar 'volt layout sidebar here.' %}
+<main class="content">
+    <div class="py-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item"><a href="#"><span class="fas fa-home"></span></a></li>
+                <li class="breadcrumb-item"><a href="#">@todo</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Breadbrumbs</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between w-100 flex-wrap">
+            <div class="mb-3 mb-lg-0">
+                <h1 class="h4">{{ block('page_title')}}</h1>
+                <p class="mb-0">@description?</p>
             </div>
-
-            {% block sidebar_nav %}
-                <ul class="nav flex-column pt-3 pt-md-0">
-                    <li class="nav-item">
-                        <a href="{{ path('app_homepage')}}" class="nav-link d-flex align-items-center">
-          <span class="sidebar-icon">
-            <img src="{{ asset('/favicon-32x32.png') }}" height="20" width="20" alt="{{ block('logo_mini') }}">
-          </span>
-                            <span class="mt-1 ms-1 sidebar-text">{{ block('logo_large') }}</span>
-                        </a>
-                    </li>
-                </ul>
-
-{#                {{ block('sidebar_example') }}#}
-
-                {% include '@SurvosBase/render_sidebar_menu.html.twig' with {menuCode: 'survos_sidebar_menu'} %}
-            {% endblock %}
+            <div>
+                <a href="https://themesberg.com/docs/volt-bootstrap-5-dashboard/components/buttons/"
+                   class="btn btn-outline-gray"><i class="far fa-question-circle me-1"></i> Buttons Docs</a>
+            </div>
         </div>
-    </nav>
-{% endblock %}
-
-
-{% block sidebar_example %}
-<li class="nav-item">
-    <div
-            class="nav-link collapsed d-flex justify-content-between align-items-center"
-            data-bs-toggle="collapse" data-bs-target="#submenu-pages">
-        <div>
-            <span class="sidebar-icon"><span class="far fa-file-alt"></span></span>
-            <span class="sidebar-text">Sidebar Example</span>
-        </div>
-
-        <div class="link-arrow"><span class="fas fa-chevron-right"></span></div>
     </div>
+    {{ block('body') }}
 
+</main>
 
-    <div class="multi-level collapse  " role="list"
-         id="submenu-pages" aria-expanded="false">
-        <ul class="flex-column nav">
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/sign-in.html">
-                    <span class="sidebar-text">Sign In</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/sign-up.html">
-                    <span class="sidebar-text">Sign Up</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/forgot-password.html">
-                    <span class="sidebar-text">Forgot password</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/reset-password.html">
-                    <span class="sidebar-text">Reset password</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/lock.html">
-                    <span class="sidebar-text">Lock</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/404.html">
-                    <span class="sidebar-text">404 Not Found</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@@path/pages/examples/500.html">
-                    <span class="sidebar-text">500 Not Found</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-{% endblock %}
+</body>
+</html>

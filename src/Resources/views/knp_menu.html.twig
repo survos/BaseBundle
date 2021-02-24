@@ -2,9 +2,6 @@
 
 {% block root %}
     {% set listAttributes = item.childrenAttributes %}
-    
-    {% set listAttributes = item.childrenAttributes %}
-
     <nav class="{{ item.attributes|join(' ') }}">
         {{ block('list') -}}
     </nav>

@@ -60,6 +60,10 @@ require('./css/app.scss');
 
 This bundle was created originally to isolate issues with other bundles and to get data on a website as quickly and painlessly as possible.  
 
+## Some themes worth checking out
+
+https://github.com/xriley/portal-theme-bs5 (check license though)
+https://github.com/zuramai/voler 
 
 ### Requirements
 
@@ -124,7 +128,6 @@ composer req knplabs/knp-markdown-bundle:dev-master
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer req survos/base-bundle:"*@dev"
-
 
 composer require symfony/webpack-encore-bundle
 yarn add sass-loader@^11.0.0 sass --dev

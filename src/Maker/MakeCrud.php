@@ -22,6 +22,7 @@ use Symfony\Bundle\MakerBundle\Doctrine\DoctrineHelper;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\InputConfiguration;
 use Symfony\Bundle\MakerBundle\Maker\AbstractMaker;
+use Symfony\Bundle\MakerBundle\MakerInterface;
 use Symfony\Bundle\MakerBundle\Renderer\FormTypeRenderer;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Validator;
@@ -41,7 +42,7 @@ use function Symfony\Component\String\u;
  * @author Sadicov Vladimir <sadikoff@gmail.com>
  * @author Tac Tacelosky <tacman@gmail.com>
  */
-final class MakeCrud extends AbstractMaker
+final class MakeCrud extends AbstractMaker implements MakerInterface
 {
     private $doctrineHelper;
 
@@ -302,5 +303,11 @@ final class MakeCrud extends AbstractMaker
 
         return LegacyInflector::singularize($word);
     }
+
+    static function getCommandDescription()
+    {
+        return "Makes crud using ParamConverter?";
+    }
+
 
 }

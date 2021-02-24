@@ -50,7 +50,9 @@ class BaseMenuSubscriber
         }
 
         if ($icon = $options['icon']) {
+            $child->setLinkAttribute('icon', $icon);
             $child->setLabelAttribute('icon', $icon);
+            $child->setAttribute('icon', $icon);
         }
         if (!empty($extra['safe_label'])) {
             $child->setExtra('safe_label', true);

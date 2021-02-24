@@ -1,6 +1,6 @@
 {
     "name": "survos/base-bundle",
-    "description": "Add some tools and resources to a Symfony5 application.  No longer depends on         \"kevinpapst/adminlte-bundle\": \"dev-adminlte-v3\",\n",
+    "description": "Add some tools and resources to a Symfony5 application, including volt theme",
     "type": "symfony-bundle",
     "keywords": ["generator", "skeleton" , "symfony5"],
     "require": {
@@ -38,12 +38,6 @@
             "email": "tacman@gmail.com"
         }
     ],
-    "repositories": {
-        "admin_lte_bundle": {
-            "type": "vcs",
-            "url": "git@github.com:survos/AdminLTEBundle.git"
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"

@@ -10,6 +10,7 @@ use Symfony\Bundle\MakerBundle\Doctrine\DoctrineHelper;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\InputConfiguration;
 use Symfony\Bundle\MakerBundle\Maker\AbstractMaker;
+use Symfony\Bundle\MakerBundle\MakerInterface;
 use Symfony\Bundle\MakerBundle\Renderer\FormTypeRenderer;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Util\ClassDetails;
@@ -25,7 +26,7 @@ use Symfony\Component\Validator\Validation;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  * @author Ryan Weaver <weaverryan@gmail.com>
  */
-final class MakeParamConverter extends AbstractMaker
+final class MakeParamConverter extends AbstractMaker implements MakerInterface
 {
     private $entityHelper;
     private $formTypeRenderer; // , FormTypeRenderer $formTypeRenderer, see this for example
@@ -142,5 +143,10 @@ final class MakeParamConverter extends AbstractMaker
             'orm',
             false
         );
+    }
+
+    static function getCommandDescription()
+    {
+        return "Check request for object";
     }
 }

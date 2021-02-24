@@ -49,6 +49,7 @@ class Extensions extends AbstractExtension
     {
 
         return [
+            new TwigFilter('indent', [$this, 'indent']),
             new TwigFilter('externalLink', [$this, 'formatExternalLink']),
             new TwigFilter('duration', [$this, 'duration']),
             new TwigFilter('money', [$this, 'money']),
@@ -59,7 +60,16 @@ class Extensions extends AbstractExtension
         ];
     }
 
-    /**
+    public function indent($value)
+    {
+        return class_exists('Gajus\Dindent\Indenter')
+        // if there's a dump it's too big to indent
+            ? strstr('sf-dump', $value) ? $value : (new \Gajus\Dindent\Indenter())->indent($value)
+            : "<!-- composer req gajus/dindent to install indenter -->\n" . $value;
+    }
+
+
+        /**
      * {@inheritdoc}
      */
     public function getFunctions()
