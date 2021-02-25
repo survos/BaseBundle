@@ -48,7 +48,7 @@
     {%- else %}
         <!-- calling {{ _self }}::link|span Element -->
 {#        <li {{ knp_menu.attributes(attributes) }}>#}
-        <li class="sidebar-item">
+        <li class="sidebar-item {{ matcher.isCurrent(item) ? 'active' }}">
             <a class="sidebar-link" href="{{ item.uri }}">
                 {# bug here with attributes.icon already having double-quotes #}
                 <i class="align-middle" {{ 0 and attributes.icon|default(false) ? 'data-feather=%s'|format(attributes.icon) }}></i>
@@ -92,7 +92,7 @@
             {#    {%- set attributes = attributes|merge({'data-accordion': 'false'}) %}#}
             {#    {%- set attributes = attributes|merge({'data-bs-accordion': 'false'}) %}#}
                 {% import _self as knp_menu %}
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ matcher.isCurrent(item) ? 'active' }}">
 
 {#                    {% if item.attribute('icon') is not empty  %}#}
 {#                        <span class="{{ item.attribute('icon') }}"></span>#}

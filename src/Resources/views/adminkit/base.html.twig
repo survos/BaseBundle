@@ -200,30 +200,37 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
-                            <i class="align-middle" data-feather="settings"></i>
-                        </a>
+                    {% if app.user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+                                <i class="align-middle" data-feather="settings"></i>
+                            </a>
 
-                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                            <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall"/>
-                            <span class="text-dark">Charles Hall</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1"
-                                                                                  data-feather="user"></i> Profile</a>
-                            <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i>
-                                Analytics</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1"
-                                                                                   data-feather="settings"></i> Settings
-                                & Privacy</a>
-                            <a class="dropdown-item" href="#"><i class="align-middle mr-1"
-                                                                 data-feather="help-circle"></i> Help Center</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Log out</a>
-                        </div>
-                    </li>
+                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall"/>
+                                <span class="text-dark">{{  app.user }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1"
+                                                                                      data-feather="user"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i>
+                                    Analytics</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1"
+                                                                                       data-feather="settings"></i> Settings
+                                    & Privacy</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle mr-1"
+                                                                     data-feather="help-circle"></i> Help Center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">Log out</a>
+                            </div>
+                        </li>
+                    {% else %}
+                            <a class="btn btn-success" href="{{ path('app_login') }}">Login</a>
+                            <a class="btn btn-secondary" href="{{ path('app_register') }}">Register</a>
+                        <li>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -232,6 +239,15 @@
         {% block content %}
         <main class="content">
             <div class="container-fluid p-0">
+
+                {% block page_content_before %}
+                    {% block page_navigation %}
+                        Page menu..
+                        {# emit page events populated by the top menu subscriber #}
+                        {% include '@SurvosBase/render_page_menu.html.twig' with {page_title: block('page_title')} %}
+                    {% endblock %}
+                {% endblock %}
+
                 {{ block('body') }}
             </div>
         </main>
