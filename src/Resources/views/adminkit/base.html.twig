@@ -36,6 +36,7 @@
     <div class="main">
         {% block navbar %}
         <nav class="navbar navbar-expand navbar-light navbar-bg">
+
             {% block menu_toggle %}
             <a class="sidebar-toggle d-flex">
                 <i class="hamburger align-self-center"></i>
@@ -51,6 +52,7 @@
             </form>
             {% endblock %}
 
+            {% block navbar_notifications %}
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav navbar-align">
                     <li class="nav-item dropdown">
@@ -233,6 +235,7 @@
                     {% endif %}
                 </ul>
             </div>
+            {% endblock %}
         </nav>
         {% endblock %}
 

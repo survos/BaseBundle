@@ -6,10 +6,10 @@
 })(window, jQuery, Routing, swal);
 */
 
-const $ = global.$;
+const $ = require('jquery');
 let _ = global._;
 
-// console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
+console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
 
 require('datatables.net-bs4');
 require('datatables.net-scroller-bs4');

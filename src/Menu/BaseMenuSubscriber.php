@@ -5,6 +5,7 @@
 namespace Survos\BaseBundle\Menu;
 
 use Knp\Menu\ItemInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use function Symfony\Component\String\u;
@@ -13,6 +14,7 @@ class BaseMenuSubscriber
 {
 
     private ?AuthorizationCheckerInterface $authorizationChecker=null;
+    private ?ParameterBagInterface $bag=null;
 
     private ?array $options;
     private $childOptions;
@@ -21,6 +23,18 @@ class BaseMenuSubscriber
     {
         $this->authorizationChecker = $authorizationChecker;
     }
+
+    public function getParameterBag(): ?ParameterBagInterface
+    {
+        return $this->bag;
+    }
+
+    public function setParameterBag(ParameterBagInterface $bag)
+    {
+        $this->bag = $bag;
+        return $this;
+    }
+
 
     public function getAuthorizationChecker()
     {
@@ -37,8 +51,9 @@ class BaseMenuSubscriber
         $options = $this->menuOptions($options);
         // must pass in either route, icon or menu_code
 
+        // especially for collapsible menus.  Cannot start with a digit.
         if (!$options['id']) {
-            $options['id'] = md5(json_encode($options));
+            $options['id'] = 'id_' . md5(json_encode($options));
         }
 
         $child = $menu->addChild($options['id'], $options);

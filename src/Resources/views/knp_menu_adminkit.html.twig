@@ -98,7 +98,7 @@
 {#                        <span class="{{ item.attribute('icon') }}"></span>#}
 {#                    {% endif %}#}
 
-                    <a href="#{{ itemSlug }}" data-bs-target="#{{ itemSlug }}" data-toggle="collapse" class="sidebar-link">
+                    <a href="#{{ itemSlug }}" data-bs-target="#{{ itemSlug }}" data-toggle="collapse" data-bs-toggle="collapse" class="sidebar-link">
                         <i class="align-middle" {{ 0 and item.attribute('icon') is not empty ? 'data-feather="%s"'|format(item.attribute('icon'))}}></i>
                         <span class="align-middle">{{ item.label }}</span>
                     </a>
