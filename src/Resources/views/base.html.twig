@@ -138,7 +138,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                     {% endif %}
                 {% endblock %}
 
-                {% block sidebar_user '@todo: user info' %}
+{#                {% block sidebar_user '@todo: user info' %}#}
 
 
                 {% block sidebar_nav %}
@@ -200,6 +200,7 @@ BASE
     {% endblock %}
 
     {% block control_sidebar %}
+        <h1>Control_sidebar {{ _self }}</h1>
 {#        {% if admin_lte_context.control_sidebar %}#}
              include '@SurvosBase/Partials/_control-sidebar.html.twig'
 {#        {% endif %}#}

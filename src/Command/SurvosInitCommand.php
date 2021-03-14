@@ -36,20 +36,19 @@ class SurvosInitCommand extends Command
     private $io;
 
     CONST recommendedBundles = [
-        'EasyAdminBundle',
+//        'EasyAdminBundle',
         'SurvosWorkflowBundle',
-        'UserBundle'
+//        'UserBundle'
     ];
 
     CONST requiredJsLibraries = [
-        'jquery',
+//        'jquery',
         'sass-loader@^10.0.5',
         'node-sass',
         'simulus',
-        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
-        'fontawesome',
-        'admin-lte@^3.0', // @todo, parse and check.  Must be after fontawesome.
-        'popper.js'
+//        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
+//        'fontawesome',
+        '@popperjs/core'
     ];
 
     CONST tools = [
@@ -171,16 +170,16 @@ END;
         // use twig? Php?
 
         $yaml = <<< END
-admin_lte:
-  knp_menu:
-    enable: true
-    main_menu: survos_sidebar_menu
-    breadcrumb_menu: true
-
-  routes:
-    adminlte_welcome: app_homepage
-    adminlte_login: app_login
-    adminlte_profile: app_profile
+//survos_base:
+//  menus:
+//    main_menu: survos_sidebar_menu
+//    breadcrumb_menu: true
+//
+//  routes:
+//    welcome: app_homepage
+//    login: app_login
+//    register: 
+//    profile: app_profile
 END;
 
         // should we remove admin_lte.yaml??
@@ -200,7 +199,7 @@ END;
     private function updateBase(SymfonyStyle $io) {
         $fn = '/templates/base.html.twig';
         if ($io->confirm("Replace $fn?")) {
-            $this->writeFile($fn, '{% extends "@SurvosBase/volt/layout.html.twig" %}');
+            $this->writeFile($fn, '{% extends "@SurvosBase/adminkit/layout.html.twig" %}');
         }
     }
 

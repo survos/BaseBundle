@@ -26,7 +26,9 @@ Go to ... and fill out the form with what you want.  Run the script to create th
 
 
 
-### Upgrading to Bootstrap5 and Volt
+### Upgrading to Bootstrap5 and AdminKit
+
+    yarn add https://github.com/survos/adminkit.git
 
     composer update symfony/flex 
     yarn upgrade "@symfony/webpack-encore@^1.1"
@@ -86,7 +88,7 @@ on github.com with no files (no README or license), clone it to some directory a
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
 
 ```bash
-mv .git .. && symfony new --full . --no-git  && mv ../.git .
+rm LICENSE && mv .git .. && symfony new --full . --no-git  && mv ../.git . && git checkout .
 composer config extra.symfony.allow-contrib true
 ```     
         
@@ -98,7 +100,7 @@ OR if you're using Sqlite.
 ```bash
 heroku create $REPO
 heroku addons:create heroku-postgresql:hobby-dev
-echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.heroku
+echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.heroku.local
 # Without heroku, use sqlite (or setup MySQL)
 echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
 ```
@@ -130,9 +132,14 @@ composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@git
 composer req survos/base-bundle:"*@dev"
 
 composer require symfony/webpack-encore-bundle
+yarn install
 yarn add sass-loader@^11.0.0 sass --dev
-echo '@import "~bootstrap/dist/css/bootstrap.min.css";' > assets/styles/app.scss
-echo '@import "../../public/bundles/survosbase/volt-dist/css/volt.css";' >>assets/styles/app.scss
+yarn add https://github.com/survos/adminkit.git
+yarn add https://github.com/survos/datatable-api.git
+
+#echo '@import "~bootstrap/dist/css/bootstrap.min.css";' > assets/styles/app.scss
+#echo '@import "../../public/bundles/survosbase/volt-dist/css/volt.css";' >>assets/styles/app.scss
+## FIRST, initialize SurvosBase, which creates app.scss.  Then fix webpack.
 
 sed -i "s|//.enableSassLoader()|.enableSassLoader()|" webpack.config.js
 sed -i "s|import './styles/app.css';|import './styles/app.scss';|" assets/app.js
