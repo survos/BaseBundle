@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\EventDispatcher\Event;
+use Survos\BaseBundle\Event\UserCreatedEvent;
 
 class UserCreateCommand extends Command
 {
@@ -40,6 +41,7 @@ class UserCreateCommand extends Command
     public function __construct(UserPasswordEncoderInterface $passwordEncoder,
                                 // GuardAuthenticatorHandler $guardHandler,
                                 UserProviderInterface $userProvider,
+EventDispatcherInterface $eventDispatcher,
 //                                EventDispatcherInterface $eventDispatcher,
                                 EntityManagerInterface $entityManager,  string $name = null)
     {
@@ -49,6 +51,7 @@ class UserCreateCommand extends Command
         $this->entityManager = $entityManager;
 //        $this->guardHandler = $guardHandler;
 //        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function configure()
@@ -59,6 +62,7 @@ class UserCreateCommand extends Command
             ->addArgument('password', InputArgument::OPTIONAL, 'Plain text password')
             ->addOption('roles', null, InputOption::VALUE_OPTIONAL, 'comma-delimited list of roles')
             ->addOption('password', null, InputOption::VALUE_NONE, 'Update password')
+            ->addOption('extra', null, InputOption::VALUE_OPTIONAL, 'extra string passed to event dispatcher')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Change password/roles if account exists.')
         ;
     }
@@ -106,7 +110,9 @@ class UserCreateCommand extends Command
         $user
             ->setPassword($this->passwordEncoder->encodePassword($user, $plainTextPassword));
 
-        
+        $this->eventDispatcher->dispatch(new UserCreatedEvent($user, $input->getOption('extra')));
+
+
         $this->entityManager->flush();
 
         if ($output->isVerbose()) {

@@ -65,6 +65,7 @@
         <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
             <argument type="service" id="security.password_encoder" />
             <argument type="service" id="security.user.provider.concrete.app_user_provider" />
+            <argument type="service" id="event_dispatcher" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="console.command" />
         </service>
