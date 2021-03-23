@@ -62,6 +62,7 @@ EventDispatcherInterface $eventDispatcher,
             ->addArgument('password', InputArgument::OPTIONAL, 'Plain text password')
             ->addOption('roles', null, InputOption::VALUE_OPTIONAL, 'comma-delimited list of roles')
             ->addOption('password', null, InputOption::VALUE_NONE, 'Update password')
+            ->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username (defaults to email)')
             ->addOption('extra', null, InputOption::VALUE_OPTIONAL, 'extra string passed to event dispatcher')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Change password/roles if account exists.')
         ;
@@ -73,9 +74,11 @@ EventDispatcherInterface $eventDispatcher,
         $force = $input->getOption('force');
         $password = $input->getOption('password');
         $email = $input->getArgument('email');
+        $username = $input->getOption('username') ?: $email;
 
         try {
-            $user = $this->userProvider->loadUserByUsername($email);
+            // security.yaml defines what field this is!
+            $user = $this->userProvider->loadUserByUsername($username);
             if (!$password && !$input->getOption('roles') ) {
                 $io->error("$email already exists, use --password to overwrite the existing password");
                 return 1;
@@ -86,6 +89,9 @@ EventDispatcherInterface $eventDispatcher,
             $action = 'created';
             $user = new User();
             $user->setEmail($email);
+            if ($input->getOption('username')) {
+                $user->setUsername($username);
+            }
             $this->entityManager->persist($user);
         }
 
