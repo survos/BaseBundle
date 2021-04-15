@@ -134,8 +134,12 @@
 
                     <li class="sidebar-item {{ matcher.isCurrent(child) ? 'active' }} ">
                         <a class="sidebar-link " href="{{ child.uri}}">
-                            <i class="align-middle" data-feather="settings"></i>
-                            <span class="align-middle">{{ child.label }}</span>
+                            {% if item.attribute('feather-icon') is not empty %}
+                                <i class="align-middle" {{ item.attribute('feather-icon') is not empty ? 'data-feather="%s"'|format(item.attribute('feather-icon'))}}></i>
+                                <span class="align-middle">{{ child.label }}</span>
+                            {% else %}
+                                <span class="align-left">{{ child.label }}</span>
+                            {% endif %}
                         </a>
                     </li>
                 {% endfor %}

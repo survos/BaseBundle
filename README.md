@@ -24,6 +24,24 @@ While the following can be disabled, by default the bundle assumes you want the 
 
 Go to ... and fill out the form with what you want.  Run the script to create the Symfony shell.
 
+Install Adminkit
+
+```bash
+yarn add https://github.com/survos/adminkit.git
+```
+
+Then in app.js
+
+```javascript
+require('adminkit/static/js/app');
+require('../css/app.scss');
+```
+
+and app.scss
+
+```scss
+@import "~adminkit/static/css/app.css";
+```
 
 
 ### Upgrading to Bootstrap5 and AdminKit
