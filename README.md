@@ -4,7 +4,7 @@
 A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  
 In particular, it sets up and uses the following:
 
-* Volt Dashboard (Bootstrap 5)
+* Adminkit (Bootstrap 5)
 * Knp Menu for sidebar and top nagivation
 * webpack encore 
 * optional jQuery (for js-tree and datatables)
@@ -143,8 +143,7 @@ sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 composer config minimum-stability dev
 composer config prefer-stable true
 
-composer config repositories.survos_markdown_bundle '{"type": "vcs", "url": "git@github.com:survos/KnpMarkdownBundle.git"}'
-composer req knplabs/knp-markdown-bundle:dev-master
+composer req knplabs/knp-markdown-bundle
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer req survos/base-bundle:"*@dev"
@@ -153,7 +152,6 @@ composer require symfony/webpack-encore-bundle
 yarn install
 yarn add sass-loader@^11.0.0 sass --dev
 yarn add https://github.com/survos/adminkit.git
-yarn add https://github.com/survos/datatable-api.git
 
 #echo '@import "~bootstrap/dist/css/bootstrap.min.css";' > assets/styles/app.scss
 #echo '@import "../../public/bundles/survosbase/volt-dist/css/volt.css";' >>assets/styles/app.scss
@@ -167,6 +165,12 @@ yarn install
 yarn add "@symfony/webpack-encore@^1.0.0"
 yarn add "@symfony/stimulus-bridge@^2.0.0"
 yarn add bootstrap@next
+
+yarn add datatables.net-bs4
+yarn add datatables.net-buttons-bs4
+yarn add datatables.net-scroller-bs4
+yarn add datatables.net-select-bs4
+yarn add datatables.net-searchpanes-bs4
 
 ```
 

@@ -183,7 +183,7 @@ END;
 END;
 
         // should we remove admin_lte.yaml??
-        @unlink('/config/packages/admin_lte.yaml');
+//        @unlink('/config/packages/admin_lte.yaml');
 
         $fn = '/config/packages/survos_base.yaml';
         if (!file_exists($fn)) {
