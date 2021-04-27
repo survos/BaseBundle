@@ -20,6 +20,23 @@
     {% endif %}
 {% endblock %}
 
+{% macro badges(item) %}
+    {% import _self as selfMacros %}
+    {% if item.getExtra('badge') is not null %}
+        {{ selfMacros.badge(item.getExtra('badge')) }}
+    {% elseif item.getExtra('badges') is not null %}
+        {% for badge in item.getExtra('badges') %}
+            {{ selfMacros.badge(badge) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro badge(badge) %}
+    <span class="sidebar-badge badge bg-primary">{{ badge.value }}</span>
+{#    <span class="right badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span>#}
+{% endmacro %}
+
+
 {% block item %}
     {% if item.displayed %}
     {%- set is_collapsable = item.hasChildren and item.parent  %} {# was attributes.collapsable|default(false) %} #}
@@ -53,7 +70,9 @@
                 {# bug here with attributes.icon already having double-quotes #}
                 <i class="align-middle" {{ 0 and attributes.icon|default(false) ? 'data-feather=%s'|format(attributes.icon) }}></i>
                 <span class="align-middle">{{ item.label|raw }}</span>
+                {{ _self.badges(item) }}
             </a>
+{#            {{ dump(item.extras) }}#}
         </li>
 {#            {% if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}#}
 {#                {{ block('linkElement') }}#}
