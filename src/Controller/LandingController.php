@@ -120,6 +120,16 @@ class LandingController extends AbstractController
         header('Content-Type: image/png');
         imagepng($rasterImage);
         */
+        
+    }
+
+    /**
+     * @Route("/change-locale/{_locale}", name="app_change_locale")
+     */
+    public function changeLocale(Request $request, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $referer = $request->headers->get('referer'); // get the referer, it can be empty!
+        return $this->redirect($referer ? $referer : $urlGenerator->generate('app_homepage'));
     }
 
     /**
