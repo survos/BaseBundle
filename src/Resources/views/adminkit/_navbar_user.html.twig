@@ -50,7 +50,7 @@
             {{ app.request.locale|locale_name(app.request.locale) }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            {% for locale in ['en','fr','sp'] %}
+            {% for locale in ['en_US','fr_FR','sp_SP'] %}
                 <li><a class="dropdown-item" href="{{ path('app_change_locale', {_locale: locale}) }}">{{ locale }}</a></li>
             {% endfor %}
         </ul>
