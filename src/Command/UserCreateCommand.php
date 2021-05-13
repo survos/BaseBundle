@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -38,7 +38,7 @@ class UserCreateCommand extends Command
      */
     private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder,
+    public function __construct(UserPasswordHasherInterface $passwordEncoder,
                                 // GuardAuthenticatorHandler $guardHandler,
                                 UserProviderInterface $userProvider,
 EventDispatcherInterface $eventDispatcher,
@@ -114,7 +114,7 @@ EventDispatcherInterface $eventDispatcher,
         }
 
         $user
-            ->setPassword($this->passwordEncoder->encodePassword($user, $plainTextPassword));
+            ->setPassword($this->passwordEncoder->hashPassword($user, $plainTextPassword));
 
         $this->eventDispatcher->dispatch(new UserCreatedEvent($user, $input->getOption('extra')));
 

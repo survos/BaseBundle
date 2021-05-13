@@ -18,7 +18,7 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
             <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="security.password_encoder"/>
+            <argument type="service" id="security.password_hasher"/>
         </service>
 
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">
@@ -63,7 +63,7 @@
         </service>
 
         <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
-            <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="security.password_hasher" />
             <argument type="service" id="security.user.provider.concrete.app_user_provider" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="doctrine.orm.entity_manager" />
