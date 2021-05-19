@@ -44,9 +44,13 @@
         <nav class="navbar navbar-expand navbar-light navbar-bg">
 
             {% block menu_toggle %}
-            <a class="sidebar-toggle d-flex">
-                <i class="hamburger align-self-center"></i>
-            </a>
+                <a class="sidebar-toggle js-sidebar-toggle">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+
+{#            <a class="js-sidebar-toggle d-flex">#}
+{#                <i class="hamburger align-self-center"></i>#}
+{#            </a>#}
 
             <form class="d-none d-sm-inline-block">
                 <div class="input-group input-group-navbar">
@@ -67,8 +71,10 @@
         </nav>
         {% endblock %}
 
+
         {% block content %}
         <main class="content">
+            <h3>{{ block('page_title') }}</h3>
             <div class="container-fluid p-0">
                 {% block page_content_before %}
                     {% block page_navigation %}
@@ -87,5 +93,7 @@
         {% endblock %}
     </div>
 </div>
+{% block body_end %}
+{% endblock %}
 </body>
 </html>

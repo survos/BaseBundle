@@ -69,26 +69,41 @@ class BaseMenuSubscriber
             $child->setLabelAttribute('icon', $icon);
             $child->setAttribute('icon', $icon);
         }
+
+        if ($icon = $options['feather']) {
+            $child->setLinkAttribute('feather', $icon);
+            $child->setLabelAttribute('feather', $icon);
+            $child->setAttribute('feather', $icon);
+        }
+
         if (!empty($extra['safe_label'])) {
             $child->setExtra('safe_label', true);
         }
 
         // if this is a collapsible menu item, we need to set the data target to next element.  OR we can let knp_menu renderer handle it.
         if (!$options['route'] && !$options['uri']) {
+
             // only if there are children, but otherwise this is just a label
 //            $child->setAttribute('collapse_type', 'collapse');
 //            $child->setAttribute('class', 'collapse collapsed');
 //            $child->setAttribute('data-bs-target', 'hmm');
         }
 
+        if ($classes = $options['classes']) {
+            $child->setAttribute('class', $classes);
+        }
+
+        if ($style = $options['style']) {
+            $child->setAttribute('style', $style);
+        }
 
 
 
         return $child;
 
     }
-    /** @deprecated Avoid if possible, so this can be private. */
-    public function menuOptions(array $options, array $extra = []): array
+//    /** @deprecated Avoid if possible, so this can be private. */
+    private function menuOptions(array $options, array $extra = []): array
     {
         // idea: make the label a . version of the route, e.g. project_show could be project.show
         // we could also set a default icon for things like edit, show
@@ -103,7 +118,10 @@ class BaseMenuSubscriber
                 '_fragment' => null,
                 'label' => null,
                 'icon' => null,
+                'feather' => null,
                 'uri' => null,
+                'classes' => [], // this doesn't feel quite right.  Maybe a "style: header"?
+                'style' => null,
                 'childOptions' => $this->childOptions,
                 'description' => null,
                 'attributes' => []

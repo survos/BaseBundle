@@ -11,9 +11,9 @@
 {% endmacro %}
 
 {% macro link_button(label, href, icon, type, size) %}
-    {% set _size = size|default('sm') %} admin_lte_context.button.size)
-    {% set _type = type|default('danger') %} admin_lte_context.button.type)
-    <a href="{{ href|default('#') }}" class="btn bg-gradient-{{ _type }}{% if _size %} btn-{{ _size }}{% endif %}">
+    {% set _size = size|default('sm') %}
+    {% set _type = type|default('primary') %}
+    <a href="{{ href|default('#') }}" class="btn btn-{{ _type }} bg-gradient-{{ _type }}{% if _size %} btn-{{ _size }}{% endif %}">
         {% if icon %}
             <i class="{{ icon }}"></i>
         {% endif %}

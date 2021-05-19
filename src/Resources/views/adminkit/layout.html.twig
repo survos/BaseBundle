@@ -4,7 +4,7 @@
 <nav id="sidebar" class="sidebar">
     <div class="sidebar-content js-simplebar">
         {% block sidebar_header %}
-        <a class="sidebar-brand" href="/">
+        <a class="sidebar-brand" href="{% block logo_link '/' %}">
             <span class="align-middle">{% block logo_mini _self %}</span>
         </a>
         {% endblock %}

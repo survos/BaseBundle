@@ -28,6 +28,7 @@ Install Adminkit
 
 ```bash
 yarn add https://github.com/survos/adminkit.git
+yarn add https://github.com/survos/adminkit-pro.git
 ```
 
 Then in app.js

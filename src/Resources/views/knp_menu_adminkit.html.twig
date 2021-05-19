@@ -39,8 +39,11 @@
 
 {% block item %}
     {% if item.displayed %}
+    {%- set attributes = item.attributes %}
     {%- set is_collapsable = item.hasChildren and item.parent  %} {# was attributes.collapsable|default(false) %} #}
     {%- set itemSlug = item.name|u.snake %}
+        {%- set classes = item.linkAttribute('class') is not empty ? [item.linkAttribute('class')]  : [] %}
+
 
 
         {% if item.hasChildren and options.depth is not same as(0) %}
@@ -51,7 +54,6 @@
             {%- set classes = classes|merge([options.leaf_class]) %}
         {%- endif %}
 
-        {%- set attributes = item.attributes %}
         {%- if classes is not empty %}
             {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
         {%- endif %}
@@ -65,15 +67,18 @@
     {%- else %}
         <!-- calling {{ _self }}::link|span Element -->
 {#        <li {{ knp_menu.attributes(attributes) }}>#}
+        {% if attributes['style']|default('') == 'heading' %}
+        <li class="sidebar-header">{{item.label|raw}}</li>
+            {% else %}
         <li class="sidebar-item {{ matcher.isCurrent(item) ? 'active' }}">
             <a class="sidebar-link" href="{{ item.uri }}">
-                {# bug here with attributes.icon already having double-quotes #}
-                <i class="align-middle" {{ 0 and attributes.icon|default(false) ? 'data-feather=%s'|format(attributes.icon) }}></i>
+                {{ _self.icon(item) }}
                 <span class="align-middle">{{ item.label|raw }}</span>
                 {{ _self.badges(item) }}
             </a>
 {#            {{ dump(item.extras) }}#}
         </li>
+                {% endif %}
 {#            {% if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}#}
 {#                {{ block('linkElement') }}#}
 {#            {%- else %}#}
@@ -91,6 +96,14 @@
 
 
 {% endblock %}
+
+{% macro icon(item) %}
+                {# bug here with attributes.icon already having double-quotes #}
+                {% if item.attribute('icon') is not empty  %}
+                    <span class="{{ item.attribute('icon') }}"></span>
+                {% endif %}
+        <i class="align-left" {{ item.attribute('feather')|default(false) ? 'data-feather=%s'|format(item.attribute('feather')) }}></i>
+{% endmacro %}
 
             {# this is the root link of something that can be collapsed #}
             {% block collapsibleItem %}
@@ -113,12 +126,8 @@
                 {% import _self as knp_menu %}
                 <li class="sidebar-item {{ matcher.isCurrent(item) ? 'active' }}">
 
-{#                    {% if item.attribute('icon') is not empty  %}#}
-{#                        <span class="{{ item.attribute('icon') }}"></span>#}
-{#                    {% endif %}#}
-
                     <a href="#{{ itemSlug }}" data-bs-target="#{{ itemSlug }}" data-toggle="collapse" data-bs-toggle="collapse" class="sidebar-link">
-                        <i class="align-middle" {{ 0 and item.attribute('icon') is not empty ? 'data-feather="%s"'|format(item.attribute('icon'))}}></i>
+                        {{ _self.icon(item) }}
                         <span class="align-middle">{{ item.label }}</span>
                     </a>
                     <ul id="{{ itemSlug }}" class="sidebar-dropdown list-unstyled  {{ not matcher.isAncestor(item) ? 'collapse' }} " data-parent="#sidebar">
