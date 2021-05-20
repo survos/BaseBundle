@@ -2,6 +2,7 @@
 .idea
 /.env.live
 /.env.local
+/.env.*.local
 composer.lock
 /docker/.env
 /docker/.env.app

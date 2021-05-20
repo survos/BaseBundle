@@ -93,6 +93,10 @@ class BaseMenuSubscriber
             $child->setAttribute('class', $classes);
         }
 
+        if ($badge = $options['badge']) {
+            $child->setExtra('badge', $badge);
+        }
+
         if ($style = $options['style']) {
             $child->setAttribute('style', $style);
         }
@@ -118,6 +122,7 @@ class BaseMenuSubscriber
                 '_fragment' => null,
                 'label' => null,
                 'icon' => null,
+                'badge' => null,
                 'feather' => null,
                 'uri' => null,
                 'classes' => [], // this doesn't feel quite right.  Maybe a "style: header"?

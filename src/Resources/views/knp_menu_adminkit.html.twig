@@ -25,14 +25,14 @@
     {% if item.getExtra('badge') is not null %}
         {{ selfMacros.badge(item.getExtra('badge')) }}
     {% elseif item.getExtra('badges') is not null %}
-        {% for badge in item.getExtra('badges') %}
-            {{ selfMacros.badge(badge) }}
-        {% endfor %}
+{#        {% for badge in item.getExtra('badges') %}#}
+{#            {{ selfMacros.badge(badge) }}#}
+{#        {% endfor %}#}
     {% endif %}
 {% endmacro %}
 
 {% macro badge(badge) %}
-    <span class="sidebar-badge badge bg-primary">{{ badge.value }}</span>
+    <span class="sidebar-badge badge bg-primary">{{ badge }}</span>
 {#    <span class="right badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span>#}
 {% endmacro %}
 
