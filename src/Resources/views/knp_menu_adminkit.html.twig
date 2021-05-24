@@ -129,7 +129,9 @@
                     <a href="#{{ itemSlug }}" data-bs-target="#{{ itemSlug }}" data-toggle="collapse" data-bs-toggle="collapse" class="sidebar-link">
                         {{ _self.icon(item) }}
                         <span class="align-middle">{{ item.label }}</span>
+                        {{ _self.badges(item) }}
                     </a>
+
                     <ul id="{{ itemSlug }}" class="sidebar-dropdown list-unstyled  {{ not matcher.isAncestor(item) ? 'collapse' }} " data-parent="#sidebar">
                         {{ block('collablibleList') }}
                     </ul>
@@ -155,11 +157,9 @@
         {% set classes = classes|merge( (matcher.isAncestor(item) or matcher.isCurrent(item)) ? ['show'] : ['collapse']) %}
         {%- set attributes = attributes|merge({'class':  classes|join(' ')}) %}
         {% import _self as knp_menu %}
+        {{ _self.badges(item) }}
 
                 {% for child in item.children %}
-{#                    <li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Sign In</a></li>#}
-{#                    <li class="sidebar-item"><a class="sidebar-link" href="pages-sign-up.html">Sign Up</a></li>#}
-
                     <li class="sidebar-item {{ matcher.isCurrent(child) ? 'active' }} ">
                         <a class="sidebar-link " href="{{ child.uri}}">
                             {% if item.attribute('feather-icon') is not empty %}
@@ -168,6 +168,8 @@
                             {% else %}
                                 <span class="align-left">{{ child.label }}</span>
                             {% endif %}
+
+                            {{ _self.badges(child) }}
                         </a>
                     </li>
                 {% endfor %}
