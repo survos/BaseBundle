@@ -107,7 +107,7 @@ on github.com with no files (no README or license), clone it to some directory a
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
 
 ```bash
-rm LICENSE && mv .git .. && symfony new --full . --no-git  && mv ../.git . && git checkout .
+rm LICENSE && rm README.md && mv .git .. && symfony new --full . --no-git  && mv ../.git . && git checkout .
 composer config extra.symfony.allow-contrib true
 ```     
         
@@ -128,10 +128,16 @@ We always want some security, so certain routes can be secured. Create a User en
 
 ```bash
 bin/console make:user User --is-entity --identity-property-name=email --with-password -n
+sed -i "s|public function getEmail| public function getUsername() { return \$this->getEmail(); }\n\n public function getEmail|" src/Entity/User.php
+
+sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
+
+
 echo "1,AppAuthenticator,SecurityController,/logout," | sed "s/,/\n/g"  | bin/console make:auth
 sed -i "s|// For example.*;|return new RedirectResponse(\$this->urlGenerator->generate('app_homepage'));|" src/Security/AppAuthenticator.php 
 sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FILE__\);||" src/Security/AppAuthenticator.php 
-sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
+
+
 ```
     
 # Optional, since SurvosBaseBundle has this already, formatted for mobile
@@ -167,11 +173,7 @@ yarn add "@symfony/webpack-encore@^1.0.0"
 yarn add "@symfony/stimulus-bridge@^2.0.0"
 yarn add bootstrap@next
 
-yarn add datatables.net-bs4
-yarn add datatables.net-buttons-bs4
-yarn add datatables.net-scroller-bs4
-yarn add datatables.net-select-bs4
-yarn add datatables.net-searchpanes-bs4
+yarn add datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-scroller datatables.net-scroller-bs5 datatables.net-select-bs5 datatables.net-searchpanes datatables.net-searchpanes-bs5 datatables.net-colreorder datatables.net-colreorder-bs5
 
 ```
 
@@ -414,6 +416,8 @@ bin/console survos:setup-heroku
 
 
 
-   
+   ## alternatives
+
+https://github.com/xriley/portal-theme-bs5
     
 

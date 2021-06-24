@@ -51,8 +51,16 @@
 {% endset %}
 
 {% set navbarHtml %}
+    {% set knp_menu_options =  {
+        "template"      : "@SurvosBase/knp_menu_adminkit.html.twig",
+        "currentClass"  : "active show",
+        "ancestorClass" : "ancestor-active current_ancestor",
+        "branch_class"  : "sidebar-header",
+        'leaf_class'    : 'sidebar-item',
+        "allow_safe_labels": true,
+    } %}
 
-    {% set knp_menu_options = {
+    {% set old_knp_menu_options = {
         "template"      : "@SurvosBase/knp_menu.html.twig",
         "attributes"    : "mt-2 navbar navbar-expand navbar-white navbar-light float-right",
         "style"         : "navbar",
@@ -67,12 +75,12 @@
 
     {# second arg is the path to the menu, if we just want a subset. #}
     {% set page_menu = knp_menu_get('survos_page_menu', [], {title: page_title} ) %}
-
+TOP MENU survos_page_menu
     {{  knp_menu_render(page_menu, knp_menu_options) }}
 
 {% endset %}
 
-{{ navbarHtml|raw }}
+{#{{ navbarHtml|raw }}#}
 
 <hr />
 {#

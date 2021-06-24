@@ -15,6 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -78,14 +79,14 @@ EventDispatcherInterface $eventDispatcher,
 
         try {
             // security.yaml defines what field this is!
-            $user = $this->userProvider->loadUserByUsername($username);
+            $user = $this->userProvider->loadUserByIdentifier($username);
             if (!$password && !$input->getOption('roles') ) {
                 $io->error("$email already exists, use --password to overwrite the existing password");
                 return 1;
             } else {
                 $action = 'updated';
             }
-        } catch (UsernameNotFoundException $usernameNotFoundException) {
+        } catch (UserNotFoundException $usernameNotFoundException) {
             $action = 'created';
             $user = new User();
             $user->setEmail($email);

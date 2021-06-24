@@ -26,7 +26,8 @@
 }}
 {% endif %}
 
-{{ theme }}
+<!-- {{ _self }} -->
+<span class="text-danger">Theme: {{ theme }}</span>
 {% if theme == 'adminkit' %}
     {% set html = knp_menu_render(menuCode, {
         'menu_code'     : menuCode,

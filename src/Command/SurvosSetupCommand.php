@@ -20,7 +20,7 @@ class SurvosSetupCommand extends Command
 {
     protected static $defaultName = 'survos:configure';
 
-    private $projectDir;
+    protected $projectDir;
     private $kernel;
     private $em;
     private $twig;

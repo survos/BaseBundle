@@ -24,7 +24,7 @@ class SurvosInitCommand extends Command
 {
     protected static $defaultName = 'survos:init';
 
-    private $projectDir;
+    protected $projectDir;
     private $kernel;
     private $em;
     private $twig;

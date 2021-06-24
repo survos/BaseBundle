@@ -125,8 +125,8 @@
             {#    {%- set attributes = attributes|merge({'data-bs-accordion': 'false'}) %}#}
                 {% import _self as knp_menu %}
                 <li class="sidebar-item {{ matcher.isCurrent(item) ? 'active' }}">
-
-                    <a href="#{{ itemSlug }}" data-bs-target="#{{ itemSlug }}" data-toggle="collapse" data-bs-toggle="collapse" class="sidebar-link">
+{# href="#{{ itemSlug }}"  #}
+                    <a data-bs-target="#{{ itemSlug }}" data-bs-toggle="collapse" class="sidebar-link">
                         {{ _self.icon(item) }}
                         <span class="align-middle">{{ item.label }}</span>
                         {{ _self.badges(item) }}
