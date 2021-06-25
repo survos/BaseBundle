@@ -81,8 +81,8 @@ EventDispatcherInterface $eventDispatcher,
             // security.yaml defines what field this is!
             $user = $this->userProvider->loadUserByIdentifier($username);
             if (!$password && !$input->getOption('roles') ) {
-                $io->error("$email already exists, use --password to overwrite the existing password");
-                return 1;
+                $io->warning("$email already exists, use --password to overwrite the existing password");
+//                return self::SUCCESS;
             } else {
                 $action = 'updated';
             }
@@ -90,32 +90,34 @@ EventDispatcherInterface $eventDispatcher,
             $action = 'created';
             $user = new User();
             $user->setEmail($email);
-            if ($input->getOption('username')) {
-                $user->setUsername($username);
-            }
+//            if ($input->getOption('username')) {
+//                $user->setUsername($username);
+//            }
             $this->entityManager->persist($user);
         }
 
-        if ( (!$plainTextPassword = $input->getArgument('password')) || $password) {
-            // password prompt
-                $question = new Question('Please choose a password:');
-                $question->setValidator(function ($password) {
-                    if (empty($password)) {
-                        throw new \Exception('Password can not be empty');
-                    }
-
-                    return $password;
-                });
-                $question->setHidden(true);
-                $plainTextPassword = $this->getHelper('question')->ask($input, $output, $question);
-        }
+//        if ( (!$plainTextPassword = $input->getArgument('password')) || $password) {
+//            // password prompt
+//                $question = new Question('Please choose a password:');
+//                $question->setValidator(function ($password) {
+//                    if (empty($password)) {
+//                        throw new \Exception('Password can not be empty');
+//                    }
+//
+//                    return $password;
+//                });
+//                $question->setHidden(true);
+//                $plainTextPassword = $this->getHelper('question')->ask($input, $output, $question);
+//        }
 
         if ($roleString = $input->getOption('roles')) {
             $user->setRoles(explode(',', $roleString));
         }
 
-        $user
-            ->setPassword($this->passwordEncoder->hashPassword($user, $plainTextPassword));
+        if ($plainTextPassword = $input->getArgument('password')) {
+            $user
+                ->setPassword($this->passwordEncoder->hashPassword($user, $plainTextPassword));
+        }
 
         $this->eventDispatcher->dispatch(new UserCreatedEvent($user, $input->getOption('extra')));
 
@@ -137,6 +139,6 @@ EventDispatcherInterface $eventDispatcher,
         }
 
         $io->success("User $email $action");
-        return 0;
+        return self::SUCCESS;
     }
 }
