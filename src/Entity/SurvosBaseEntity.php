@@ -10,9 +10,9 @@ abstract class SurvosBaseEntity
 {
 
     // hack for https://github.com/symfony/symfony/issues/35574
-    public function __sleep() { return []; }
+//    public function __sleep() { return []; }
 
-    public function getRP(?Array $addlParams=[]): array
+    public function getRP(?array $addlParams=[]): array
     {
         return array_merge($this->getUniqueIdentifiers(), $addlParams);
     }
@@ -23,7 +23,7 @@ abstract class SurvosBaseEntity
     }
 
 
-    public function populateFromOptions( $options ): self
+    public function populateFromOptions(array $options ): self
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 //        unset($options['_token']);
