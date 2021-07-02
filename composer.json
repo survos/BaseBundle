@@ -20,8 +20,7 @@
     },
     "require-dev": {
         "meyfa/php-svg": "^0.9.1",
-        "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "fzaninotto/faker": "^1.7"
+        "doctrine/doctrine-fixtures-bundle": "^3.0"
     },
     "config": {
         "sort-packages": true
