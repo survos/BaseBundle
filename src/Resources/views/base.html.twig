@@ -122,7 +122,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
     {% endblock %}
 
     {% block sidebar %}
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 d-print-none">
             <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">
                 {% block logo_mini %}
                     <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >

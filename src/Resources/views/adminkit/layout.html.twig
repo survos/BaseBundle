@@ -1,7 +1,8 @@
 {% extends "@SurvosBase/adminkit/base.html.twig" %}
 
 {% block sidebar %}
-<nav id="sidebar" class="sidebar js-sidebar">
+<nav id="sidebar" class="d-print-none sidebar js-sidebar {{ hide_sidebar|default(
+    '_edit' in app.request.get('_route') or '_new' in app.request.get('_route')) ? 'collapsed' }}">
     <div class="sidebar-content js-simplebar">
         {% block sidebar_header %}
         <a class="sidebar-brand" href="{% block logo_link '/' %}">
