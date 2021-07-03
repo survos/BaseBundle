@@ -30,10 +30,6 @@
             {% endblock %}
     {% endblock %}
 
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-
 </head>
 
 <body {% block body_start '' %}>
@@ -107,5 +103,11 @@
 </div>
 {% block body_end %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+
 </body>
 </html>
