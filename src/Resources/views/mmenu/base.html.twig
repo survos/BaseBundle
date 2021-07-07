@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="utf-8" />
+{#    <meta name="author" content="www.frebsite.nl" />#}
+    <meta name="viewport" content="width=device-width minimum-scale=1.0 maximum-scale=1.0 user-scalable=no" />
+
+    <title>{% block title %}mmenu.js demo{% endblock %}</title>
+
+    {% block stylesheets %}
+        <!-- stylesheets in {{ _self }} -->
+{#        <link type="text/css" rel="stylesheet" href="/mmenu-js/demo/css/demo.css" />#}
+        {{ encore_entry_link_tags('app') }}
+
+
+{#        {{ encore_entry_link_tags('mmenu_css') }}#}
+    {% endblock %}
+</head>
+{#  the mmenu library moves the menu to right outside the body, so it's no longer visible to the mmenu_controller #}
+<body {{ stimulus_controller('mmenu', {
+    currentMenuItem: 'menuItem?'
+}) }}>
+
+{% block html_body %}
+    <h1>{{ _self }}.html_body</h1>
+
+    {{ encore_entry_link_tags('app')|raw }}
+    {{ encore_entry_link_tags('mmenu_css')|raw }}
+
+
+    <div id="page">
+        <div class="navbar">
+            {% include "@SurvosBase/adminlte/_navbar.html.twig" %}
+            <a href="#menu"><span></span></a>
+            Advanced Demo {{ _self }}  __navbar here.
+        </div>
+
+        <div data-mmenu-target="msg">MMenu messages go here.</div>
+
+        <div data-mmenu-target="content">
+            Navbar?
+            {% block body %}
+            <p>
+                <strong>This is an advanced demo.</strong><br />
+                Click the menu icon to open the menu.
+            </p>
+            {% endblock body %}
+        </div>
+
+        <nav id="menu" data-mmenu-target="tree">
+            {% block menu %}
+            {% endblock %}
+        </nav>
+    </div>
+{% endblock html_body %}
+<!-- Hammer.js for dragging -->
+
+<!-- mmenu scripts -->
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{#    <script src="/mmenu-js/dist/mmenu.polyfills.js"></script>#}
+{#    <script src="/mmenu-js/dist/mmenu.js"></script>#}
+{% endblock %}
+
+
+</body>
+</html>

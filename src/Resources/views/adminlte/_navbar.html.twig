@@ -1,0 +1,75 @@
+<nav class="main-header navbar navbar-expand fixed-top navbar-dark">
+    <ul class="navbar-nav">
+        {% block navbar_toggle %}
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#">
+                    <i class="fas fa-bars"></i>
+                    <span class="sr-only">{{ 'Toggle navigation'|trans({}, 'AdminLTEBundle')  }}</span>
+                </a>
+            </li>
+        {% endblock %}
+
+        {% block navbar_links %}
+            {# TODO document me #}
+            {#
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="../../index3.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+            #}
+        {% endblock %}
+    </ul>
+
+    {% block navbar_search %}
+        {% block sidebar_search %}
+
+            {{ 0 and render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::searchFormAction')) }}
+        {% endblock %}
+    {% endblock %}
+
+
+    <ul class="navbar-nav ml-auto">
+
+        {% block navbar_start %}{% endblock %}
+
+        {#
+        @todo: refactor navbar
+
+        {% block navbar_actions %}
+            Use HInclude here!
+            {#
+        {% block navbar_messages %}
+            {{ render(control`ler('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::messagesAction')) }}
+        {% endblock %}
+        {% block navbar_notifications %}
+            {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::notificationsAction')) }}
+        {% endblock %}
+        {% block navbar_tasks %}
+            {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::tasksAction')) }}
+        {% endblock %}
+        #}
+
+        {% block navbar_user %}
+            {% if not is_granted('ROLE_USER') %}
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="{{ path('app_login') }}">Login</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {#                    {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::userAction')) }}#}
+        {% endblock %}
+
+        {% block navbar_end %}{% endblock %}
+
+        {% block navbar_control_sidebar_toggle %}
+            {% if admin_lte_context.control_sidebar is defined and admin_lte_context.control_sidebar is not empty %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-widget="control-sidebar" data-slide="true"><i class="fas fa-th-large"></i></a>
+                </li>
+            {% endif %}
+        {% endblock %}
+    </ul>
+</nav>

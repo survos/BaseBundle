@@ -23,21 +23,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class KnpMenuEvent extends Event
 {
-    protected ItemInterface $menu;
-    protected FactoryInterface $factory;
-    private array $options;
-    private array $childOptions;
 
-    /**
-     * @param array $options
-     * @param array $childOptions
-     */
-    public function __construct(ItemInterface $menu, FactoryInterface $factory, $options = [], $childOptions = [])
+    public function __construct(protected ItemInterface $menu, protected FactoryInterface $factory, private array $options = [], private array $childOptions = [])
     {
-        $this->menu = $menu;
-        $this->factory = $factory;
-        $this->options = $options;
-        $this->childOptions = $childOptions;
     }
 
     public function getMenu(): ItemInterface

@@ -2,9 +2,9 @@
 
 {% block root %}
     {% set listAttributes = item.childrenAttributes %}
-    <nav class="{{ item.attributes|join(' ') }}">
         {{ block('list') -}}
-    </nav>
+{#    <nav class="{{ item.attributes|join(' ') }}">#}
+{#    </nav>#}
 {% endblock %}
 
 
@@ -79,17 +79,19 @@
         {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
         {%- set itemSlug = item.name|u.snake %}
 
-        <li{{ macros.attributes(attributes) }}>
-            {# displaying the item #}
-            {%- if is_dropdown %}
-                {{ block('dropdownElement') }}
-            {%- elseif is_collapsable %}
-                {{ block('collapseElement') }}
-            {%- elseif item.uri is not empty and (not item.current or options.currentAsLink) %}
-                {{ block('linkElement') }}
-            {%- else %}
-                {{ block('spanElement') }}
-            {%- endif %}
+        <li{{ macros.attributes(attributes) }} {% if item.uri %}data-href="{{ item.uri }}"{% endif %}>
+            {% if item.uri %}data-href="{{ item.uri }}"{% endif %}
+            {{ block('linkElement') }}
+{#            #}{# displaying the item #}
+{#            {%- if is_dropdown %}#}
+{#                {{ block('dropdownElement') }}#}
+{#            {%- elseif is_collapsable %}#}
+{#                {{ block('collapseElement') }}#}
+{#            {%- elseif item.uri is not empty and (not item.current or options.currentAsLink) %}#}
+{#                {{ block('linkElement') }}#}
+{#            {%- else %}#}
+{#                {{ block('spanElement') }}#}
+{#            {%- endif %}#}
 
             {%- if divider_append %}
                 {{ block('dividerElement') }}
@@ -107,6 +109,7 @@
 {% endblock %}
 
 {% block dropdownlinks %}
+    dropdownlinks
     <{{ use_multilevel ? 'ul' : 'div'}} class="dropdown-menu">
 
     {% for item in item.children %}
@@ -121,13 +124,13 @@
 {% block collapselinks %}
     {# the collapseELement block references this id, we might need data-parent #}
     {# isAncestor checks if the item is an ancestor of the currentItem #}
-    <div id="collapse_{{itemSlug}}" class="{{ matcher.isAncestor(item) ? 'show' : 'collapse' }}">
+{#    <div id="collapse_{{itemSlug}}" class="{{ matcher.isAncestor(item) ? 'show' : 'collapse' }}">#}
         <{{ use_multilevel ? 'ul' : 'div'}} class="nav-sidebar">
     {% for item in item.children %}
             {{ block('renderDropdownlink') }}
     {% endfor %}
         <{{ use_multilevel ? '/ul' : '/div'}}>
-    </div>
+{#    </div>#}
 {% endblock %}
 
 {% block renderDropdownlink %}
@@ -136,29 +139,32 @@
     {%- set divider_append = item.attributes.divider_append|default(false) %}
     {%- set attributes = item.attributes|merge({'dropdown': null, 'divider_prepend': null, 'divider_append': null }) %}
 
-    {% if use_multilevel %}
-        <li class="nav-item list-unstyled">
-    {% endif %}
+<li>
+{#    {% if use_multilevel %}#}
+{#        <li class="nav-item list-unstyled">#}
+{#    {% endif %}#}
 
     {%- if divider_prepend %}
         {{ block('dividerElementDropdown') }}
     {%- endif %}
 
-    {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}
-        {# collapse?
-        {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'dropdown-item') }}
-        #}
-        {{ block('linkElement') }}
-    {%- else %}
-        {{ block('spanElementDropdown') }}
-    {%- endif %}
+    {{ block('linkElement') }}
 
-    {%- if divider_append %}
-        {{ block('dividerElementDropdown') }}
-    {%- endif %}
+{#    {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}#}
+{#        #}{# collapse?#}
+{#        {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'dropdown-item') }}#}
+{#        #}
+{#        {{ block('linkElement') }}#}
+{#    {%- else %}#}
+{#        {{ block('spanElementDropdown') }}#}
+{#    {%- endif %}#}
 
+{#    {%- if divider_append %}#}
+{#        {{ block('dividerElementDropdown') }}#}
+{#    {%- endif %}#}
+
+</li>
     {% if use_multilevel %}
-        </li>
     {% endif %}
 {% endblock %}
 
@@ -220,12 +226,17 @@
     {% endif %}
 
 
-    <a href="{{ item.uri }}"{{ macros.attributes(attributes) }}>
+    <a data-href="{{ item.uri }}" href="{{ item.uri }}"{{ macros.attributes(attributes) }}>
         {% if item.attribute('icon') is not empty  %}
-            <i class="{{ item.attribute('icon') }}"></i>
+            <i class="{{ item.attribute('icon')|default('fas fa-home') }}"></i>
         {% endif %}
             {{ block('label') }}
+        <small>{{ item.uri }}</small>
+        {% if item.children %}
+            <span class="mm-counter">{{ item.children|length }}</span>
+        {% endif %}
     </a>
+
 {% endblock %}
 
 {% block spanElement %}

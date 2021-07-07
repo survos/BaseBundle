@@ -2,9 +2,9 @@
 
 {% block root %}
     {% set listAttributes = item.childrenAttributes %}
-    <nav class="{{ item.attributes|join(' ') }}">
-        {{ block('list') -}}
-    </nav>
+    {{ block('list') -}}
+{#    <nav class="{{ item.attributes|join(' ') }}">#}
+{#    </nav>#}
 {% endblock %}
 
 
@@ -163,7 +163,7 @@
 {% endblock %}
 
 {% block spanElementDropdown %}
-    'spanElementDropdown
+    'spanElementDropdown'
     {% import "knp_menu.html.twig" as macros %}
     {% import _self as ownmacro %}
     {{ ownmacro.setCssClassAttribute(item, 'LabelAttribute', 'dropdown-header') }}
@@ -279,7 +279,7 @@
                 <i class="{{ item.attribute('icon') }}"></i>
             {% endif %}
             {{ block('label') }}
-            <div class="link-arrow"><span class="fas fa-chevron-right"></span></div>
+{#            <div class="link-arrow"><span class="fas fa-chevron-right"></span></div>#}
         </a>
 {% endblock %}
 

@@ -9,6 +9,7 @@
 
 namespace Survos\BaseBundle\Menu;
 
+use Knp\Menu\ItemInterface;
 use Survos\BaseBundle\Event\KnpMenuEvent;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -18,20 +19,11 @@ class MenuBuilder
     const PAGE_MENU_EVENT='page_menu';
     const SIDEBAR_MENU_EVENT='sidebar_menu';
 
-    private $factory;
-    private $eventDispatcher;
-
-    /**
-     * @param FactoryInterface $factory
-     * @param EventDispatcherInterface $eventDispatcher
-     */
-    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher)
+    public function __construct(private FactoryInterface $factory, private EventDispatcherInterface $eventDispatcher)
     {
-        $this->factory = $factory;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function createSidebarMenu(array $options)
+    public function createSidebarMenu(array $options): ItemInterface
     {
         $menu = $this->factory->createItem('root', [
             'attributes' => [
@@ -57,7 +49,7 @@ class MenuBuilder
         return $menu;
     }
 
-    public function createPageMenu(array $options)
+    public function createPageMenu(array $options): ItemInterface
     {
         $menu = $this->factory->createItem('root', [
             'class' => 'float-right',

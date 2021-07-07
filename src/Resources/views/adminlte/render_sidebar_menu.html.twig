@@ -1,5 +1,5 @@
-    {% if menuCode is not defined %}
-    {% set menuCode = 'survos_sidebar_menu'%}
+{% if menuCode is not defined %}
+    {% set menuCode = 'sidebar'%}
 {% endif %}
 {# was admin_lte_context.knp_menu.main_menu  #}
 {#
@@ -10,6 +10,8 @@
 {% if theme is not defined %}
 {% set theme = 'adminkit' %}
 {% endif %}
+
+{% set theme = 'adminlte' %}
 
 {% if theme == 'volt' %}
 {{ knp_menu_render(menuCode, {
@@ -26,15 +28,10 @@
 }}
 {% endif %}
 
-theme {{ theme }}
-{% if theme == 'mmenu' %}
-
-    {% set menuItem = knp_menu_get(menuCode, [], {'some_option': 'my_value'}) %}
-    {{ knp_menu_render(menuItem) }}
-
+{% if theme == 'adminlte' %}
+{#    "template"      : "@SurvosBase/adminlte/knp_menu.html.twig",#}
     {{ knp_menu_render(menuCode, {
         'menu_code'     : menuCode,
-        "template"      : "@SurvosBase/knp_menu/mmenu_knp_menu.html.twig",
         "currentClass"  : "active show",
         "ancestorClass" : "ancestor-active current_ancestor",
         "branch_class"  : "multi-level nav-item justify-content-between",

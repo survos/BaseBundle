@@ -181,7 +181,7 @@ class BaseMenuSubscriber
         // move the icon to attributes, where it belongs
         if ($options['icon']) {
             $options['attributes']['icon'] = $options['icon'];
-            $options['attributes']['class'] = 'text-danger';
+//            $options['attributes']['class'] = 'text-danger';
             $options['label_attributes']['icon'] = $options['icon'];
             // unset($options['icon']);
         }

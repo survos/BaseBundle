@@ -34,7 +34,6 @@
 
 <body {% block body_start '' %}>
 <div class="wrapper">
-    {% block sidebar 'adminkit sidebar here...' %}
     <div class="main">
         {% block navbar %}
         <nav class="navbar navbar-expand navbar-light navbar-bg ">
@@ -61,12 +60,35 @@
             {% block navbar_notifications %}
             <div class="navbar-collapse collapse">
 {#                            {% include "@SurvosBase/adminkit/_navbar_notifications_demo.html.twig" %}#}
-                            {% include "@SurvosBase/adminkit/_navbar_user.html.twig" with {profile_dropdown: block('profile_dropdown')} %}
+{#                            {% include "@SurvosBase/adminkit/_navbar_user.html.twig" with {profile_dropdown: block('profile_dropdown')} %}#}
             </div>
             {% endblock %}
         </nav>
         {% endblock %}
 
+        {% block content_header %}
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h3>{{ block('page_title') }}</h3>
+                            <h1>General Form</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">General Form</li>
+                                {% block breadcrumbs %}
+                                    <li class="breadcrumb-item"><a href="#">nothing</a></li>
+                                {% endblock %}
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+        <h3>{{ block('page_title') }}</h3>
+        {% endblock %}
 
         {% block content %}
         <main class="content">
