@@ -11,34 +11,26 @@
         <!-- stylesheets in {{ _self }} -->
 {#        <link type="text/css" rel="stylesheet" href="/mmenu-js/demo/css/demo.css" />#}
         {{ encore_entry_link_tags('app') }}
-
-
 {#        {{ encore_entry_link_tags('mmenu_css') }}#}
     {% endblock %}
 </head>
 {#  the mmenu library moves the menu to right outside the body, so it's no longer visible to the mmenu_controller #}
-<body {{ stimulus_controller('mmenu', {
+<body class="layout-fixed" {{ stimulus_controller('mmenu', {
     currentMenuItem: 'menuItem?'
 }) }}>
 
 {% block html_body %}
-    <h1>{{ _self }}.html_body</h1>
+    <div id="page" class="wrapper">
 
-    {{ encore_entry_link_tags('app')|raw }}
-    {{ encore_entry_link_tags('mmenu_css')|raw }}
-
-
-    <div id="page">
-        <div class="navbar">
-            {% include "@SurvosBase/adminlte/_navbar.html.twig" %}
-            <a href="#menu"><span></span></a>
-            Advanced Demo {{ _self }}  __navbar here.
+        <div class="header">
+            {% include "@SurvosBase/mmenu/_navbar.html.twig" %}
         </div>
 
-        <div data-mmenu-target="msg">MMenu messages go here.</div>
+        <p><div data-mmenu-target="msg">MMenu messages go here.</div></p>
 
-        <div data-mmenu-target="content">
-            Navbar?
+        <div class="content" data-mmenu-target="content">
+
+
             {% block body %}
             <p>
                 <strong>This is an advanced demo.</strong><br />

@@ -10,18 +10,21 @@
 
 {% block label %}
     {% if item.attributes.icon|default(false) %}
-    <span class="{{ item.attributes.icon }}"></span>
+        <span class="{{ item.attributes.icon }}"></span>
     {% endif %}
 
-        <span class="{{ item.attributes.style|default('') == 'heading' ? 'mm-divider' }}">
-            {{ item.label|raw }}
-        </span>
     {% if item.uri %}
         {{ item.label|raw }}
+        {% if app.request.get('debug') %}
         <small>{{ item.uri }}</small>
+            {% endif %}
         {% if item.children %}
             <span class="mm-counter">{{ item.children|length }}</span>
         {% endif %}
+    {% else %}
+        <span class="{{ item.attributes.style|default('') == 'heading' ? 'mm-divider' }}">
+            {{ item.label|raw }}
+        </span>
     {% endif %}
 
 {% endblock %}
