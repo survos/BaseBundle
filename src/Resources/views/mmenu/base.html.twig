@@ -15,7 +15,7 @@
     {% endblock %}
 </head>
 {#  the mmenu library moves the menu to right outside the body, so it's no longer visible to the mmenu_controller #}
-<body class="layout-fixed" {{ stimulus_controller('mmenu', {
+<body class="" {{ stimulus_controller('mmenu', {
     currentMenuItem: 'menuItem?'
 }) }}>
 
@@ -25,9 +25,7 @@
         <div class="header">
             {% include "@SurvosBase/mmenu/_navbar.html.twig" %}
         </div>
-
-        <p><div data-mmenu-target="msg">MMenu messages go here.</div></p>
-
+        <div data-mmenu-target="msg"></div>
         <div id="html_content" class="content" data-mmenu-target="content">
 
             {% block body %}

@@ -8,7 +8,7 @@
                     <a class="nav-link" data-lte-toggle="sidebar-full" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Home</a>
+                    <a href="{{ path('app_homepage') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Contact</a>
@@ -113,43 +113,63 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
+                {% if is_granted('ROLE_USER') %}
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img src="./assets/img/AdminLTELogo.png" class="user-image img-circle shadow" alt="User Image">
-                        <span class="d-none d-md-inline">Alexander Pierce</span>
+{#                        <img src="./assets/img/AdminLTELogo.png" class="user-image img-circle shadow" alt="User Image">#}
+                        <span class="d-none d-md-inline">{{ app.user }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                         <!-- User image -->
                         <li class="user-header bg-primary">
-                            <img src="./assets/img/AdminLTELogo.png" class="img-circle shadow" alt="User Image">
+{#                            <img src="./assets/img/AdminLTELogo.png" class="img-circle shadow" alt="User Image">#}
 
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+{#                                Alexander Pierce - Web Developer#}
+{#                                <small>Member since Nov. 2012</small>#}
                             </p>
                         </li>
                         <!-- Menu Body -->
                         <li class="user-body">
-                            <div class="row">
-                                <div class="col-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
+                            {% for membership in app.user.memberships %}
+                                                            <div class="row">
+                                                                <div class="col-4 text-left">
+                                                                    <a href="{{ path('project_show', project.rp) }}">{{ membership.project.code }}</a>
+                                                                </div>
+                                                                <div class="col-2 ">
+                                                                    {{ membership.role }}
+                                                                </div>
+                                                            </div>
+
+                            {% endfor %}
+{#                            <div class="row">#}
+{#                                <div class="col-4 text-center">#}
+{#                                    <a href="#">Followers</a>#}
+{#                                </div>#}
+{#                                <div class="col-4 text-center">#}
+{#                                    <a href="#">Sales</a>#}
+{#                                </div>#}
+{#                                <div class="col-4 text-center">#}
+{#                                    <a href="#">Friends</a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <!-- /.row -->#}
+{#                        </li>#}
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                            <a href="{{ path('app_profile') }}" class="btn btn-default btn-flat">Profile</a>
+                            <a href="{{ path('app_logout') }}" class="btn btn-default btn-flat float-end">Sign out</a>
                         </li>
                     </ul>
                 </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{{ path('app_login') }}" role="button">
+                            <i class="fas fa-enter"></i>Log in
+                        </a>
+                    </li>
+
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
