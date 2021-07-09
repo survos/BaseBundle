@@ -9,6 +9,7 @@
     <span{{ knp_menu.attributes(item.labelAttributes) }}>{{ block('label') }}</span>{% endblock %}
 
 {% block label %}
+    {% import '@SurvosBase/adminlte/knp_menu.html.twig' as adminLteMenuMacros %}
     {% if item.attributes.icon|default(false) %}
         <span class="{{ item.attributes.icon }}"></span>
     {% endif %}
@@ -17,6 +18,9 @@
         {{ item.label|raw }}
         {% if app.request.get('debug') %}
         <small>{{ item.uri }}</small>
+            {% endif %}
+        {% if item.getExtra('badge') %}
+            {{ adminLteMenuMacros.badges(item) }}
             {% endif %}
         {% if item.children %}
             <span class="mm-counter">{{ item.children|length }}</span>

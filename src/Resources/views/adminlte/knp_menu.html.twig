@@ -316,7 +316,7 @@
 {% endmacro %}
 
 {% macro badge(badge) %}
-{#    <span class="right badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span>#}
+    <div class="mm-counter"><span class="badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span></div>
 {% endmacro %}
 
 {% block list %}
