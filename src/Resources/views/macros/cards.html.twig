@@ -90,7 +90,7 @@
             {% macro array_as_table(data, showEmpty) %}
                 <table class="table table-sm mt-2 mb-4">
                     <tbody>
-                    {% for key, val in data|filter( (val) => showEmpty or (val != '')) %}
+                    {% for key, val in data|default([])|filter( (val) => showEmpty or (val != '')) %}
                         <tr>
                             <th>
                                 {{ key }}

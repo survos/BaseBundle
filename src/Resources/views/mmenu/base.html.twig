@@ -16,7 +16,7 @@
 </head>
 {#  the mmenu library moves the menu to right outside the body, so it's no longer visible to the mmenu_controller #}
 <body class="" {{ stimulus_controller('mmenu', {
-    currentMenuItem: 'menuItem?'
+    currentMenuItem: '(current menu item)'
 }) }}>
 
 {% block html_body %}
@@ -25,9 +25,16 @@
         <div class="header">
             {% include "@SurvosBase/mmenu/_navbar.html.twig" %}
         </div>
-        <div data-mmenu-target="msg"></div>
-        <div id="html_content" class="content" data-mmenu-target="content">
 
+{#        <div style="clear: left"></div>#}
+{#        <div class="alert alert-warning" role="alert">#}
+{#            This is a success alert—check it out!#}
+{#        </div>#}
+
+{#        <div style="clear: left"></div>#}
+
+        <div style="clear: both"></div>
+        <div id="html_content" class="content" data-mmenu-target="content">
             {% block body %}
             <p>
                 <strong>This is an advanced demo.</strong><br />
@@ -35,9 +42,22 @@
             </p>
             {% endblock body %}
         </div>
+        <div style="clear: both"></div>
+        <span data-mmenu-target="msg"></span>
 
         <nav id="menu" data-mmenu-target="tree">
             {% block menu %}
+                <ul>
+                    <li><a href="#content">Introduction</a></li>
+                    <li><a href="#widescreen">Widescreen extension</a></li>
+                    <li><a href="#drag">Drag add-on</a></li>
+                    <li><a href="#fixed">Fixed elements</a></li>
+
+                    <li class="Divider">Other demos</li>
+                    <li><a href="default.html">Default demo</a></li>
+                    <li><a href="{{ path('mmenu_page', {page: 'advanced'}) }}">Advanced demo</a></li>
+                </ul>
+
             {% endblock %}
         </nav>
     </div>

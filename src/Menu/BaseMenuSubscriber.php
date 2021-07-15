@@ -94,7 +94,7 @@ class BaseMenuSubscriber
         }
 
         if ($badge = $options['badge']) {
-            $child->setExtra('badge', $badge);
+            $child->setExtra('badge', is_array($badge) ? $badge: ['value' => $badge]);
         }
 
         if ($style = $options['style']) {

@@ -134,7 +134,7 @@
                             {% for membership in app.user.memberships %}
                                                             <div class="row">
                                                                 <div class="col-4 text-left">
-                                                                    <a href="{{ path('project_show', project.rp) }}">{{ membership.project.code }}</a>
+                                                                    <a href="{{ path('project_show', membership.project.rp) }}">{{ membership.project.code }}</a>
                                                                 </div>
                                                                 <div class="col-2 ">
                                                                     {{ membership.role }}
@@ -183,4 +183,6 @@
             </ul>
         </div>
     </nav>
+<div style="clear: left"></div>
+
     <!-- /.navbar -->
