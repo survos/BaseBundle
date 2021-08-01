@@ -135,7 +135,9 @@ class OAuthController extends AbstractController
             ->getClient($clientKey) // key used in config/packages/knpu_oauth2_client.yaml
             ->redirect($scopes[$clientKey] ?? [], [])
             ;
-        // dd($redirect);
+//        dump($redirect->getTargetUrl());
+        $redirect->setTargetUrl(str_replace('http%3A', 'https%3A', $redirect->getTargetUrl()));
+//         dd($redirect);
         return $redirect;
     }
 
@@ -161,9 +163,11 @@ class OAuthController extends AbstractController
         } else {
             $targetUrl = $this->router->generate('app_register', ['email' => $user->getEmail()]);
         }
+        dd($targetUrl);
         return new RedirectResponse($targetUrl);
 
     }
+
 
     /**
      * This is where the user is redirected to after logging into the OAuth server,
@@ -189,19 +193,20 @@ class OAuthController extends AbstractController
         }
 
 
-        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\GithubClient $client */
+        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient $client */
 
         $client = $clientRegistry->getClient($clientKey);
         $route = $request->get('_route');
+//        dump($client, $route, $request->query->all());
 
         // the exact class depends on which provider you're using
         /** @var \League\OAuth2\Client\Provider\GithubResourceOwner $user */
-        try {
             $oAuthUser = $client->fetchUser();
             // github users don't have an email, so we have to fetch it.
             $email = $oAuthUser->getEmail();
             // now presumably we need to link this up.
             $token = $oAuthUser->getId();
+        try {
         } catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());
             foreach ($request->query->all() as $var=>$value) {
@@ -238,7 +243,9 @@ class OAuthController extends AbstractController
                     $authentication, // authenticator whose onAuthenticationSuccess you want to use
                     'main'          // the name of your firewall in security.yaml
                 );
-                // dump($clientKey, $user, $user->getRoles(), $guardHandler, get_class($guardHandler), $successRedirect);
+
+                $this->entityManager->flush();
+//                 dd($clientKey, $user, $user->getRoles(), $guardHandler, get_class($guardHandler), $successRedirect);
 
                 return $successRedirect;
             } else {
