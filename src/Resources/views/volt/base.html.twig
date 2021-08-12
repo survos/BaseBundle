@@ -34,7 +34,24 @@
 
 {#{% include "_dynamic/partials/_navigation.html.twig" %}#}
 
-{% block sidebar 'volt sidebar here.' %}
+{% block sidebar  %}
+    {% if menuCode is not defined %}
+        {% set menuCode = 'survos_sidebar_menu'%}
+    {% endif %}
+{{ knp_menu_render(menuCode, {
+    'menu_code'     : menuCode,
+    "template"      : "@SurvosBase/knp_menu_volt.html.twig",
+    "currentClass"  : "active show",
+    "ancestorClass" : "ancestor-active current_ancestor",
+    "branch_class"  : "multi-level nav-item justify-content-between",
+    'firstClass'    : 'first-class',
+    'lastClass'     : 'last-class',
+    'leaf_class'    : 'leaf_class nav-link',
+    "allow_safe_labels": true,
+})
+}}
+{% endblock sidebar %}
+
 
 <main class="content">
     <div class="py-4">

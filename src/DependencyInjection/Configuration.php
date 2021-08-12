@@ -15,6 +15,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+            ->scalarNode('theme')
+            ->info('the theme code for rendering templates')
+            ->end()
             ->arrayNode('routes')
                 ->normalizeKeys(false)
                 // ->useAttributeAsKey('name', false)
