@@ -17,42 +17,19 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\EventDispatcher\Event;
 use Survos\BaseBundle\Event\UserCreatedEvent;
 
 class UserCreateCommand extends Command
 {
     protected static $defaultName = 'survos:user:create';
-    private $passwordEncoder;
-    private $userProvider;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var GuardAuthenticatorHandler
-     */
-    private $guardHandler;
-    /**
-     * @var EventDispatcherInterface
-     */
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(UserPasswordHasherInterface $passwordEncoder,
-                                // GuardAuthenticatorHandler $guardHandler,
-                                UserProviderInterface $userProvider,
-EventDispatcherInterface $eventDispatcher,
-//                                EventDispatcherInterface $eventDispatcher,
-                                EntityManagerInterface $entityManager,  string $name = null)
+    public function __construct(private UserPasswordHasherInterface $passwordEncoder,
+                                private UserProviderInterface $userProvider,
+                private EventDispatcherInterface $eventDispatcher,
+                                private EntityManagerInterface $entityManager,
+                                string $name = null)
     {
         parent::__construct($name);
-        $this->passwordEncoder = $passwordEncoder;
-        $this->userProvider = $userProvider;
-        $this->entityManager = $entityManager;
-//        $this->guardHandler = $guardHandler;
-//        $this->eventDispatcher = $eventDispatcher;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function configure()

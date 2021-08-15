@@ -4,6 +4,8 @@ namespace Survos\BaseBundle\Controller;
 
 use App\Entity\User;
 # use App\Security\AppAuthenticator;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
 use Survos\BaseBundle\Security\AppEmailAuthenticator as AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\Github;
@@ -168,23 +170,35 @@ class OAuthController extends AbstractController
 
     }
 
-
     /**
      * This is where the user is redirected to after logging into the OAuth server,
      * see the "redirect_route" in config/packages/knpu_oauth2_client.yaml
      *
-     * @\Symfony\Component\Routing\Annotation\Route("/connect/controller/{clientKey}", name="oauth_connect_check")
+     * @Route("/connect/controller/{clientKey}", name="oauth_connect_check")
      */
     public function connectCheckWithController(Request $request,
-                                               ClientRegistry $clientRegistry,
                                                EntityManagerInterface $em,
-                                               GuardAuthenticatorHandler $guardHandler,
-                                               AppAuthenticator $authentication,
-                                               UserProviderInterface $userProvider,
-                                               $clientKey
-    )
+                                               ClientRegistry $clientRegistry, string $clientKey)
     {
-        // return new RedirectResponse($this->generateUrl('app_homepage'));
+        /** @var OAuth2ClientInterface $client */
+        $client = $clientRegistry->getClient($clientKey);
+        $route = $request->get('_route');
+
+
+        try {
+            // the exact class depends on which provider you're using
+            /** @var \League\OAuth2\Client\Provider\GenericProvider $user */
+            $oAuthUser = $client->fetchUser();
+
+            // do something with all this new power!
+            // e.g. $name = $user->getFirstName();
+//            dd($oAuthUser); die;
+            // ...
+        } catch (IdentityProviderAuthenticationException $e) {
+            // something went wrong!
+            // probably you should return the reason to the user
+            dd($e->getMessage());
+        }
 
         if ($error = $request->get('error')) {
             $this->addFlash('error', $error);
@@ -193,16 +207,6 @@ class OAuthController extends AbstractController
         }
 
 
-        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient $client */
-
-        $client = $clientRegistry->getClient($clientKey);
-        $route = $request->get('_route');
-//        dump($client, $route, $request->query->all());
-
-        // the exact class depends on which provider you're using
-        /** @var \League\OAuth2\Client\Provider\GithubResourceOwner $user */
-            $oAuthUser = $client->fetchUser();
-            // github users don't have an email, so we have to fetch it.
             $email = $oAuthUser->getEmail();
             // now presumably we need to link this up.
             $token = $oAuthUser->getId();
@@ -221,7 +225,7 @@ class OAuthController extends AbstractController
         // if we have it, just log them in.  If not, direct to register
 
 
-        // it seems that loadUserByUsername redirects to logig
+        // it seems that loadUserByUsername redirects to login
         // if ($user = $userProvider->loadUserByUsername($email)) {
         /** @var User $user */
         if ($user = $em->getRepository(User::class)->findOneBy(['email' => $email])) {
@@ -236,16 +240,12 @@ class OAuthController extends AbstractController
                     default: throw new \Exception("Invalid client key: " . $clientKey);
                 }
 
+//                $passport = $authentication->auth
 
-                $successRedirect =  $guardHandler->authenticateUserAndHandleSuccess(
-                    $user,          // the User object you just created
-                    $request,
-                    $authentication, // authenticator whose onAuthenticationSuccess you want to use
-                    'main'          // the name of your firewall in security.yaml
-                );
 
                 $this->entityManager->flush();
 //                 dd($clientKey, $user, $user->getRoles(), $guardHandler, get_class($guardHandler), $successRedirect);
+                $successRedirect = $this->redirectToRoute('app_homepage', ['email' => $email]);
 
                 return $successRedirect;
             } else {
