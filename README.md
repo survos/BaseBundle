@@ -4,7 +4,7 @@
 A moderately-opinionated bundle that provides a quick way to get up and running with Symfony.  
 In particular, it sets up and uses the following:
 
-* Adminkit (Bootstrap 5)
+* AdminLTE4 (Bootstrap 5)
 * Knp Menu for sidebar and top nagivation
 * webpack encore 
 * optional jQuery (for js-tree and datatables)
@@ -24,11 +24,6 @@ While the following can be disabled, by default the bundle assumes you want the 
 
 Go to ... and fill out the form with what you want.  Run the script to create the Symfony shell.
 
-Install Adminkit
-
-```bash
-yarn add https://github.com/survos/adminkit.git
-yarn add https://github.com/survos/adminkit-pro.git
 ```
 
 Then in app.js
@@ -44,23 +39,6 @@ and app.scss
 @import "~adminkit/static/css/app.css";
 ```
 
-
-### Upgrading to Bootstrap5 and AdminKit
-
-    yarn add https://github.com/survos/adminkit.git
-
-    composer update symfony/flex 
-    yarn upgrade "@symfony/webpack-encore@^1.1"
-    yarn remove jquery
-    yarn remove popper.js
-    yarn add @popperjs/core
-    yarn add Hinclude
-    yarn remove admin-lte
-    yarn upgrade sass-loader@11
-    yarn remove bootstrap 
-    yarn add bootstrap@next
-    yarn upgrade @symfony/webpack-encore@1.1
-    use Survos\BaseBundle\Event\KnpMenuEvent; # (instead of KevinPabst)
 
 Change app.js:
 

@@ -1,7 +1,6 @@
 {#  \Survos\BaseBundle\SurvosBaseBundle base.html.twig #}
 {#
 Copied from '@SurvosBaseBundle/layout/default-layout.html.twig' and adjusted for Survos
-
 #}
 <!DOCTYPE html{% block html_start %}{% endblock %}>
 <html lang="{{ app.request.locale }}">
@@ -70,23 +69,25 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 
                 {% block sidebar_nav %}
-BASE
+                {#
                 <div {{ stimulus_controller('mmenu', {
                     'currentMenuItem' : 'test'
                 }
                 ) }}
                 >
-                    {#        <nav data-mmenu-target="mmenu">Mmenu will go here.#}
-                    {#        </nav>#}
                     <div data-mmenu-target="mmenu">Mmenu target.</div>
                     <div data-mmenu-target="msg">A msg will go here.</div>
 
                     <nav id="sidebar-menu" data-mmenu-target="tree">
-                {% include '@SurvosBase/render_sidebar_menu.html.twig' with {
-                        theme: 'mmenu',
+                        #}
+
+
+{#                <nav id="sidebar-menu">#}
+                {% include '@SurvosBase/adminlte/render_sidebar_menu.html.twig' with {
+                        theme: theme,
                         menuCode: 'survos_sidebar_menu'} %}
+{#                </nav>#}
                 {% endblock %}
-                </nav>
             </div>
             </div>
         </aside>

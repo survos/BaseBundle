@@ -29,7 +29,7 @@ class SurvosSetupCommand extends Command
     private $io;
 
     CONST recommendedBundles = [
-        'EasyAdminBundle' => ['repo' => 'admin'],
+//        'EasyAdminBundle' => ['repo' => 'admin'],
         'SurvosWorkflowBundle' => ['repo' => 'survos/workflow-bundle'],
         // 'MsgPhpUserBundle' => ['repo' => 'msgphp/user-bundle']
     ];
@@ -63,7 +63,7 @@ class SurvosSetupCommand extends Command
         $this->io = $io = new SymfonyStyle($input, $output);
 
         // $this->checkEntities($io);
-        $this->createConfig($io);
+        $this->createSubscribers($io);
 
         $bundles = $this->checkBundles($io);
         $yarnPackages = []; // used to be $this->checkYarn($io);
@@ -136,7 +136,7 @@ class SurvosSetupCommand extends Command
 
     }
 
-    private function createConfig(SymfonyStyle $io) {
+    private function createSubscribers(SymfonyStyle $io) {
 
 
         $dir = $this->projectDir . '/src/EventSubscriber';

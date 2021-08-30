@@ -42,10 +42,11 @@ class SurvosInitCommand extends Command
     ];
 
     CONST requiredJsLibraries = [
-//        'jquery',
-        'sass-loader@^10.0.5',
+        'jquery',
+        'sass-loader@^11',
         'node-sass',
         'simulus',
+        'Hinclude',
 //        'bootstrap', // actually, this comes from adminlte, so maybe we shouldn't load it.
 //        'fontawesome',
         '@popperjs/core'
@@ -118,8 +119,9 @@ class SurvosInitCommand extends Command
 //            file_put_contents($npmRcFile, "@fortawesome:registry=");
 //        }
 
-//        $this->checkYarn($io);
-//        $this->installYarnLibraries($io);
+        $this->checkYarn($io);
+        $this->installYarnLibraries($io);
+        $this->createConfigs($io);
 
         // @todo: use this in the base bundle!!  Or prompt and use SVG, then colors could be used for environment.
         $this->createFavicon($io);
@@ -132,64 +134,6 @@ class SurvosInitCommand extends Command
         /*
          *
          */
-
-        // configure the route
-        if ($prefix = $io->ask("Base Route Prefix", '/')) {
-$routes_by_name_config = <<< END
-
-survos_landing: {path: /landing, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
-app_homepage: {path: /, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
-app_heroku: {path: /heroku, controller: 'Survos\BaseBundle\Controller\LandingController::heroku'}
-app_logo: {path: /logo, controller: 'Survos\BaseBundle\Controller\LandingController::logo'}
-app_profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
-profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
-#logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::logout'}
-# required if app_profile is used, since you can change the password from the profile
-app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\LandingController::changePassword'}
-app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\LandingController::typography'}
-survos_base_credits: {path: "/credits/{type}", controller: 'Survos\BaseBundle\Controller\LandingController::credits'}
-END;
-            $fn = '/config/routes/survos_base.yaml';
-            $config = [
-//                'survos_base_bundle' => [
-//                    'resource' => '@SurvosBaseBundle/Controller/LandingController.php',
-//                    'prefix' => $prefix,
-//                    'type' => 'annotation'
-//                ],
-                'survos_base_bundle_oauth' => [
-                    'resource' => '@SurvosBaseBundle/Controller/OAuthController.php',
-                    'prefix' => $prefix,
-                    'type' => 'annotation'
-                ],
-
-            ];
-            file_put_contents($output = $this->projectDir . $fn, Yaml::dump($config) . "\n\n" . $routes_by_name_config);
-            $io->comment($fn . " written.");
-        }
-
-        // use twig? Php?
-
-        $yaml = <<< END
-//survos_base:
-//  menus:
-//    main_menu: survos_sidebar_menu
-//    breadcrumb_menu: true
-//
-//  routes:
-//    welcome: app_homepage
-//    login: app_login
-//    register: 
-//    profile: app_profile
-END;
-
-        // should we remove admin_lte.yaml??
-//        @unlink('/config/packages/admin_lte.yaml');
-
-        $fn = '/config/packages/survos_base.yaml';
-        if (!file_exists($fn)) {
-            file_put_contents($output = $this->projectDir . $fn, $yaml);
-            $io->comment($fn . "  written.");
-        }
 
 
         $io->success("Run xterm -e \"yarn run encore dev-server\" & install more bundles, then run bin/console survos:configure");
@@ -457,6 +401,77 @@ END;
     private function writeFile($fn, $contents) {
         file_put_contents($output = $this->projectDir . $fn, $contents);
         $this->io->success($fn . " written.");
+    }
+
+    /**
+     * @param SymfonyStyle $io
+     * @param string $output
+     */
+    private function createConfigs(SymfonyStyle $io): void
+    {
+// configure the route
+        if ($prefix = $io->ask("Base Route Prefix", '/')) {
+            $routes_by_name_config = <<< END
+
+survos_landing: {path: /landing, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
+app_homepage: {path: /, controller: 'Survos\BaseBundle\Controller\LandingController::landing'}
+app_heroku: {path: /heroku, controller: 'Survos\BaseBundle\Controller\LandingController::heroku'}
+app_logo: {path: /logo, controller: 'Survos\BaseBundle\Controller\LandingController::logo'}
+app_profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
+profile: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::profile'}
+#logout: {path: /profile, controller: 'Survos\BaseBundle\Controller\LandingController::logout'}
+# required if app_profile is used, since you can change the password from the profile
+app_change_password: {path: /change-password, controller: 'Survos\BaseBundle\Controller\LandingController::changePassword'}
+app_typography: {path: /typography, controller: 'Survos\BaseBundle\Controller\LandingController::typography'}
+survos_base_credits: {path: "/credits/{type}", controller: 'Survos\BaseBundle\Controller\LandingController::credits'}
+END;
+
+
+            $fn = '/config/routes/survos_base.yaml';
+            $config = [
+//                'survos_base_bundle' => [
+//                    'resource' => '@SurvosBaseBundle/Controller/LandingController.php',
+//                    'prefix' => $prefix,
+//                    'type' => 'annotation'
+//                ],
+                'survos_base_bundle_oauth' => [
+                    'resource' => '@SurvosBaseBundle/Controller/OAuthController.php',
+                    'prefix' => $prefix,
+                    'type' => 'annotation'
+                ],
+
+            ];
+            file_put_contents($output = $this->projectDir . $fn, Yaml::dump($config) . "\n\n" . $routes_by_name_config);
+            $io->comment($fn . " written.");
+        }
+
+        // use twig? Php?
+
+        $yaml = <<< END
+survos_base:
+  theme: adminlte
+#  theme: start-bootstrap
+#  menu:
+#    enable: true
+#    main_menu: survos_sidebar_menu
+#    breadcrumb_menu: true
+#
+
+twig:
+  globals:
+    theme: adminlte
+  paths:
+    'vendor/survos/base-bundle/src/Resources/views/adminlte': 'theme'
+END;
+
+        // should we remove admin_lte.yaml??
+//        @unlink('/config/packages/admin_lte.yaml');
+
+        $fn = '/config/packages/survos_base.yaml';
+        if (!file_exists($fn)) {
+            file_put_contents($output = $this->projectDir . $fn, $yaml);
+            $io->comment($fn . "  written.");
+        }
     }
 
 }

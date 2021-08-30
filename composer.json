@@ -4,6 +4,7 @@
     "type": "symfony-bundle",
     "keywords": ["generator", "skeleton" , "symfony5"],
     "require": {
+        "php": "8.0",
         "ext-json": "*",
         "ext-zip": "*",
         "doctrine/common": "^2.0|^3.0",
