@@ -16,8 +16,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MenuBuilder
 {
-    const PAGE_MENU_EVENT='page_menu';
-    const SIDEBAR_MENU_EVENT='sidebar_menu';
+    const PAGE_MENU_EVENT = 'page_menu';
+    const SIDEBAR_MENU_EVENT = 'sidebar_menu';
 
     public function __construct(private FactoryInterface $factory, private EventDispatcherInterface $eventDispatcher)
     {
@@ -25,22 +25,33 @@ class MenuBuilder
 
     public function createSidebarMenu(array $options): ItemInterface
     {
-        $menu = $this->factory->createItem('root', [
-            'attributes' => [
-//                'class' => 'nav nav-sidebar flex-column',
-            ],
-            'childrenAttributes' => [
-//                'class' => 'nav-child-attributes',
-//                'data-widget' => 'treeview',
-//                'data-accordion' => false,
-//                'role' => 'menu'
-            ],
-        ]);
+        assert(count($options), "Missing get options");
+        $menu = $this->factory->createItem('menuroot',
+            [
+                'label' => "Menu Root",
+                'first' => 'FIRSTCLASS',
+                'currentClass' => 'text-danger current-class active show',
+                'ancestorClass' => 'text-warning ancestor-class active show',
+
+                'attributes' => [
+                    'class' => 'nav nav-sidebar flex-column menuroot-attributes-class',
+                ],
+// @todo: pass these, so they an depend on what theme is being used.
+                'listAttributes' => [
+                    'class' => 'nav nav-treeviewXX listAttributes-class'
+                ],
+                'childrenAttributes' => [
+                    'class' => 'nav-link nav-treeview',
+                    'data-widget' => 'treeview',
+                    'data-accordion' => 'false',
+                    'role' => 'menu'
+                ],
+            ]);
 
         $childOptions = [
-//            'attributes' => ['class' => 'show treeview'],
-//            'childrenAttributes' => ['class' => 'list-unstyled nav-treeview show menu-open branch'],
-            'labelAttributes' => ['safe_html'=>true, 'data-bs-toggle' => 'collapse'],
+            'attributes' => ['class' => 'nav-treeview'],
+            'childrenAttributes' => ['class' => 'list-unstyled nav-treeview show menu-open branch'],
+            'labelAttributes' => ['safe_html' => true, 'data-bs-toggle' => 'collapse'],
         ];
 
         $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions),
@@ -54,7 +65,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('root', [
             'class' => 'float-right',
             'childrenAttributes' => [
-                'class' => 'nav nav-pills',
+                'class' => 'nav nav-pills childrenAttributes-class pageMenuClass',
                 // 'data-widget' => 'nav',
                 'data-accordion' => false,
                 // 'role' => 'menu'
@@ -69,12 +80,12 @@ class MenuBuilder
 
         $childOptions = [
             'attributes' =>
-                ['class' => 'show'],
+                ['class' => 'show childOptions-class'],
             'childrenAttributes' => ['class' => 'list-unstyled '],
-            'labelAttributes' => ['safe_html'=>true, 'data-toggle' => 'xxcollapse'],
+            'labelAttributes' => ['safe_html' => true, 'data-toggle' => 'xxcollapse'],
         ];
 
-        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions), self::PAGE_MENU_EVENT );
+        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions), self::PAGE_MENU_EVENT);
 
         return $menu;
     }

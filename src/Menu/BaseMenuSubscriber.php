@@ -64,11 +64,11 @@ class BaseMenuSubscriber
             $options['icon'] = 'fas fa-external-alt';
         }
 
-        if ($icon = $options['icon']) {
-            $child->setLinkAttribute('icon', $icon);
-            $child->setLabelAttribute('icon', $icon);
-            $child->setAttribute('icon', $icon);
-        }
+//        if ($icon = $options['icon']) {
+//            $child->setLinkAttribute('icon', $icon);
+//            $child->setLabelAttribute('icon', $icon);
+//            $child->setAttribute('icon', $icon);
+//        }
 
         if ($icon = $options['feather']) {
             $child->setLinkAttribute('feather', $icon);
@@ -173,17 +173,17 @@ class BaseMenuSubscriber
                          'edit' => 'fas fa-wrench'
                      ] as $regex=>$icon) {
                 if (preg_match("|$regex|", $options['route'])) {
-                    $options['icon'] = $icon;
+                    $options['data-icon'] = $icon;
                 }
             }
         }
 
         // move the icon to attributes, where it belongs
         if ($options['icon']) {
-            $options['attributes']['icon'] = $options['icon'];
+            $options['attributes']['data-icon'] = $options['icon'];
 //            $options['attributes']['class'] = 'text-danger';
-            $options['label_attributes']['icon'] = $options['icon'];
-            // unset($options['icon']);
+            $options['label_attributes']['data-icon'] = $options['icon'];
+             unset($options['icon']);
         }
 
         if (!$options['id']) {

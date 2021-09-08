@@ -35,6 +35,7 @@ Apply one or more of the following classes for the layout options:
 fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 #}
+{% block dom_body %}
 {% block body_start_tag %}
 <body {% block body_start %}{% endblock %} class="{{ admin_lte_context.skin|default("") }} ">
 {% endblock %}
@@ -47,7 +48,6 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
     {% endblock %}
 
     {% block sidebar %}
-
         @@sidebar
         <aside class="main-sidebar sidebar-dark-primary elevation-4 d-print-none">
             <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">
@@ -60,9 +60,10 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
             <div class="sidebar">
                 {% block sidebar_user %}
-                    {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}
-                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))
-                    {% endif %}
+                    @user Sidebar
+{#                    {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}#}
+{#                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))#}
+{#                    {% endif %}#}
                 {% endblock %}
 
 {#                {% block sidebar_user '@todo: user info' %}#}
@@ -83,15 +84,27 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 
 {#                <nav id="sidebar-menu">#}
-                {% include '@SurvosBase/adminlte/render_sidebar_menu.html.twig' with {
+
+                <div class="os-padding">
+                    <div class="os-viewport os-viewport-native-scrollbars-invisible">
+                        <div class="os-content" style="padding: 8px; height: 100%; width: 100%;">
+                            <nav class="mt-2">
+
+                {{ include('@SurvosBase/adminlte/render_sidebar_menu.html.twig',  {
                         theme: theme,
-                        menuCode: 'survos_sidebar_menu'} %}
+                        debug: app.request.get('debug', false),
+                        menuCode: 'survos_sidebar_menu'}
+                )}}
+                            </nav>
+                        </div>
+                    </div>
+                </div>
 {#                </nav>#}
                 {% endblock %}
             </div>
-            </div>
         </aside>
-    {% endblock %}
+
+{% endblock %}
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -161,7 +174,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 </div>
 
-
 </body>
+{% endblock dom_body %}
 </html>
 
