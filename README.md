@@ -143,7 +143,7 @@ yarn add https://github.com/survos/adminkit.git
 ## FIRST, initialize SurvosBase, which creates app.scss.  Then fix webpack.
 
 sed -i "s|//.enableSassLoader()|.enableSassLoader()|" webpack.config.js
-sed -i "s|import './styles/app.css';|import './styles/app.scss';|" assets/app.js
+sed -i "s|import './styles/app.css';|import './styles/app.scss';|" assets/js/app.js
 
 yarn install
 

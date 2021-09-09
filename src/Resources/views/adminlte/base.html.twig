@@ -42,9 +42,9 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 {% block after_body_start %}{% endblock %}
 <div class="wrapper">
 
-
     {% block navbar %}
-        {% include "@SurvosBase/adminlte/_navbar.html.twig" %}
+{#        {{ include("@SurvosBase/adminlte/_example_topbar.html.twig") }}#}
+        {{ include("@SurvosBase/adminlte/_navbar.html.twig") }}
     {% endblock %}
 
     {% block sidebar %}

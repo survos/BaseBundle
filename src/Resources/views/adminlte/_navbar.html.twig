@@ -1,15 +1,21 @@
-<nav class="main-header navbar navbar-expand fixed-top navbar-dark">
+<nav class="main-header navbar navbar-expand navbar-light">
+    <div class="container-fluid">
     <ul class="navbar-nav">
         {% block navbar_toggle %}
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#">
-                    <i class="fas fa-bars"></i>
-                    <span class="sr-only">{{ 'Toggle navigation'|trans({}, 'AdminLTEBundle')  }}</span>
-                </a>
+                <a class="nav-link" data-lte-toggle="sidebar-full" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <span class="sr-only">{{ 'Toggle navigation'|trans({}, 'AdminLTEBundle')  }}</span>
             </li>
         {% endblock %}
 
         {% block navbar_links %}
+            <li class="nav-item d-none d-md-block">
+                <a href="{{ path('app_homepage') }}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+
             {# TODO document me #}
             {#
             <li class="nav-item d-none d-sm-inline-block">
