@@ -121,3 +121,19 @@
     <!-- spanElement -->
     <span{{ knp_menu.attributes(item.labelAttributes) }}>{{ block('label') }}</span>{% endblock %}
 {% block label %}{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %} {% endblock %}
+
+
+{% macro badges(item) %}
+    {% import _self as selfMacros %}
+    {% if item.getExtra('badge') is not null %}
+        {{ selfMacros.badge(item.getExtra('badge')) }}
+    {% elseif item.getExtra('badges') is not null %}
+        {% for badge in item.getExtra('badges') %}
+            {{ selfMacros.badge(badge) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro badge(badge) %}
+    <div class="mm-counter"><span class="badge badge-{{ badge.color|default('success') }}">{{ badge.value }}</span></div>
+{% endmacro %}
