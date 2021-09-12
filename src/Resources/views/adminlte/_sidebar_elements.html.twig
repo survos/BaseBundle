@@ -16,8 +16,8 @@
                 <i class="end fas fa-angle-left"></i>
             </p>
         </a>
-        <ul class="nav nav-treeview menu_depth_2">
-            <li class="nav-item menu_depth_2">
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
                 <a href="{{ path('survos_base_credits', {type: 'bundles'}) }}" class="nav-link active">
                     <i class="nav-icon far fa-circle"></i>
                     <p>Bundles</p>
@@ -95,9 +95,15 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="./pages/forms/general.html" class="nav-link ">
+                <a href="{{ path('app_homepage') }}" class="nav-link ">
                     <i class="nav-icon far fa-circle"></i>
-                    <p>General Elements</p>
+                    <p>Homepage</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ path('app_profile') }}" class="nav-link ">
+                    <i class="nav-icon far fa-circle"></i>
+                    <p>Profile</p>
                 </a>
             </li>
         </ul>

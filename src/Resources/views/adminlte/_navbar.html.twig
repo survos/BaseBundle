@@ -30,7 +30,6 @@
 
     {% block navbar_search %}
         {% block sidebar_search %}
-
             {{ 0 and render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::searchFormAction')) }}
         {% endblock %}
     {% endblock %}
@@ -58,14 +57,16 @@
         #}
 
         {% block navbar_user %}
+            <ul class="nav">
+                <li class="nav-item">
             {% if not is_granted('ROLE_USER') %}
-                <ul class="nav">
-                    <li class="nav-item">
                         <a href="{{ path('app_login') }}">Login</a>
-                    </li>
-                </ul>
+            {% else %}
+                {{ include('@theme/_navbar_user.html.twig') }}
             {% endif %}
             {#                    {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::userAction')) }}#}
+                </li>
+            </ul>
         {% endblock %}
 
         {% block navbar_end %}{% endblock %}

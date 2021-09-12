@@ -41,26 +41,44 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 {% endblock %}
 {% block after_body_start %}{% endblock %}
 <div class="wrapper">
+        {% block sidbar_collapse_element %}
+            +++
+            {% endblock %}
 
     {% block navbar %}
 {#        {{ include("@SurvosBase/adminlte/_example_topbar.html.twig") }}#}
         {{ include("@SurvosBase/adminlte/_navbar.html.twig") }}
+        {% endblock %}
+
+    {% block navbar_user %}
+        Login/Logout
     {% endblock %}
 
     {% block sidebar %}
         @@sidebar
-        <aside class="main-sidebar sidebar-dark-primary elevation-4 d-print-none">
-            <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">
-                {% block logo_mini %}
-                    <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >
-                    <span class="brand-text font-weight-light">{{ logo_mini|default('home.title'|trans)}}</span>
-                {% endblock %}
-                {% block logo_large %} {{ logo_large|default('home.title'|trans)}} {% endblock %}
+
+    <aside class="main-sidebar {% block sidebar_class %}sidebar-bg-dark{% endblock%} sidebar-color-primary shadow">
+        <div class="brand-container">
+            <a href="{{ logo_path|default('/') }}" class="brand-link">
+                <span class="brand-text fw-light">
+                    {% block logo_mini %}
+                    {{ logo_mini|default('home.title'|trans)}}
+                    {% endblock %}
+                </span>
             </a>
+            <a class="pushmenu mx-1" data-lte-toggle="sidebar-mini" href="javascript:;" role="button"><i
+                        class="fas fa-angle-double-left"></i></a>
+        </div>
+{#            <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">#}
+{#                {% block logo_mini %}#}
+{#                    <img src="{{ asset('favicon-32x32.png')  }}" alt="Logo" class="brand-image elevation-3" >#}
+{#                    <span class="brand-text font-weight-light">{{ logo_mini|default('home.title'|trans)}}</span>#}
+{#                {% endblock %}#}
+{#                {% block logo_large %} {{ logo_large|default('home.title'|trans)}} {% endblock %}#}
+{#            </a>#}
 
             <div class="sidebar">
                 {% block sidebar_user %}
-                    @user Sidebar
 {#                    {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}#}
 {#                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))#}
 {#                    {% endif %}#}
