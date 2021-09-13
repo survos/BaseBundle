@@ -2,17 +2,11 @@
 {% set debug = options['debug']|default(false) %}
 {% block root %}
     {% set listAttributes = item.childrenAttributes %}
-    {% if debug %}
-    {{ dump(listAttributes) }}
-    {{ dump(options) }}
-    {% endif %}
     {{ block('list') -}}
 {% endblock %}
 
 {% block list %}
     {% set depth = depth is defined ? depth + 1 : 0 %}
-    {{ debug ? dump(listAttributes) }}
-    {{ debug ? "Depth: " ~ depth }}
     {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
         {% import "knp_menu.html.twig" as macros %}
 
@@ -45,7 +39,6 @@
     {% endif %}
 
 
-    {{ debug ? dump(attributes) }}
     <a href="{{ item.uri }}"{{ macros.attributes(attributes) }}>
         {% if item.attribute('data-icon') is not empty  %}
             <span class="{{ item.attribute('data-icon') }}"></span>
