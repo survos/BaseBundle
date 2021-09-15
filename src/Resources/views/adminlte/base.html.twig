@@ -128,6 +128,13 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
+                    <div class="col-sm-3">
+                        {% block breadcrumb %}
+                            Breadcrumbs:
+                            {% set breadcrumbMenu =  knp_menu_get('survos_sidebar_menu', [], {style: 'x'}) %}
+                            {{ knp_menu_render(breadcrumbMenu, {'template': '@theme/breadcrumbs.html.twig'}) }}
+                        {% endblock %}
+                    </div>
                     <div class="col-sm-9">
                         <h1 class="m-0 text-dark">
                             {% block back_link %}{% endblock %}
@@ -135,21 +142,16 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                         </h1>
                         {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
                     </div>
-                    <div class="col-sm-3">
-                        {% block breadcrumb %}
-                            breadcrumbs here
-                             include '@SurvosBaseBundle/Breadcrumb/knp-breadcrumb.html.twig'
-                        {% endblock %}
-                    </div>
                 </div>
             </div>
         </div>
+        <div class="clearfix"></div>
 
         {% block page_content_before %}
             {% block page_navigation %}
                 Page menu..
                 {# emit page events populated by the top menu subscriber #}
-{#                {% include '@SurvosBase/render_page_menu.html.twig' with {page_title: block('page_title')} %}#}
+                {% include '@SurvosBase/render_page_menu.html.twig' with {page_title: block('page_title')} %}
             {% endblock %}
         {% endblock %}
 
