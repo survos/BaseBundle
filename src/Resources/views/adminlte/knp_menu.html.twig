@@ -30,6 +30,7 @@
     {% import "knp_menu.html.twig" as macros %}
     {% import _self as ownmacro %}
 {#    {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'nav-link depth-' ~ item.level ) }}#}
+
     {%- set classes = item.attribute('class') is not empty ? [item.attribute('class'), 'nav-item'] : ['nav-item'] %}
 
     {%- set attributes = item.linkAttributes %}
@@ -38,8 +39,10 @@
         {% set attributes = attributes|merge({ 'class': attributes.class|default([])|join(' ') ~ ' ' ~ options.currentClass} ) %}
     {% endif %}
 
+    {# there's probably a way to pass this in via render_sidebar.html.twig, but not sure how! #}
+{#    {% set attributes = attributes|merge({ 'class': attributes.class|default([])|join(' ') ~ ' ' ~ options.link_class} ) %}#}
 
-    <a href="{{ item.uri }}"{{ macros.attributes(attributes) }}>
+    <a href="{{ item.uri }}" {{ macros.attributes(attributes) }}>
         {% if item.attribute('data-icon') is not empty  %}
             <span class="{{ item.attribute('data-icon') }}"></span>
         {% endif %}
