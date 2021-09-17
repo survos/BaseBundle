@@ -186,6 +186,10 @@ class BaseMenuSubscriber
              unset($options['icon']);
         }
 
+        if ($options['style'] === 'header') {
+            $options['attributes']['class'] = 'nav-header';
+        }
+
         if (!$options['id']) {
             $options['id'] = $options['menu_code'];
         }

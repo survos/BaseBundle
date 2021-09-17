@@ -32,6 +32,7 @@
 {#    {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'nav-link depth-' ~ item.level ) }}#}
 
     {%- set classes = item.attribute('class') is not empty ? [item.attribute('class'), 'nav-item'] : ['nav-item'] %}
+    <!-- linkElement -->
 
     {%- set attributes = item.linkAttributes %}
     {% if matcher.isCurrent(item) %}
@@ -40,7 +41,7 @@
     {% endif %}
 
     {# there's probably a way to pass this in via render_sidebar.html.twig, but not sure how! #}
-{#    {% set attributes = attributes|merge({ 'class': attributes.class|default([])|join(' ') ~ ' ' ~ options.link_class} ) %}#}
+    {% set attributes = attributes|merge({ 'class': attributes.class|default([])|join(' ') ~ ' ' ~ options.link_class} ) %}
 
     <a href="{{ item.uri }}" {{ macros.attributes(attributes) }}>
         {% if item.attribute('data-icon') is not empty  %}
@@ -84,13 +85,16 @@
         {# displaying the item #}
         {% import _self as knp_menu %}
         <li{{ knp_menu.attributes(attributes) }}>
+            {# if uri is set, it must be a leaf. #}
             {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
                 {{ block('linkElement') }}
             {%- else %}
                 {% if item.hasChildren %}
                 <!-- collapsible {{  matcher.isAncestor(item, options.matchingDepth) ? 'ancestor' : 'not ancestor' }}-->
                 <a class=" nav-link {{ matcher.isAncestor(item, options.matchingDepth)? ' active' }}">
-                    <span class="nav-icon fas fa-circle"></span>
+                    <!-- icon -->
+                    <span class="nav-icon {{ item.attribute('data-icon') is not empty ? item.attribute('data-icon') : 'fas fa-circle' }}"></span>
+
                     <p>
                         {{ block('spanElement') }}
                         <span class="end fas fa-angle-left"></span>
@@ -113,9 +117,10 @@
 
 
 {% block spanElement %}{% import _self as knp_menu %}
+    <!-- spanElement, includes label -->
+    <span{{ knp_menu.attributes(item.labelAttributes) }}>{{ block('label') }}</span>
+{% endblock %}
 
-    <!-- spanElement -->
-    <span{{ knp_menu.attributes(item.labelAttributes) }}>{{ block('label') }}</span>{% endblock %}
 {% block label %}{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %} {% endblock %}
 
 
