@@ -42,8 +42,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 {% block after_body_start %}{% endblock %}
 <div class="wrapper">
         {% block sidbar_collapse_element %}
-            +++
-            {% endblock %}
+        {% endblock %}
 
     {% block navbar %}
 {#        {{ include("@SurvosBase/adminlte/_example_topbar.html.twig") }}#}
@@ -51,7 +50,6 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
         {% endblock %}
 
     {% block navbar_user %}
-        Login/Logout
     {% endblock %}
 
     {% block sidebar %}
@@ -125,26 +123,33 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 {% endblock %}
 
     <div class="content-wrapper">
+
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-3">
+                <section class="row mb-2">
+                    <div class="col-sm-6">
+                        <div class="fs-3">
+                            <h1 class="m-0 text-dark">
+                                {% block back_link %}{% endblock %}
+                                {% block page_title 'home.title'|trans %}
+                            </h1>
+                            {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
                         {% block breadcrumb %}
-                            Breadcrumbs:
+                        <ol class="breadcrumb float-sm-end">
+                            {# @todo: handle multiple breadcrumbs for custom dashboards #}
                             {% set breadcrumbMenu =  knp_menu_get('survos_sidebar_menu', [], {style: 'x'}) %}
                             {{ knp_menu_render(breadcrumbMenu, {'template': '@theme/breadcrumbs.html.twig'}) }}
+                        </ol>
                         {% endblock %}
                     </div>
-                    <div class="col-sm-9">
-                        <h1 class="m-0 text-dark">
-                            {% block back_link %}{% endblock %}
-                            {% block page_title 'home.title'|trans %}
-                        </h1>
-                        {% if block('page_subtitle') is defined %}<small>{{ block('page_subtitle') }}</small>{% endif %}
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
+
         <div class="clearfix"></div>
 
         {% block page_content_before %}
