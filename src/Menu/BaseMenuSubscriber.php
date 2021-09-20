@@ -115,6 +115,7 @@ class BaseMenuSubscriber
             ->setDefaults([
                 // deprecated, use 'id' instead
                 'menu_code' => null,
+                'extras' => [],
                 'id' => null,
                 'route' => null,
                 'rp' => null,
