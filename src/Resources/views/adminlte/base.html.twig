@@ -5,6 +5,7 @@ Copied from '@SurvosBaseBundle/layout/default-layout.html.twig' and adjusted for
 <!DOCTYPE html{% block html_start %}{% endblock %}>
 <html lang="{{ app.request.locale }}">
 <head>
+{#    <script src="https://kit.fontawesome.com/4805d4aa9b.js" crossorigin="anonymous"></script>#}
     {% block head %}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,8 +54,6 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
     {% endblock %}
 
     {% block sidebar %}
-        @@sidebar
-
     <aside class="main-sidebar {% block sidebar_class %}sidebar-bg-dark{% endblock%} sidebar-color-primary shadow">
         <div class="brand-container">
             <a href="{{ logo_path|default('/') }}" class="brand-link">
@@ -64,7 +63,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                     {% endblock %}
                 </span>
             </a>
-            <a class="pushmenu mx-1" data-lte-toggle="sidebar-mini" href="javascript:;" role="button"><i
+            <a class="pushmenu mx-1" data-lte-toggle="sidebar-mini" role="button"><i
                         class="fas fa-angle-double-left"></i></a>
         </div>
 {#            <a href="{% block logo_path %}{{ path('app_homepage'|route_alias) }}{% endblock %}" class="brand-link ">#}
@@ -140,9 +139,15 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
                     <div class="col-sm-6">
                         {% block breadcrumb %}
                         <ol class="breadcrumb float-sm-end">
+                            {% block breadcrumb_items %}
                             {# @todo: handle multiple breadcrumbs for custom dashboards #}
                             {% set breadcrumbMenu =  knp_menu_get('survos_sidebar_menu', [], {style: 'x'}) %}
                             {{ knp_menu_render(breadcrumbMenu, {'template': '@theme/breadcrumbs.html.twig'}) }}
+                                |
+                                {% set breadcrumbMenu =  knp_menu_get('survos_page_menu', [], []) %}
+                                {{ knp_menu_render(breadcrumbMenu, {'template': '@theme/breadcrumbs.html.twig'}) }}
+
+                            {% endblock %}
                         </ol>
                         {% endblock %}
                     </div>
