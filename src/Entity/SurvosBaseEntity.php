@@ -42,7 +42,7 @@ abstract class SurvosBaseEntity
                     $propertyAccessor->setValue($this, $var, $date);
 
                 } catch (\Exception $e) {
-                    dd($var, $val, $e);
+                    dump($var, $val, $e); assert(false);
                 }
 
             }

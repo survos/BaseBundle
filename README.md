@@ -134,7 +134,7 @@ composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@git
 composer req survos/base-bundle:"*@dev"
 
 composer require symfony/webpack-encore-bundle
-yarn install
+yarn install0
 yarn add sass-loader@^11.0.0 sass --dev
 yarn add https://github.com/survos/adminkit.git
 

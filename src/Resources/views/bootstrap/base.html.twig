@@ -134,7 +134,7 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
             <div class="sidebar">
                 {% block sidebar_user %}
                     {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}
-                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))
+{#                         render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::userPanelAction'))#}
                     {% endif %}
                 {% endblock %}
 
