@@ -12,4 +12,10 @@ class SurvosBaseBundle extends Bundle
         $container->addCompilerPass(new SurvosBaseCompilerPass());
     }
 
+    // for new best practices directory structure https://github.com/symfony/symfony/blob/5.4/UPGRADE-5.0.md#httpkernel
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
+
 }

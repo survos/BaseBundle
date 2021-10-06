@@ -13,7 +13,9 @@ class SurvosBaseExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.xml');
 
         $configuration = $this->getConfiguration($configs, $container);
@@ -23,11 +25,11 @@ class SurvosBaseExtension extends Extension
         $definition->setArgument(0, $config['routes']);
 
 
-        // likely these can be combined
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        // likely these can be combined.  Also, change path for best practices! https://stackoverflow.com/questions/66415795/symfony-5-error-loading-bundle-at-extensions-load-method
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yml');
 
-//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/container'));
+//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config/container'));
 //        $loader->load('knp-menu.yml');
 
         /* @todo: add menu items based on what bundles are installed (EasyAdminBundle, etc.) */
@@ -54,4 +56,6 @@ class SurvosBaseExtension extends Extension
     {
         return 'survos_base';
     }
+
+
 }
