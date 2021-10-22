@@ -69,8 +69,8 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
             </ul>
 
             {% block navbar_search %}
+                {{ _self }}
                 {% block sidebar_search %}
-
                     {{ 0 and render(controller('KevinPapst\\AdminLTEBundle\\Controller\\SidebarController::searchFormAction')) }}
                 {% endblock %}
             {% endblock %}
