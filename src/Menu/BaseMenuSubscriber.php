@@ -145,10 +145,11 @@ class BaseMenuSubscriber
         }
         // if (isset($options['rp'])) { dd($options);}
         unset($options['rp']);
-        if (empty($options['label']) && ($route = $options['route'])) {
+        if (empty($options['label']) && ($routeLabel = $options['route'])) {
             // _index is commonly used to list entities
-            $route = preg_replace('/_index$/', '', $route);
-            $options['label'] = u($route)->replace('_', ' ')->title(true)->afterLast(' ')->toString();
+            $routeLabel = preg_replace('/_index$/', '', $routeLabel);
+            $routeLabel = preg_replace('/^app_/', '', $routeLabel);
+            $options['label'] = u($routeLabel)->replace('_', ' ')->title(true)->toString();
         }
 
         if (empty($options['label']) && $options['menu_code']) {
