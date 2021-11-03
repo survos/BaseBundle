@@ -130,8 +130,10 @@ composer config prefer-stable true
 
 composer req knplabs/knp-markdown-bundle
 
+composer config repositories.survos_tabler_bundle '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer req survos/base-bundle:"*@dev"
+composer req survos/tabler-bundle:dev-tac
 
 composer require symfony/webpack-encore-bundle
 yarn install0
