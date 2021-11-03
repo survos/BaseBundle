@@ -106,7 +106,7 @@ We always want some security, so certain routes can be secured. Create a User en
 
 ```bash
 bin/console make:user User --is-entity --identity-property-name=email --with-password -n
-sed -i "s|public function getEmail| public function getUsername() { return \$this->getEmail(); }\n\n public function getEmail|" src/Entity/User.php
+#sed -i "s|public function getEmail| public function getUsername() { return \$this->getEmail(); }\n\n public function getEmail|" src/Entity/User.php
 
 sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 

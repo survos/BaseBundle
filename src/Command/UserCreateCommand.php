@@ -22,11 +22,12 @@ use Survos\BaseBundle\Event\UserCreatedEvent;
 class UserCreateCommand extends Command
 {
     protected static $defaultName = 'survos:user:create';
+
     public function __construct(private UserPasswordHasherInterface $passwordEncoder,
-                                private UserProviderInterface $userProvider,
-                private EventDispatcherInterface $eventDispatcher,
-                                private EntityManagerInterface $entityManager,
-                                string $name = null)
+                                private UserProviderInterface       $userProvider,
+                                private EventDispatcherInterface    $eventDispatcher,
+                                private EntityManagerInterface      $entityManager,
+                                string                              $name = null)
     {
         parent::__construct($name);
     }
@@ -42,8 +43,7 @@ class UserCreateCommand extends Command
             ->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username (defaults to email)')
             ->addOption('userclass', null, InputOption::VALUE_OPTIONAL, 'user class (defaults to App\Entity\User)', 'App\\Entity\\User')
             ->addOption('extra', null, InputOption::VALUE_OPTIONAL, 'extra string passed to event dispatcher')
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Change password/roles if account exists.')
-        ;
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Change password/roles if account exists.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -57,7 +57,7 @@ class UserCreateCommand extends Command
         try {
             // security.yaml defines what field this is!
             $user = $this->userProvider->loadUserByIdentifier($username);
-            if (!$password && !$input->getOption('roles') ) {
+            if (!$password && !$input->getOption('roles')) {
                 $io->warning("$email already exists, use --password to overwrite the existing password");
 //                return self::SUCCESS;
             } else {
@@ -110,8 +110,7 @@ class UserCreateCommand extends Command
                 ->setRows([
                     ['email', $user->getEmail()],
                     ['roles', join(',', $user->getRoles())],
-                ])
-            ;
+                ]);
             $table->render();
 
         }
