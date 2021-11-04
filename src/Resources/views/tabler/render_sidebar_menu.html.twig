@@ -1,4 +1,4 @@
-
+{{ _self }}
                             {% set menuItem = knp_menu_get(menuCode, [],  {
                                 'comment': "This is an option passed in knp_menu_get",
                                 'menu_code'     : menuCode,
@@ -7,7 +7,7 @@
                             {{ debug ? 'DEBUG' }}
 {#                            todo: OptionsResolver for the theme #}
                             {% set menuHtml = knp_menu_render(menuItem, {
-                                "template"      : "@SurvosBase/adminlte/knp_menu.html.twig",
+                                "template"      : "@SurvosBase/tabler/knp_menu.html.twig",
                                 "debug": debug|default(false),
                                 currentAsLink: true,
                                 firstClass: 'f',
