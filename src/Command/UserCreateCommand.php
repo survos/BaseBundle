@@ -3,6 +3,8 @@
 namespace Survos\BaseBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Survos\BaseBundle\BaseService;
+use Survos\BaseBundle\DependencyInjection\Configuration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,6 +29,8 @@ class UserCreateCommand extends Command
                                 private UserProviderInterface       $userProvider,
                                 private EventDispatcherInterface    $eventDispatcher,
                                 private EntityManagerInterface      $entityManager,
+                                private BaseService                 $baseService,
+                                private  $baseBundleConfig,
                                 string                              $name = null)
     {
         parent::__construct($name);
@@ -53,6 +57,8 @@ class UserCreateCommand extends Command
         $password = $input->getOption('password');
         $email = $input->getArgument('email');
         $username = $input->getOption('username') ?: $email;
+
+//        dd($this->baseBundleConfig->)
 
         try {
             // security.yaml defines what field this is!

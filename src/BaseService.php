@@ -9,9 +9,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class BaseService
 {
-    // could be moved to a EasyAdminHelper service
-    private $entityClasses;
-
     /**
      * @var ClientRegistry
      */
@@ -20,12 +17,18 @@ class BaseService
      * @var ProviderFactory
      */
     private $provider;
+    private string $userClass;
 
-    public function __construct(array $entityClasses, ClientRegistry $clientRegistry, ProviderFactory $provider)
+    public function __construct(string $userClass, ClientRegistry $clientRegistry, ProviderFactory $provider)
     {
-        $this->entityClasses = $entityClasses;
         $this->clientRegistry = $clientRegistry;
         $this->provider = $provider;
+        $this->userClass = $userClass;
+    }
+
+    public function getUserClass(): string
+    {
+        return $this->userClass;
     }
 
     public function getEntities()

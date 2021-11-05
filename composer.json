@@ -1,8 +1,8 @@
 {
     "name": "survos/base-bundle",
-    "description": "Add some tools and resources to a Symfony5 application, including volt theme",
+    "description": "Add some tools and resources to a Symfony5/6 application",
     "type": "symfony-bundle",
-    "keywords": ["generator", "skeleton" , "symfony5"],
+    "keywords": ["generator", "symfony5"],
     "require": {
         "php": ">= 8.0",
         "ext-json": "*",
@@ -13,8 +13,8 @@
         "knpuniversity/oauth2-client-bundle": "^2.0",
         "mindscreen/yarnlock": "^1.0",
         "symfony/mailer": "*",
-        "symfony/string": "^5.0",
-        "symfony/webpack-encore-bundle": "^1.6|^2",
+        "symfony/string": ">= 5.3",
+        "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "*",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.0"
