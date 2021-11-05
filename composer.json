@@ -10,7 +10,7 @@
         "doctrine/common": "^2.0|^3.0",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
-        "knpuniversity/oauth2-client-bundle": "^2.0",
+        "knpuniversity/oauth2-client-bundle": "dev-symfony6",
         "mindscreen/yarnlock": "^1.0",
         "symfony/mailer": "*",
         "symfony/string": ">= 5.3",
@@ -45,6 +45,12 @@
         "symfony": {
             "allow-contrib": "true",
             "id": "base-bundle.survos.com"
+        }
+    },
+    "repositories": {
+        "oauth": {
+            "type": "vcs",
+            "url": "git@github.com:tacman/oauth2-client-bundle.git"
         }
     }
 }
