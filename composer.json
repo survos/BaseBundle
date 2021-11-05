@@ -14,7 +14,7 @@
         "mindscreen/yarnlock": "^1.0",
         "symfony/mailer": "*",
         "symfony/string": ">= 5.3",
-        "symfony/webpack-encore-bundle": "dev-symfony6",
+        "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": ">= 5.3",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.0"
