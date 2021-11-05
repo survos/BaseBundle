@@ -14,7 +14,7 @@
         "mindscreen/yarnlock": "^1.0",
         "symfony/mailer": "*",
         "symfony/string": ">= 5.3",
-        "symfony/webpack-encore-bundle": ">= 5.3",
+        "symfony/webpack-encore-bundle": "dev-symfony6",
         "symfony/yaml": ">= 5.3",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.0"
@@ -48,6 +48,11 @@
         }
     },
     "repositories": {
+        "webpack": {
+            "type": "vcs",
+            "url": "git@github.com:Kocal/webpack-encore-bundle.git"
+        },
+
         "oauth": {
             "type": "vcs",
             "url": "git@github.com:tacman/oauth2-client-bundle.git"
