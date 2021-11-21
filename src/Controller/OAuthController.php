@@ -2,7 +2,6 @@
 
 namespace Survos\BaseBundle\Controller;
 
-use App\Entity\User;
 # use App\Security\AppAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
@@ -21,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\AuthenticatorInterface;
@@ -31,23 +31,13 @@ use Twig\Environment;
 class OAuthController extends AbstractController
 {
 
-    private ClientRegistry $clientRegistry;
-    private BaseService $baseService;
-    private RouterInterface $router;
-
-    public function __construct(BaseService $baseService,
-                                EntityManagerInterface $entityManager,
-                                RouterInterface $router,
-                                UserProviderInterface $userProvider)
+    public function __construct(private BaseService $baseService,
+                                private EntityManagerInterface $entityManager,
+                                private RouterInterface $router,
+                                private ClientRegistry $clientRegistry,
+                                private UserProviderInterface $userProvider)
     {
-        $this->baseService = $baseService;
-        $this->entityManager = $entityManager;
-
-        $this->userProvider = $userProvider;
-
-        $this->clientRegistry = $this->baseService->getClientRegistry();
-
-        $this->router = $router;
+//        $this->clientRegistry = $this->baseService->getClientRegistry();
     }
 
     public function socialMediaButtons($style='')
@@ -187,8 +177,20 @@ class OAuthController extends AbstractController
 
         try {
             // the exact class depends on which provider you're using
-            /** @var \League\OAuth2\Client\Provider\GenericProvider $user */
+            /** @  var \League\OAuth2\Client\Provider\GenericProvider $user */
             $oAuthUser = $client->fetchUser();
+//            $email = $oAuthUser->getEmail();
+            $identifier = $oAuthUser->getId();
+            // now presumably we need to link this up.
+            $token = $oAuthUser->getId();
+            try {
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+                foreach ($request->query->all() as $var=>$value) {
+                    $this->addFlash('warning', sprintf("%s: %s", $var, $value));
+                }
+                return $this->redirectToRoute('app_login');
+            }
 
             // do something with all this new power!
             // e.g. $name = $user->getFirstName();
@@ -207,17 +209,6 @@ class OAuthController extends AbstractController
         }
 
 
-            $email = $oAuthUser->getEmail();
-            // now presumably we need to link this up.
-            $token = $oAuthUser->getId();
-        try {
-        } catch (\Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-            foreach ($request->query->all() as $var=>$value) {
-                $this->addFlash('warning', sprintf("%s: %s", $var, $value));
-            }
-            return $this->redirectToRoute('app_login');
-        }
 
         // do something with all this new power!
         // e.g. $name = $user->getFirstName();
@@ -226,9 +217,9 @@ class OAuthController extends AbstractController
 
 
         // it seems that loadUserByUsername redirects to login
-        // if ($user = $userProvider->loadUserByUsername($email)) {
-        /** @var User $user */
-        if ($user = $em->getRepository(User::class)->findOneBy(['email' => $email])) {
+         if ($user = $this->userProvider->loadUserByIdentifier($identifier)) {
+        /** @var UserInterface $user */
+//        if ($user = $em->getRepository(User::class)->findOneBy(['email' => $email])) {
 // after validating the user and saving them to the database
             // authenticate the user and use onAuthenticationSuccess on the authenticator
             // if it's already in there, update the token.  This also happens with registration, so maybe belongs in BaseService?
@@ -244,12 +235,13 @@ class OAuthController extends AbstractController
 
 
                 $this->entityManager->flush();
+                $email = $identifier;
 //                 dd($clientKey, $user, $user->getRoles(), $guardHandler, get_class($guardHandler), $successRedirect);
                 $successRedirect = $this->redirectToRoute('app_homepage', ['email' => $email]);
 
                 return $successRedirect;
             } else {
-                return new RedirectResponse($this->generateUrl('app_register', ['email' => $email, 'githubId = ']));
+                return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'githubId = ']));
             }
 
 
@@ -258,7 +250,7 @@ class OAuthController extends AbstractController
             // redirect to register, with the email pre-filled
 
             // return new RedirectResponse($this->generateUrl('app_register'));
-            return new RedirectResponse($this->generateUrl('app_register', ['email' => $email, 'clientKey' => $clientKey, 'token' => $token]));
+            return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'clientKey' => $clientKey, 'token' => $token]));
 
         }
 

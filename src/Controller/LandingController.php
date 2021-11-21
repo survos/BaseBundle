@@ -120,7 +120,7 @@ class LandingController extends AbstractController
         header('Content-Type: image/png');
         imagepng($rasterImage);
         */
-        
+
     }
 
     /**
@@ -166,20 +166,20 @@ class LandingController extends AbstractController
     }
 
 
-    /**
-     * @Route("/impersonate", name="redirect_to_impersonate")
-     */
-    public function impersonate(Request $request)
-    {
-        $id = $request->get('id');
-        if (!$user = $this->entityManager->find(User::class, $id)) {
-            return new NotFoundHttpException("Hmm, user $id wasn't found!");
-        }
-
-        $redirectUrl =$this->generateUrl('app_homepage', ['_switch_user' => $user->getEmail() ]);
-        return new RedirectResponse($redirectUrl);
-    }
-
+//    /**
+//     * @Route("/impersonate", name="redirect_to_impersonate")
+//     */
+//    public function impersonate(Request $request)
+//    {
+//        $id = $request->get('id');
+//        if (!$user = $this->entityManager->find(User::class, $id)) {
+//            return new NotFoundHttpException("Hmm, user $id wasn't found!");
+//        }
+//
+//        $redirectUrl =$this->generateUrl('app_homepage', ['_switch_user' => $user->getEmail() ]);
+//        return new RedirectResponse($redirectUrl);
+//    }
+//
     /**
      * @Route("/credits/{type}", name="survos_base_credits")
      */
@@ -263,35 +263,35 @@ class LandingController extends AbstractController
         // the authenticator should catch this
     }
 
-    private function getLoginMessage($email, $loginUrl) {
-        $message = (new \Swift_Message('One Time Login'))
-            ->setFrom('tacman@gmail.com')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    '@SurvosBase/email/forgot.html.twig',
-                    ['email' => $email, 'url' => $loginUrl]
-                ),
-                'text/html'
-            )
-
-            // you can remove the following code if you don't define a text version for your emails
-                /*
-            ->addPart(
-                $this->renderView(
-                // templates/emails/registration.txt.twig
-                    'emails/registration.txt.twig',
-                    ['name' => $name]
-                ),
-                'text/plain'
-            )
-                */
-        ;
-
-        return $message;
-
-    }
+//    private function getLoginMessage($email, $loginUrl) {
+//        $message = (new \Swift_Message('One Time Login'))
+//            ->setFrom('tacman@gmail.com')
+//            ->setTo($email)
+//            ->setBody(
+//                $this->renderView(
+//                // templates/emails/registration.html.twig
+//                    '@SurvosBase/email/forgot.html.twig',
+//                    ['email' => $email, 'url' => $loginUrl]
+//                ),
+//                'text/html'
+//            )
+//
+//            // you can remove the following code if you don't define a text version for your emails
+//                /*
+//            ->addPart(
+//                $this->renderView(
+//                // templates/emails/registration.txt.twig
+//                    'emails/registration.txt.twig',
+//                    ['name' => $name]
+//                ),
+//                'text/plain'
+//            )
+//                */
+//        ;
+//
+//        return $message;
+//
+//    }
 
     /**
      * @Route("/one-time-login-request", name="app_one_time_login_request")

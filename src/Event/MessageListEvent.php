@@ -70,16 +70,16 @@ class MessageListEvent extends ThemeEvent
     /**
      * Pushes the given message to the list of messages.
      *
-     * @param MessageInterface $messageInterface
+     * @todo MessageInterface $messageInterface
      *
      * @return $this
      */
-    public function addMessage(MessageInterface $messageInterface)
-    {
-        $this->messages[] = $messageInterface;
-
-        return $this;
-    }
+//    public function addMessage(MessageInterface $messageInterface)
+//    {
+//        $this->messages[] = $messageInterface;
+//
+//        return $this;
+//    }
 
     /**
      * Returns the message count

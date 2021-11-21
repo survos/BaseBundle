@@ -9,39 +9,17 @@
 
 namespace Survos\BaseBundle\Twig;
 
-use Symfony\Component\Intl\Countries;
-use Symfony\Component\Intl\Currencies;
-use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use function Symfony\Component\String\u;
 
 /**
  * Multiple Twig extensions: filters and functions
  */
 class Extensions extends AbstractExtension
 {
-    /**
-     * @var string[]
-     */
-    private $locales;
-
-    /**
-     * @var Duration
-     */
-    protected $durationFormatter;
-
-    /**
-     * Extensions constructor.
-     * @param string $locales
-     */
-    public function __construct($locales='')
-    {
-        $this->locales = explode('|', $locales);
-        $this->durationFormatter = null; // new Duration();
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -51,9 +29,9 @@ class Extensions extends AbstractExtension
         return [
             new TwigFilter('indent', [$this, 'indent']),
             new TwigFilter('externalLink', [$this, 'formatExternalLink']),
-            new TwigFilter('duration', [$this, 'duration']),
-            new TwigFilter('money', [$this, 'money']),
-            new TwigFilter('currency', [$this, 'currency']),
+//            new TwigFilter('duration', [$this, 'duration']),
+//            new TwigFilter('money', [$this, 'money']),
+//            new TwigFilter('currency', [$this, 'currency']),
             new TwigFilter('country', [$this, 'country']),
             new TwigFilter('route_alias', fn($str) => $str ), // so templates from adminlte bundle run
             new TwigFilter('clean', function($s) { return $s . "!!"; }),
@@ -88,86 +66,19 @@ class Extensions extends AbstractExtension
         $levels = [null, '-', '^', '='];
         return sprintf("%s\n%s\n\n", $text, str_repeat($levels[$level], mb_strlen($text)));
     }
-    /**
-     * Transforms seconds into a duration string.
-     *
-     * @param $seconds
-     * @param bool $includeSeconds
-     * @return string
-     */
-    public function duration($seconds, $includeSeconds = false)
-    {
-        return $this->durationFormatter->format($seconds, $includeSeconds) . ' h';
-    }
 
     /**
-     * Transforms seconds into a duration string.
+     * add icon and sets target
      *
-     * @param $seconds
-     * @param bool $includeSeconds
-     * @return string
      */
-    public function formatExternalLink($url, $class='')
+    public function formatExternalLink(string $url, $class=''): string
     {
         return sprintf("<a target='_blank' href='%s'>%s <i class='fas fa-external-link'></i> </a>", $url, $url);
     }
 
 
-
-    /**
-     * @param string $currency
-     * @return string
-     */
-    public function currency($currency): string
+    public function optionsResolver($defaults, array $options=[], $required = [])
     {
-        return Currencies::getSymbol($currency);
-    }
-
-    /**
-     * @param string $country
-     * @return string
-     */
-    public function country($country): string
-    {
-        return Countries::getName($country);
-    }
-
-    /**
-     * @param float $amount
-     * @param string $currency
-     * @return string
-     */
-    public function money($amount, $currency = null)
-    {
-        $result = number_format(round($amount, 2), 2);
-        if ($currency !== null) {
-            $result .= ' ' . Intl::getCurrencyBundle()->getCurrencySymbol($currency);
-        }
-        return $result;
-    }
-
-    /**
-     * Takes the list of codes of the locales (languages) enabled in the
-     * application and returns an array with the name of each locale written
-     * in its own language (e.g. English, Français, Español, etc.)
-     *
-     * @return array
-     */
-    public function getLocales()
-    {
-        $locales = [];
-        foreach ($this->locales as $locale) {
-            $locales[] = ['slug' => $locale, 'name' => Intl::getLocaleBundle()->getLocaleName($locale, $locale)];
-        }
-
-        return $locales;
-    }
-
-    public function optionsResolver($defaults, $options, $required = [])
-    {
-        if (empty($options)) {
-            $options = [];
-        }
         $resolver = new OptionsResolver();
         return $resolver->setDefaults($defaults)
             ->setRequired($required)

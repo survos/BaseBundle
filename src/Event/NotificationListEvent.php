@@ -9,7 +9,7 @@
 
 namespace Survos\BaseBundle\Event;
 
-use Survos\BaseBundle\Model\NotificationInterface;
+//use Survos\BaseBundle\Model\NotificationInterface;
 
 /**
  * The NotificationListEvent collects all NotificationInterface objects that should be rendered in the notification section.
@@ -61,17 +61,17 @@ class NotificationListEvent extends ThemeEvent
         return $this->notifications;
     }
 
-    /**
-     * @param NotificationInterface $notificationInterface
-     *
-     * @return $this
-     */
-    public function addNotification(NotificationInterface $notificationInterface)
-    {
-        $this->notifications[] = $notificationInterface;
-
-        return $this;
-    }
+//    /**
+//     * @param NotificationInterface $notificationInterface
+//     *
+//     * @return $this
+//     */
+//    public function addNotification(NotificationInterface $notificationInterface)
+//    {
+//        $this->notifications[] = $notificationInterface;
+//
+//        return $this;
+//    }
 
     /**
      * @param int $total

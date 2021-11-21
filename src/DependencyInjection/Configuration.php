@@ -12,7 +12,6 @@ class Configuration implements ConfigurationInterface
         $rootName = 'survos_admin';
         $treeBuilder = new TreeBuilder($rootName);
         $rootNode = $treeBuilder->getRootNode();
-
         $rootNode
             ->children()
             ->scalarNode('theme')

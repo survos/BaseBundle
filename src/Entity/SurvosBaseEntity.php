@@ -8,6 +8,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class SurvosBaseEntity
 {
+    abstract function getId();
 
     // hack for https://github.com/symfony/symfony/issues/35574
 //    public function __sleep() { return []; }

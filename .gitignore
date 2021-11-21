@@ -12,6 +12,7 @@ composer.lock
 /var/
 /vendor/
 /config/secrets/prod/prod.sodium.decrypt.private
+composer.lock
 
 ###< symfony/framework-bundle ###
 

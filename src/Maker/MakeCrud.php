@@ -12,7 +12,8 @@
 namespace Survos\BaseBundle\Maker;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Common\Inflector\Inflector as LegacyInflector;
+use Symfony\Component\String\Inflector\EnglishInflector;
+//use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Survos\BaseBundle\Controller\LandingController;
@@ -32,7 +33,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\String\Inflector\EnglishInflector as Inflector;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Validator\Validation;
@@ -47,11 +47,12 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
     private $doctrineHelper;
 
     private $formTypeRenderer;
-
-    private $inflector;
+    private EnglishInflector $inflector;
 
     public function __construct(DoctrineHelper $doctrineHelper, FormTypeRenderer $formTypeRenderer)
     {
+        $this->inflector = new EnglishInflector();
+
         $this->doctrineHelper = $doctrineHelper;
         $this->formTypeRenderer = $formTypeRenderer;
         if (class_exists(InflectorFactory::class)) {
@@ -103,6 +104,8 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
         );
 
         $entityDoctrineDetails = $this->doctrineHelper->createDoctrineDetails($entityClassDetails->getFullName());
+
+        dd($entityDoctrineDetails, $entityClassDetails);
 
         $repositoryVars = [];
 
@@ -292,7 +295,7 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
             return $this->inflector->pluralize($word);
         }
 
-        return LegacyInflector::pluralize($word);
+        return EnglishInflector::plus($word);
     }
 
     private function singularize(string $word): string
@@ -301,7 +304,7 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
             return $this->inflector->singularize($word);
         }
 
-        return LegacyInflector::singularize($word);
+        return Inflector::singularize($word);
     }
 
     static function getCommandDescription()
