@@ -33,7 +33,7 @@ class <?= $shortClassName ?> implements ParamConverterInterface
      *
      * Check, if object supported by our converter
      */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         return <?= $entity_class_name ?>::class == $configuration->getClass();
     }
@@ -47,7 +47,7 @@ class <?= $shortClassName ?> implements ParamConverterInterface
      * @throws NotFoundHttpException     When object not found
      * @throws Exception
      */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $params = $request->attributes->get('_route_params');
 

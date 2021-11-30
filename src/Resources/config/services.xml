@@ -5,6 +5,8 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
+
 
         <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
         <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >

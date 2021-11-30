@@ -74,68 +74,6 @@ class SurvosSetupCommand extends Command
         return self::SUCCESS;
     }
 
-    private function checkYarn(SymfonyStyle $io)
-    {
-        if (!file_exists($this->projectDir . '/yarn.lock')) {
-            $io->error("run yarn install or bin/console survos:init first");
-            die();
-        }
-
-        try {
-            $json = exec(sprintf('yarn list --pattern "(%s)" --json', join('|', self::requiredJsLibraries)) );
-
-            $yarnModules = json_decode($json, true);
-
-            $modules = array_map(function ($tree) {
-                if (is_string($tree)) {
-                    return $tree;
-                }
-                if ( preg_match('/(.*)(@[\d\.]+)$/', $tree['name'], $m) ) {
-                    $name = $m[1];
-                }
-                // [$name, $version] = explode('@', $tree['name']);
-                return $name;
-            }, $yarnModules['data']['trees'] );
-
-            // sort($modules); dump($modules); die();
-        } catch (\Exception $e) {
-            $io->error("Yarn failed -- is it installed? " . $e->getMessage());
-        }
-
-        $missing = array_diff(self::requiredJsLibraries, $modules);
-
-        if ($missing) {
-            $io->error("Missing " . join(',', $missing));
-            $command = sprintf("yarn add %s --dev", join(' ', $missing));
-            if ($io->confirm("Install them now? with $command? ", true)) {
-                echo exec($command) . "\n";
-                return $this->checkYarn($io); // recursive hack, should be refactored!
-            } else {
-                die("Cannot continue without yarn modules");
-            }
-        } else {
-            return $modules;
-        }
-
-
-        /* better: */
-        /*
-        $process = new Process(['yarn', 'run', 'encore', 'dev']);
-        $process->run();
-
-        // executes after the command finishes
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        echo $process->getOutput();
-        */
-
-
-
-
-    }
-
     private function createSubscribers(SymfonyStyle $io) {
 
 

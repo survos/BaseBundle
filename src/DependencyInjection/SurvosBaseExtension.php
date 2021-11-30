@@ -50,7 +50,7 @@ class SurvosBaseExtension extends Extension
         // $definition->setArgument(1, $config['min_sunshine']);
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'survos_base';
     }

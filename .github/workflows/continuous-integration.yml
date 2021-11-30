@@ -13,8 +13,8 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.3"
-          - "7.4"
+          - "8.0"
+          - "8.1"
         deps:
           - "normal"
         symfony-require:
@@ -22,24 +22,6 @@ jobs:
         symfony-deprecations-helper:
           - ""
         include:
-          - php-version: "7.3"
-            deps: "normal"
-
-          - php-version: "7.3"
-            deps: "low"
-
-          - php-version: "7.3"
-            deps: "dev"
-
-          - php-version: "7.4"
-            deps: "normal"
-
-          - php-version: "7.4"
-            deps: "low"
-
-          - php-version: "7.4"
-            deps: "dev"
-
           - php-version: "8.0"
             deps: "normal"
 
