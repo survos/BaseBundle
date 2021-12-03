@@ -6,7 +6,7 @@ use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-abstract class SurvosBaseEntity
+abstract class SurvosBaseEntity implements BaseEntityInterface
 {
     abstract function getId();
 
@@ -85,7 +85,7 @@ abstract class SurvosBaseEntity
     }
 
     // default, so this works with the default for ParamConverter
-    function getUniqueIdentifiers()
+    function getUniqueIdentifiers(): array
     {
         return [$this->getRoutePrefix() . 'Id' => $this->getId()];
     }

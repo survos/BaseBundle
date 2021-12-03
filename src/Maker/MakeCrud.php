@@ -12,6 +12,7 @@
 namespace Survos\BaseBundle\Maker;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Survos\BaseBundle\Entity\BaseEntityInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
 //use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
@@ -55,9 +56,9 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
 
         $this->doctrineHelper = $doctrineHelper;
         $this->formTypeRenderer = $formTypeRenderer;
-        if (class_exists(InflectorFactory::class)) {
-            $this->inflector = InflectorFactory::create()->build();
-        }
+//        if (class_exists(InflectorFactory::class)) {
+//            $this->inflector = InflectorFactory::create()->build();
+//        }
 
     }
 
@@ -102,10 +103,15 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
             Validator::entityExists($input->getArgument('entity-class'), $this->doctrineHelper->getEntitiesForAutocomplete()),
             'Entity\\'
         );
+//        if (!$entityClassDetails->getFullName() instanceof BaseEntityInterface) {
+//            $io->error($entityClassDetails->getFullName() . ' must implement RP()');
+//            return;
+//        }
+//        dd($entityClassDetails);
 
         $entityDoctrineDetails = $this->doctrineHelper->createDoctrineDetails($entityClassDetails->getFullName());
 
-        dd($entityDoctrineDetails, $entityClassDetails);
+//        dd($entityDoctrineDetails, $entityClassDetails, __FILE__, __METHOD__);
 
         $repositoryVars = [];
 
@@ -226,6 +232,7 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
         ];
 
         foreach ($templates as $template => $variables) {
+//            if ($template == 'index') dd($variables);
             $generator->generateTemplate(
                 $templatesPath.'/'.$template.'.html.twig',
                 $templateRoot . 'crud/templates/'.$template.'.tpl.php',
@@ -292,7 +299,7 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
     private function pluralize(string $word): string
     {
         if (null !== $this->inflector) {
-            return $this->inflector->pluralize($word);
+            return $this->inflector->pluralize($word)[0];
         }
 
         return EnglishInflector::plus($word);
@@ -300,8 +307,9 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
 
     private function singularize(string $word): string
     {
+        assert($this->inflector);
         if (null !== $this->inflector) {
-            return $this->inflector->singularize($word);
+            return $this->inflector->singularize($word)[0];
         }
 
         return Inflector::singularize($word);

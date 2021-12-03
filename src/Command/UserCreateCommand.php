@@ -49,6 +49,7 @@ class UserCreateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $action = 'no-action';
         $force = $input->getOption('force');
         $password = $input->getOption('password');
         $email = $input->getArgument('email');
