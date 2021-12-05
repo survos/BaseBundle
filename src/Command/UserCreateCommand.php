@@ -29,8 +29,8 @@ class UserCreateCommand extends Command
                                 private UserProviderInterface       $userProvider,
                                 private EventDispatcherInterface    $eventDispatcher,
                                 private EntityManagerInterface      $entityManager,
-                                private BaseService                 $baseService,
-                                private  $baseBundleConfig,
+//                                private BaseService                 $baseService,
+//                                private  $baseBundleConfig,
                                 string                              $name = null)
     {
         parent::__construct($name);
