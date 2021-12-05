@@ -145,7 +145,7 @@ final class MakeParamConverter extends AbstractMaker implements MakerInterface
         );
     }
 
-    static function getCommandDescription()
+    static function getCommandDescription(): string
     {
         return "Check request for object";
     }

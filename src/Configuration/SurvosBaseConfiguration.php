@@ -1,15 +1,15 @@
 <?php
 
-namespace Survos\BaseBundle\DependencyInjection;
+namespace Survos\BaseBundle\Configuration;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface
+class SurvosBaseConfiguration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $rootName = 'survos_admin';
+        $rootName = 'survos_base';
         $treeBuilder = new TreeBuilder($rootName);
         $rootNode = $treeBuilder->getRootNode();
         $rootNode

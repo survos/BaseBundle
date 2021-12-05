@@ -79,8 +79,10 @@
             <ul class="nav">
                 <li class="nav-item">
             {% if not is_granted('ROLE_USER') %}
-                        <a href="{{ path('app_login') }}">Login</a>
-            {% else %}
+                <a href="{{ path('app_login') }}">Log in</a> or
+                <a href="{{ path('app_register') }}">Register</a> to customize your view.
+
+                    {% else %}
                 {{ include('@theme/_navbar_user.html.twig') }}
             {% endif %}
             {#                    {{ render(controller('KevinPapst\\AdminLTEBundle\\Controller\\NavbarController::userAction')) }}#}

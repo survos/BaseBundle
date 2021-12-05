@@ -23,7 +23,7 @@ class Extensions extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
 
         return [
@@ -38,7 +38,7 @@ class Extensions extends AbstractExtension
         ];
     }
 
-    public function indent($value)
+    public function indent($value): string
     {
         return class_exists('Gajus\Dindent\Indenter')
         // if there's a dump it's too big to indent
@@ -50,7 +50,7 @@ class Extensions extends AbstractExtension
         /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
 
         return [
@@ -62,7 +62,8 @@ class Extensions extends AbstractExtension
         ];
     }
 
-    public function rstHeader($level, $text) {
+    public function rstHeader($level, $text): string
+    {
         $levels = [null, '-', '^', '='];
         return sprintf("%s\n%s\n\n", $text, str_repeat($levels[$level], mb_strlen($text)));
     }

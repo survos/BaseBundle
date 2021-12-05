@@ -10,17 +10,13 @@
 
         <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
         <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >
-            <argument type="service" id="?"/>
             <argument type="service" id="oauth2.registry"/>
             <argument type="service" id="knpu.oauth2.provider_factory"/>
         </service>
 
         <service id="Survos\BaseBundle\Security\AppEmailAuthenticator" alias="survos_base_bundle.app_email_authenticator" public="true"/>
         <service id="survos_base_bundle.app_email_authenticator" class="Survos\BaseBundle\Security\AppEmailAuthenticator" >
-            <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
-            <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="security.password_hasher"/>
         </service>
 
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">

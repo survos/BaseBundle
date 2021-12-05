@@ -1,8 +1,8 @@
 {
     "name": "survos/base-bundle",
-    "description": "Add some tools and resources to a Symfony5 application, including volt theme",
+    "description": "Add some tools and resources to a Symfony5/6 application",
     "type": "symfony-bundle",
-    "keywords": ["generator", "skeleton" , "symfony5"],
+    "keywords": ["generator", "symfony5"],
     "require": {
         "php": ">= 8.0",
         "ext-json": "*",
@@ -10,7 +10,7 @@
         "doctrine/common": "^2.0|^3.0",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
-        "knpuniversity/oauth2-client-bundle": "^2.0",
+        "knpuniversity/oauth2-client-bundle": "dev-symfony6",
         "mindscreen/yarnlock": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/config": "^5.3",
@@ -78,6 +78,17 @@
         "symfony": {
             "allow-contrib": "true",
             "id": "base-bundle.survos.com"
+        }
+    },
+    "repositories": {
+        "webpack": {
+            "type": "vcs",
+            "url": "git@github.com:Kocal/webpack-encore-bundle.git"
+        },
+
+        "oauth": {
+            "type": "vcs",
+            "url": "git@github.com:tacman/oauth2-client-bundle.git"
         }
     }
 }
