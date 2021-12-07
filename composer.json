@@ -10,7 +10,7 @@
         "doctrine/common": "^2.0|^3.0",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
-        "knpuniversity/oauth2-client-bundle": "dev-symfony6",
+        "knpuniversity/oauth2-client-bundle": "dev-master",
         "mindscreen/yarnlock": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/config": "^5.3",
