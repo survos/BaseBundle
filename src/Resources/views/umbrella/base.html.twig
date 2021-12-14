@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <script src="//unpkg.com/@ungap/custom-elements"></script>
+
+    {% block title %}
+        <title>{{ admin.appName() }}</title>
+    {% endblock %}
+
+    {% block stylesheets %}
+
+        {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
+    {% endblock %}
+
+</head>
+
+<body class="env-{{ app.environment }} {% block body_class %}{% endblock %}">
+{% block body_inner_html %}
+
+    <div class="wrapper">
+        {% block sidebar %}
+
+            {{ menu_render('App\\Menu\\AdminMenu') }}
+
+        {% endblock %}
+
+        <div class="main">
+            {% block topbar %}
+                {% include "@UmbrellaAdmin/_topbar.html.twig" %}
+            {% endblock %}
+
+            <main class="content">
+                <div class="{{ admin.containerClass }}">
+                    {% block content %}
+                        {{ block('body') }}
+                    {% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% include "@UmbrellaCore/_toast.html.twig" %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {% include "@UmbrellaAdmin/_scripts.html.twig" %}
+{% endblock %}
+</body>
+</html>
+
+
+
+
+
+

@@ -24,7 +24,7 @@
         "symfony/string": ">= 5.3",
         "symfony/twig-bundle": "^5.3",
         "symfony/validator": ">= 5.3",
-        "symfony/webpack-encore-bundle": "^1.6|^2",
+        "symfony/webpack-encore-bundle": "^v1.13.1",
         "symfony/yaml": "*",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.3"
