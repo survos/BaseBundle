@@ -13,6 +13,7 @@
     {% endblock %}
 
     {% block stylesheets %}
+
         {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
     {% endblock %}
 
@@ -24,15 +25,7 @@
     <div class="wrapper">
         {% block sidebar %}
 
-            {{ menu_render('App\\Menu\\SessionAdminMenu') }}
-
-            {{ 0 and include('@theme/_example_sidebar.html.twig') }}
-
-            {{ false and include('@theme/render_sidebar_menu.html.twig',  {
-                theme: theme,
-                debug: app.request.get('debug', false),
-                menuCode: 'survos_sidebar_menu'}
-            )}}
+            {{ menu_render('App\\Menu\\AdminMenu') }}
 
         {% endblock %}
 
@@ -44,8 +37,6 @@
             <main class="content">
                 <div class="{{ admin.containerClass }}">
                     {% block content %}
-                        {% set sidebarHtml = include('@theme/_example_sidebar.html.twig')  %}
-                        {{ sidebarHtml }}
                         {{ block('body') }}
                     {% endblock %}
                 </div>
@@ -58,6 +49,7 @@
 {% include "@UmbrellaCore/_toast.html.twig" %}
 
 {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
     {% include "@UmbrellaAdmin/_scripts.html.twig" %}
 {% endblock %}
 </body>
