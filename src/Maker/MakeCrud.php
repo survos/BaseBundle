@@ -12,7 +12,6 @@
 namespace Survos\BaseBundle\Maker;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Survos\BaseBundle\Entity\BaseEntityInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
 //use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;

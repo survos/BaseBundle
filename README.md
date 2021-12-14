@@ -1,3 +1,10 @@
+@TODO:
+
+* Extend from Umbrella
+* Add DataTableBundle (ux component)
+* Add #[RouteParameter] to Entity Properties.
+* Make ParamConverter listen via Attributes
+* Add LandingBundle (make:landing)
 
 # Survos Admin Bundle
 

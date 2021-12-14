@@ -4,7 +4,7 @@ namespace Survos\BaseBundle\Entity;
 
 trait RouteParametersTrait
 {
-    function getUniqueIdentifiers(): array
+    public function getUniqueIdentifiers(): array
     {
         return [strtolower( (new \ReflectionClass($this))->getShortName() ) . 'Id' => $this->getId()];
     }
