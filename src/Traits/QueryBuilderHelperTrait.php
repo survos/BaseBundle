@@ -4,6 +4,8 @@
 namespace Survos\BaseBundle\Traits;
 
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 trait QueryBuilderHelperTrait
 {
     public function getCounts($field): array
@@ -20,5 +22,38 @@ trait QueryBuilderHelperTrait
 
         return $counts;
     }
+
+    public function findBygetCountsByField($field = 'marking', $filters = []): array
+    {
+        $filters = (new OptionsResolver())
+            ->setDefaults([
+                'media' => null
+            ])->resolve($filters);
+
+        $qb = $this->createQueryBuilder('article')
+            // ->where("h.currentState = 'new'")
+            ->select(sprintf('COUNT(article.id) as c, article.%s as field ', $field));
+
+        foreach ($filters as $table=>$value) {
+            if ($value = $filters[$table]) {
+                $qb->join('article.' . $table, $table);
+                if (true || $value) {
+                    $qb->andWhere("article.$table = :$table")->setParameter($table, $value);
+                }
+            }
+        }
+
+        $counts = [];
+        $markingCounts = $qb
+            ->groupBy('article.' . $field)
+            ->getQuery()
+            ->getResult() ;
+
+        foreach ($markingCounts as $x) {
+            $counts[$x['field']] = $x['c'];
+        }
+        return $counts;
+    }
+
 
 }
