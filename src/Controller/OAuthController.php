@@ -35,7 +35,8 @@ class OAuthController extends AbstractController
                                 private EntityManagerInterface $entityManager,
                                 private RouterInterface $router,
                                 private ClientRegistry $clientRegistry,
-                                private UserProviderInterface $userProvider)
+//                                private UserProviderInterface $userProvider
+    )
     {
 //        $this->clientRegistry = $this->baseService->getClientRegistry();
     }

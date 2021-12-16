@@ -40,14 +40,13 @@ class LandingController extends AbstractController
     private $baseService;
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
-    private UserProviderInterface $userProvider;
     /**
      * @var ParameterBagInterface
      */
     private $parameterBag;
 
     public function __construct(
-        UserProviderInterface $userProvider,
+//        private  UserProviderInterface $userProvider,
         BaseService $baseService,
                                 EntityManagerInterface $entityManager,
                                 MailerInterface $mailer,
@@ -58,7 +57,6 @@ class LandingController extends AbstractController
         $this->entityManager = $entityManager;
 
         $this->mailer = $mailer;
-        $this->userProvider = $userProvider;
         $this->parameterBag = $parameterBag;
     }
 
