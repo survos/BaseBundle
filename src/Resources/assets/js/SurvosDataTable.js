@@ -369,6 +369,7 @@ export default class SurvosDataTable {
     }
 
     render() {
+        console.warning('calling render()');
         $('<div class="loading">Loading</div>').appendTo('body');
 
         // var url = this.el.data('ajax'); // or options?

@@ -92,8 +92,9 @@ on github.com with no files (no README or license), clone it to some directory a
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
 
 ```bash
-rm LICENSE && rm README.md && mv .git .. && symfony new --full . --no-git  && mv ../.git . && git checkout .
+rm -f LICENSE && rm -f README.md && mv .git .. && symfony new --full . --no-git --version=5.4 && mv ../.git . && git checkout .
 composer config extra.symfony.allow-contrib true
+composer req webapp && yarn install && yarn encore dev
 ```     
         
 * Create the project on heroku, after logging in.  Optionally create database.
