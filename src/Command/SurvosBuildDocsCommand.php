@@ -29,9 +29,9 @@ class SurvosBuildDocsCommand extends Command
     {
         $this
             ->setDescription('Compile .rst.twig files')
-            ->addArgument('template-dir', InputArgument::OPTIONAL, 'Template Directory',  './/templates/')
+            ->addArgument('template-dir', InputArgument::OPTIONAL, 'Template Directory',  './templates/')
             ->addArgument('template-subdir', InputArgument::OPTIONAL, 'Template Subdirectory', 'docs/')
-            ->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'Output Directory',  './docs/')
+            ->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'Output Directory (the .rst file)',  './docs')
         ;
     }
 

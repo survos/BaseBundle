@@ -15,7 +15,15 @@ trait AdminMenuTrait
 //        dd($options);
         $item = $menu->add($options['id'])
             ->label($options['label'])
-            ->icon('uil-table');
+            ;
+
+        if ($options['icon']) {
+            $item->icon($options['icon']);
+        }
+
+        if ($options['badge']) {
+            $item->badge($options['badge']);
+        }
 
         if ($options['route']) {
             $item
@@ -101,12 +109,14 @@ trait AdminMenuTrait
             }
         }
 
-        // move the icon to attributes, where it belongs
+
+
+        // move the icon to attributes, where it belongs IF this is knp_menu
         if ($options['icon']) {
             $options['attributes']['data-icon'] = $options['icon'];
 //            $options['attributes']['class'] = 'text-danger';
             $options['label_attributes']['data-icon'] = $options['icon'];
-            unset($options['icon']);
+//            unset($options['icon']); // ??
         }
 
         if ($options['style'] === 'header') {

@@ -1,3 +1,7 @@
+{% if admin_menu is not defined %}
+    {% set admin_menu = get_menu(admin.menuName()) %}
+{% endif %}
+
 <!doctype html>
 <html lang="{{ app.request.locale }}">
 <head>
@@ -6,16 +10,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    <script src="//unpkg.com/@ungap/custom-elements"></script>
-
-    {% block title %}
-        <title>{{ admin.appName() }}</title>
-    {% endblock %}
-
+{#    <script src="//unpkg.com/@ungap/custom-elements"></script>#}
     {% block stylesheets %}
-
         {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
+
 
 </head>
 
@@ -24,14 +24,40 @@
 
     <div class="wrapper">
         {% block sidebar %}
-
-            {{ menu_render('App\\Menu\\AdminMenu') }}
-
+            {{ render_menu(admin_menu) }}
         {% endblock %}
 
         <div class="main">
             {% block topbar %}
-                {% include "@UmbrellaAdmin/_topbar.html.twig" %}
+                <nav class="navbar navbar-expand navbar-light navbar-bg sticky-top">
+
+                    <a class="sidebar-toggle js-sidebar-toggle">
+                        <i class="hamburger align-self-center"></i>
+                    </a>
+
+                    <div class="{{ admin.containerClass }}">
+
+                        {% block breadcrumb %}
+                            {{ render_breadcrumb(admin_menu) }}
+                        {% endblock %}
+
+                        <div class="navbar-collapse collapse">
+
+                            <ul class="navbar-nav navbar-align">
+                                {% if admin.notificationEnable() %}
+                                    {% include "@UmbrellaAdmin/Notification/widget.html.twig" %}
+                                {% endif %}
+
+                                <li class="nav-item">
+                                    <a class="nav-icon js-fullscreen d-none d-lg-block" href="#" is="umbrella-fullscreen-toggler">
+                                        <i class="uil uil-focus"></i>
+                                    </a>
+                                </li>
+                                {% include '@UmbrellaAdmin/_userinfo.html.twig' %}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             {% endblock %}
 
             <main class="content">

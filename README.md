@@ -137,11 +137,15 @@ composer config minimum-stability dev
 composer config prefer-stable true
 
 composer req knplabs/knp-markdown-bundle
+composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+
+composer require umbrella2/adminbundle
+php bin/console make:admin:home
 
 composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
 composer config repositories.cs_fixer '{"type": "vcs", "url": "git@github.com:tacman/PHP-CS-Fixer.git"}'
-composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
-composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos /workflow-bundle.git"}'
+composer config repositories.tabler '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
 composer req survos/base-bundle:"*@dev"
 composer req survos/tabler-bundle:dev-tac
 
@@ -251,7 +255,8 @@ Install the bundle, then go through the setup to add and configure the tools.
     xterm -e "yarn run encore dev-server" &
     
     composer req "kevinpapst/adminlte-bundle"
-    bin/console make:subscriber KnpMenuSubscriber "KevinPapst\AdminLTEBundle\Event\KnpMenuEvent"
+    composer require knplabs/knp-menu-bundle
+    bin/console make:subscriber KnpMenuSubscriber "Survos\BaseBundle\Event\KnpMenuEvent"
     
     bin/console survos:init
     
