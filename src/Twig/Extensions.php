@@ -55,11 +55,20 @@ class Extensions extends AbstractExtension
 
         return [
             new TwigFunction('locales', [$this, 'getLocales']),
+            new TwigFunction('breadcrumb', [$this, 'renderBreadcrumb'], ['is_safe' => ['html_attr']]),
             new TwigFunction('h', [$this, 'rstHeader']),
             new TwigFunction('optionsResolver', [$this, 'optionsResolver']),
             new TwigFunction('tourOptions', [$this, 'tourOptions']),
             new TwigFunction('adminLinks', [$this, 'adminLinks']),
         ];
+    }
+
+    public function renderBreadcrumb(string $text, string $url = null)
+    {
+
+//        <li class="breadcrumb-item"><a href="#">Home</a></li>
+//    <li class="breadcrumb-item active" aria-current="page">Library</li>
+        return $url ? sprintf('<li class="breadcrumb-item"><a href="%s">%s</a></li>', $url, $text) : $text;
     }
 
     public function rstHeader($level, $text): string

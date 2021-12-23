@@ -37,8 +37,26 @@
 
                     <div class="{{ admin.containerClass }}">
 
-                        {% block breadcrumb %}
-                            {{ render_breadcrumb(admin_menu) }}
+{#                        <nav aria-label="breadcrumb">#}
+{#                            <ol class="breadcrumb">#}
+{#                                <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+{#                                <li class="breadcrumb-item"><a href="#">Library</a></li>#}
+{#                                <li class="breadcrumb-item active" aria-current="page">Data</li>#}
+{#                            </ol>#}
+{#                        </nav>#}
+
+                        {% block breadcrumb_wrapper %}
+                            <nav aria-label="breadcrumb float-end">
+                                <ol class="breadcrumb navbar-nav ms-auto mb-2 mb-lg-0">
+                                    {% block breadcrumbs %}
+                                        {{ breadcrumb('Home', path('app_homepage')) }}
+{#                                        <li class="breadcrumb-item"><a href="{{ path('app_homepage') }}">Home</a></li>#}
+                                        {#  this is more the page title. #}
+                                    {% endblock %}
+{#                                    | {{ render_breadcrumb(admin_menu) }}#}
+                                </ol>
+                            </nav>
+
                         {% endblock %}
 
                         <div class="navbar-collapse collapse">
