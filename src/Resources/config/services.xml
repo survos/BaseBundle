@@ -20,6 +20,15 @@
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
         </service>
 
+        <service id="Survos\BaseBundle\Security\BaseAuthenticator" alias="survos_base_bundle.base_authenticator" public="true"/>
+        <service id="survos_base_bundle.base_authenticator" class="Survos\BaseBundle\Security\BaseAuthenticator" >
+            <argument type="service" id="KnpU\OAuth2ClientBundle\Client\ClientRegistry"/>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
+            <argument type="service" id="security.user.provider.concrete.app_user_provider" />
+
+        </service>
+
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">
             <tag name="container.service_subscriber" />
             <tag name="controller.service_arguments" />

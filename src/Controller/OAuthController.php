@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -31,20 +32,20 @@ use Twig\Environment;
 class OAuthController extends AbstractController
 {
 
-    public function __construct(private BaseService $baseService,
+    public function __construct(private BaseService            $baseService,
                                 private EntityManagerInterface $entityManager,
-                                private RouterInterface $router,
-                                private ClientRegistry $clientRegistry,
-//                                private UserProviderInterface $userProvider
+                                private RouterInterface        $router,
+                                private ClientRegistry         $clientRegistry,
+                                private UserProviderInterface  $userProvider
     )
     {
 //        $this->clientRegistry = $this->baseService->getClientRegistry();
     }
 
-    public function socialMediaButtons($style='')
+    public function socialMediaButtons($style = '')
     {
         return $this->render('@SurvosBase/_social_media_login_buttons.html.twig', [
-            'clientKeys' =>  $this->clientRegistry->getEnabledClientKeys(),
+            'clientKeys' => $this->clientRegistry->getEnabledClientKeys(),
             'clientRegistry' => $this->clientRegistry,
             'style' => $style
         ]);
@@ -77,7 +78,7 @@ class OAuthController extends AbstractController
             'provider' => $provider,
             'package' => $package,
             'classExists' => class_exists($provider['class'])
-            ]);
+        ]);
 
     }
 
@@ -121,44 +122,15 @@ class OAuthController extends AbstractController
                 ],
                 'facebook' => ['email', 'public_profile'],
                 'google' => ['email', 'profile', 'openid']
-            ];
-        ;
+            ];;
         // will redirect to an external OAuth server
-        $redirect =  $this->clientRegistry
+        $redirect = $this->clientRegistry
             ->getClient($clientKey) // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect($scopes[$clientKey] ?? [], [])
-            ;
+            ->redirect($scopes[$clientKey] ?? [], []);
 //        dump($redirect->getTargetUrl());
         $redirect->setTargetUrl(str_replace('http%3A', 'https%3A', $redirect->getTargetUrl()));
 //         dd($redirect);
         return $redirect;
-    }
-
-    /**
-     * After going to Github, you're redirected back here
-     * because this is the "redirect_route" you configured
-     * in config/packages/knpu_oauth2_client.yaml
-     *
-     * @Route("/connect/check-guard", name="connect_check_with_guard")
-     */
-    public function connectCheckAction(Request $request, UserProviderInterface $userProvider)
-    {
-        // ** if you want to *authenticate* the user, then
-        // leave this method blank and create a Guard authenticator
-        // (read below)
-
-        // leave it blank, per the instructions, and handle the redirect in the Guard
-
-        // if it comes back from the guard to here,
-        $user = $this->getUser();
-        if ($user->getId()) {
-            $targetUrl = $this->router->generate('app_homepage', ['login' => 'success']);
-        } else {
-            $targetUrl = $this->router->generate('app_register', ['email' => $user->getEmail()]);
-        }
-        dd($targetUrl);
-        return new RedirectResponse($targetUrl);
-
     }
 
     /**
@@ -167,27 +139,31 @@ class OAuthController extends AbstractController
      *
      * @Route("/connect/controller/{clientKey}", name="oauth_connect_check")
      */
-    public function connectCheckWithController(Request $request,
-                                               EntityManagerInterface $em,
-                                               ClientRegistry $clientRegistry, string $clientKey)
+    public function connectCheckWithController(Request        $request,
+                                               ClientRegistry $clientRegistry,
+                                               string         $clientKey)
     {
         /** @var OAuth2ClientInterface $client */
         $client = $clientRegistry->getClient($clientKey);
         $route = $request->get('_route');
 
 
-        try {
-            // the exact class depends on which provider you're using
-            /** @  var \League\OAuth2\Client\Provider\GenericProvider $user */
-            $oAuthUser = $client->fetchUser();
+        // the exact class depends on which provider you're using
+        /** @  var \League\OAuth2\Client\Provider\GenericProvider $user */
+        $oAuthUser = $client->fetchUser();
 //            $email = $oAuthUser->getEmail();
-            $identifier = $oAuthUser->getId();
-            // now presumably we need to link this up.
-            $token = $oAuthUser->getId();
+        $identifier = $oAuthUser->getId();
+        // now presumably we need to link this up.
+        $token = $oAuthUser->getId();
+
+        $email = method_exists($oAuthUser, 'getEmail') ? $oAuthUser->getEmail(): null;
+        assert($email);
+
+        try {
             try {
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
-                foreach ($request->query->all() as $var=>$value) {
+                foreach ($request->query->all() as $var => $value) {
                     $this->addFlash('warning', sprintf("%s: %s", $var, $value));
                 }
                 return $this->redirectToRoute('app_login');
@@ -206,9 +182,9 @@ class OAuthController extends AbstractController
         if ($error = $request->get('error')) {
             $this->addFlash('error', $error);
             $this->addFlash('error', $request->get('error_description'));
+            dd($error);
             return $this->redirectToRoute('app_login');
         }
-
 
 
         // do something with all this new power!
@@ -218,52 +194,49 @@ class OAuthController extends AbstractController
 
 
         // it seems that loadUserByUsername redirects to login
-         if ($user = $this->userProvider->loadUserByIdentifier($identifier)) {
-        /** @var UserInterface $user */
+        try {
+            /** @var UserInterface $user */
+            $user = $this->userProvider->loadUserByIdentifier($email);
+        } catch (UserNotFoundException $exception) {
+            return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'githubId = ']));
+        }
+
 //        if ($user = $em->getRepository(User::class)->findOneBy(['email' => $email])) {
 // after validating the user and saving them to the database
-            // authenticate the user and use onAuthenticationSuccess on the authenticator
-            // if it's already in there, update the token.  This also happens with registration, so maybe belongs in BaseService?
-            if ($user->getId()) {
-                switch ($clientKey) {
-                    case 'github': $user->setGithubId($token); break;
-                    case 'facebook': $user->setFacebookId($token); break;
-                    case 'google': $user->setGoogleId($token); break;
-                    default: throw new \Exception("Invalid client key: " . $clientKey);
-                }
+        // authenticate the user and use onAuthenticationSuccess on the authenticator
+        // if it's already in there, update the token.  This also happens with registration, so maybe belongs in BaseService?
+        if ($user->getUserIdentifier()) {
+            switch ($clientKey) {
+                case 'github':
+                    $user->setGithubId($token);
+                    break;
+                case 'facebook':
+                    $user->setFacebookId($token);
+                    break;
+                case 'google':
+                    $user->setGoogleId($token);
+                    break;
+                default:
+                    throw new \Exception("Invalid client key: " . $clientKey);
+            }
 
 //                $passport = $authentication->auth
 
 
-                $this->entityManager->flush();
-                $email = $identifier;
-//                 dd($clientKey, $user, $user->getRoles(), $guardHandler, get_class($guardHandler), $successRedirect);
-                $successRedirect = $this->redirectToRoute('app_homepage', ['email' => $email]);
+            $this->entityManager->flush();
+            $successRedirect = $this->redirectToRoute('app_homepage', ['email' => $email]);
 
-                return $successRedirect;
-            } else {
-                return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'githubId = ']));
-            }
-
-
-        } else {
-
-            // redirect to register, with the email pre-filled
-
-            // return new RedirectResponse($this->generateUrl('app_register'));
-            return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'clientKey' => $clientKey, 'token' => $token]));
-
+            return $successRedirect;
         }
 
 
-        try {
-            // ...
-        } catch (IdentityProviderException $e) {
-            // something went wrong!
-            // probably you should return the reason to the user
-            echo $e->getResponseBody();
-            dd($e,  $e->getMessage());
-        }
+//            // ...
+//        } catch (IdentityProviderException $e) {
+//            // something went wrong!
+//            // probably you should return the reason to the user
+//            echo $e->getResponseBody();
+//            dd($e, $e->getMessage());
+//        }
 
         return new RedirectResponse($this->generateUrl('app_register', [
             'email' => $email,
@@ -272,6 +245,33 @@ class OAuthController extends AbstractController
         ]));
     }
 
+    /**
+     * After going to Github, you're redirected back here
+     * because this is the "redirect_route" you configured
+     * in config/packages/knpu_oauth2_client.yaml
+     *
+     * @Route("/connect/check-guard", name="connect_check_with_guard")
+     * @deprecated
+     */
+    private function connectCheckAction(Request $request, UserProviderInterface $userProvider)
+    {
+        // ** if you want to *authenticate* the user, then
+        // leave this method blank and create a Guard authenticator
+        // (read below)
+
+        // leave it blank, per the instructions, and handle the redirect in the Guard
+
+        // if it comes back from the guard to here,
+        $user = $this->getUser();
+        if ($user->getId()) {
+            $targetUrl = $this->router->generate('app_homepage', ['login' => 'success']);
+        } else {
+            $targetUrl = $this->router->generate('app_register', ['email' => $user->getEmail()]);
+        }
+        dd($targetUrl);
+        return new RedirectResponse($targetUrl);
+
+    }
 
 
 }
