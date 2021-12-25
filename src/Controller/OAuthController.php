@@ -144,8 +144,9 @@ class OAuthController extends AbstractController
                                                string         $clientKey)
     {
         /** @var OAuth2ClientInterface $client */
-        $client = $clientRegistry->getClient($clientKey);
         $route = $request->get('_route');
+        dd($route);
+        $client = $clientRegistry->getClient($clientKey);
 
 
         // the exact class depends on which provider you're using
@@ -159,8 +160,8 @@ class OAuthController extends AbstractController
         $email = method_exists($oAuthUser, 'getEmail') ? $oAuthUser->getEmail(): null;
         assert($email);
 
-        try {
-            try {
+
+                try {
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
                 foreach ($request->query->all() as $var => $value) {
@@ -173,16 +174,17 @@ class OAuthController extends AbstractController
             // e.g. $name = $user->getFirstName();
 //            dd($oAuthUser); die;
             // ...
+
+        try {
         } catch (IdentityProviderAuthenticationException $e) {
             // something went wrong!
             // probably you should return the reason to the user
-            dd($e->getMessage());
+            $this->addFlash('error', $e->getMessage());
         }
 
         if ($error = $request->get('error')) {
             $this->addFlash('error', $error);
             $this->addFlash('error', $request->get('error_description'));
-            dd($error);
             return $this->redirectToRoute('app_login');
         }
 
