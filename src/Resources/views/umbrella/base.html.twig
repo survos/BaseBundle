@@ -12,8 +12,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 {#    <script src="//unpkg.com/@ungap/custom-elements"></script>#}
     {% block stylesheets %}
-        {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
         {{ encore_entry_link_tags('app') }}
+        {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
     {% endblock %}
 
 
@@ -62,6 +62,7 @@
                         <div class="navbar-collapse collapse">
 
                             <ul class="navbar-nav navbar-align">
+                                <li><code>{{ app.request.get('_route') }}</code></li>
                                 {% if admin.notificationEnable() %}
                                     {% include "@UmbrellaAdmin/Notification/widget.html.twig" %}
                                 {% endif %}
@@ -71,6 +72,15 @@
                                         <i class="uil uil-focus"></i>
                                     </a>
                                 </li>
+
+
+                                <li>
+                                    <a href="{{ path('app_login') }}" class="dropdown-item">
+                                        <span>{{ 'label.sign_in' | trans }}</span>
+                                    </a>
+
+                                </li>
+
                                 {% include '@UmbrellaAdmin/_userinfo.html.twig' %}
                             </ul>
                         </div>
@@ -93,8 +103,8 @@
 {% include "@UmbrellaCore/_toast.html.twig" %}
 
 {% block javascripts %}
+{#    {% include "@UmbrellaAdmin/_scripts.html.twig" %}#}
     {{ encore_entry_script_tags('app') }}
-    {% include "@UmbrellaAdmin/_scripts.html.twig" %}
 {% endblock %}
 </body>
 </html>
