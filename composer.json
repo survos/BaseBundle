@@ -13,16 +13,16 @@
         "knpuniversity/oauth2-client-bundle": "dev-master",
         "mindscreen/yarnlock": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
-        "symfony/config": "^5.3",
-        "symfony/form": "^5.3",
+        "symfony/config": ">= 5.3",
+        "symfony/form": ">= 5.3",
         "symfony/mailer": "*",
         "symfony/options-resolver": ">= 5.3",
-        "symfony/process": "^5.3",
-        "symfony/security-bundle": "^5.3",
-        "symfony/security-csrf": "^5.3",
-        "symfony/security-http": "^5.3",
+        "symfony/process": ">= 5.3",
+        "symfony/security-bundle": ">= 5.3",
+        "symfony/security-csrf": ">= 5.3",
+        "symfony/security-http": ">= 5.3",
         "symfony/string": ">= 5.3",
-        "symfony/twig-bundle": "^5.3",
+        "symfony/twig-bundle": ">= 5.3",
         "symfony/validator": ">= 5.3",
         "symfony/webpack-encore-bundle": "^v1.13.1",
         "symfony/yaml": "*",
@@ -31,7 +31,6 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "fzaninotto/faker": "^1.5",
         "meyfa/php-svg": "^0.9.1",
         "phpstan/phpstan": "^1.2",
         "rector/rector": "^0.12.4",
@@ -78,17 +77,6 @@
         "symfony": {
             "allow-contrib": "true",
             "id": "base-bundle.survos.com"
-        }
-    },
-    "repositories": {
-        "webpack": {
-            "type": "vcs",
-            "url": "git@github.com:Kocal/webpack-encore-bundle.git"
-        },
-
-        "oauth": {
-            "type": "vcs",
-            "url": "git@github.com:tacman/oauth2-client-bundle.git"
         }
     }
 }
