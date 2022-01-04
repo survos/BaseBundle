@@ -136,13 +136,14 @@ sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FI
 composer config minimum-stability dev
 composer config prefer-stable true
 
-composer req knplabs/knp-markdown-bundle
+composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
+composer req knplabs/knp-markdown-bundle:dev-symfony6
+
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 
 composer require umbrella2/adminbundle
 php bin/console make:admin:home
 
-composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
 composer config repositories.cs_fixer '{"type": "vcs", "url": "git@github.com:tacman/PHP-CS-Fixer.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos /workflow-bundle.git"}'
 composer config repositories.tabler '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
