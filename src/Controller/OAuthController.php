@@ -145,7 +145,6 @@ class OAuthController extends AbstractController
     {
         /** @var OAuth2ClientInterface $client */
         $route = $request->get('_route');
-        dd($route);
         $client = $clientRegistry->getClient($clientKey);
 
 
