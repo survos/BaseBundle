@@ -159,7 +159,7 @@ final class StimulusTwigExtension extends AbstractExtension
      *
      * @throws \Twig\Error\RuntimeError
      */
-    public function renderStimulusTarget(Environment $env, $dataOrControllerName, string $targetNames = null, array $data = []): string
+    public function renderStimulusTarget(Environment $env, $dataOrControllerName, string $targetNames = null, array $params = []): string
     {
         if (\is_string($dataOrControllerName)) {
             $data = [$dataOrControllerName => $targetNames];
@@ -182,7 +182,7 @@ final class StimulusTwigExtension extends AbstractExtension
 
             $targets['data-'.$controllerName.'-target'] = twig_escape_filter($env, $targetNames, 'html_attr');
         }
-        $targetData  = $this->renderData($env, $data, $controllerName, '');
+        $targetData  = $this->renderData($env, $params, $controllerName, '');
 
         return implode(' ', array_map(static function (string $attribute, string $value): string {
             return $attribute.'="'.$value.'"';

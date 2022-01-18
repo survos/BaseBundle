@@ -12,7 +12,6 @@ trait AdminMenuTrait
     {
         $options = $this->menuOptions($options);
 
-//        dd($options);
         $item = $menu->add($options['id'])
             ->label($options['label'])
             ;
