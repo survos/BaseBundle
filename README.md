@@ -5,6 +5,7 @@
 * Add #[RouteParameter] to Entity Properties.
 * Make ParamConverter listen via Attributes
 * Add LandingBundle (make:landing)
+* Symfony 5.4 or 6
 
 # Survos Admin Bundle
 
