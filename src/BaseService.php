@@ -31,11 +31,6 @@ class BaseService
         return $this->userClass;
     }
 
-    public function getEntities()
-    {
-        return $this->entityClasses;
-    }
-
     public function getOauthClientKeys(): array {
         return $this->clientRegistry->getEnabledClientKeys();
     }

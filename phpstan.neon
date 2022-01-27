@@ -3,10 +3,14 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - ./src/
+        - ./vendor
 
     excludePaths:
-      - 'src/Resources/skeleton'
-      - */cache/*
+#      - 'src/Resources/skeleton'
+#      - */cache/*
+       analyse:
+                  - ./vendor
+
     ignoreErrors:
         # False positive: clients are not dependencies of this project.
 #        -
@@ -24,6 +28,6 @@ parameters:
 #        -
 #            message: '#.*NodeParentInterface\|null.*#'
 #            path: ./src/DependencyInjection/Providers
-        -
-            message: '#.*NodeDefinition::children.*#'
-            path: ./src/DependencyInjection
+#        -
+#            message: '#.*NodeDefinition::children.*#'
+#            path: ./src/DependencyInjection

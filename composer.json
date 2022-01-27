@@ -31,19 +31,17 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "meyfa/php-svg": "^0.11.2",
-        "phpstan/phpstan": "^1.2",
+        "phpstan/phpstan": "^1.4",
         "rector/rector": "^0.12.4",
         "slevomat/coding-standard": "^7.0",
-        "symfony/maker-bundle": "^1.36",
-        "vimeo/psalm": "^4.13"
+        "symfony/maker-bundle": "^1.36"
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml coverage",
         "test-coverage": "php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage",
         "test-cs": "vendor/bin/phpcs",
-        "test-phpstan": "vendor/bin/phpstan analyse",
-        "test-psalm": "vendor/bin/psalm lib/"
+        "test-phpstan": "vendor/bin/phpstan analyse"
     },
     "suggest": {
         "psr/log-implementation": "If you wish to enable logging features, provide an PSR-3 logger.",
@@ -51,7 +49,7 @@
         "psr/cache-implementation": "If you wish to enable caching features, provide an PSR-6 cache implementation.",
         "symfony/cache": "Great cache to use, but you can pick any PSR-6 cache you wish.",
         "twig/markdown-extra": "use markdown_to_html filter",
-        "twig/twig-extra": "so that markdown filter is available in twig.",
+        "zenstruck/foundry": "for easily creating fixtures",
         "php-http/cache-plugin": "When making use of cache, you need to install this plugin.",
         "psr/simple-cache-implementation": "If you wish to enable caching features, provide an PSR-16 cache."
     },
