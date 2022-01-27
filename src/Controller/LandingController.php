@@ -295,7 +295,6 @@ class LandingController extends AbstractController
 
     /**
      * @Route("/one-time-login-request", name="app_one_time_login_request")
-     */
     public function oneTimeLoginRequest(Request $request)
     {
         $form = $this->createForm(ForgotPasswordFormType::class);
@@ -339,5 +338,8 @@ class LandingController extends AbstractController
 
 
     }
+     *
+     */
+
 
 }
