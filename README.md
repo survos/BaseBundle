@@ -152,7 +152,7 @@ composer req survos/base-bundle:"^2.0.3"
 composer req survos/tabler-bundle:dev-tac
 
 composer require symfony/webpack-encore-bundle
-yarn install0
+yarn install
 yarn add sass-loader@^11.0.0 sass --dev
 yarn add https://github.com/survos/adminkit.git
 
@@ -396,7 +396,8 @@ App\Entity\Song:
 
 ### Deploy to heroku
 
-    heroku create $projectName --buildpack heroku/php
+    heroku create $projectName 
+    heroku buildpacks:add heroku/php
     heroku buildpacks:add heroku/nodejs
     
     echo "web:  vendor/bin/heroku-php-nginx -C heroku-nginx.conf  -F fpm_custom.conf public/" > Procfile

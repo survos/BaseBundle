@@ -8,6 +8,7 @@ namespace <?= $namespace ?>;
 
 use <?= $entity_full_class_name ?>;
 use <?= $form_full_class_name ?>;
+use Doctrine\ORM\EntityManagerInterface;
 <?php if (isset($repository_full_class_name)): ?>
 use <?= $repository_full_class_name ?>;
 <?php endif ?>
@@ -22,14 +23,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
 {
-    /**
-     * @Route("/", name="<?= $route_name ?>_index", methods={"GET"})
-     */
+
+public function __construct(private EntityManagerInterface $entityManager) {
+
+}
+
+#[Route('/', name: '<?= $route_name ?>_index')]
 <?php if (isset($repository_full_class_name)): ?>
     public function index(<?= $repository_class_name ?> $<?= $repository_var ?>): Response
     {
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $repository_var ?>->findAll(),
+            '<?= $entity_twig_var_plural ?>' => $<?= $repository_var ?>->findBy([], [], 30),
         ]);
     }
 <?php else: ?>
@@ -45,9 +49,7 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
     }
 <?php endif ?>
 
-    /**
-     * @Route("/new", name="<?= $route_name ?>_new", methods={"GET","POST"})
-     */
+#[Route('<?= $route_name ?>/new', name: '<?= $route_name ?>_new')]
     public function new(Request $request): Response
     {
         $<?= $entity_var_singular ?> = new <?= $entity_class_name ?>();
@@ -55,7 +57,7 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->entityManager;
             $entityManager->persist($<?= $entity_var_singular ?>);
             $entityManager->flush();
 
@@ -68,9 +70,7 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
         ]);
     }
 
-    /**
-     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_show", methods={"GET"})
-     */
+#[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_show')]
     public function show(<?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
     {
         return $this->render('<?= $templates_path ?>/show.html.twig', [
@@ -78,16 +78,14 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
         ]);
     }
 
-    /**
-     * @Route("/{<?= $entity_identifier ?>}/edit", name="<?= $route_name ?>_edit", methods={"GET","POST"})
-     */
+#[Route('/{<?= $entity_identifier ?>}/edit', name: '<?= $route_name ?>_edit')]
     public function edit(Request $request, <?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
     {
         $form = $this->createForm(<?= $form_class_name ?>::class, $<?= $entity_var_singular ?>);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->entityManger->flush();
 
             return $this->redirectToRoute('<?= $route_name ?>_index');
         }
@@ -98,14 +96,12 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
         ]);
     }
 
-    /**
-     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_delete", methods={"DELETE"})
-     */
+#[Route('/{<?= $entity_identifier ?>}/delete', name: '<?= $route_name ?>_delete', methods:['DELETE'])]
     public function delete(Request $request, <?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
     {
         // hard-coded to getId, should be get parameter of uniqueIdentifiers()
         if ($this->isCsrfTokenValid('delete'.$<?= $entity_var_singular ?>->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->entityManager;
             $entityManager->remove($<?= $entity_var_singular ?>);
             $entityManager->flush();
         }
