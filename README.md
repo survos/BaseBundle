@@ -148,7 +148,7 @@ php bin/console make:admin:home
 composer config repositories.cs_fixer '{"type": "vcs", "url": "git@github.com:tacman/PHP-CS-Fixer.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
 composer config repositories.tabler '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
-composer req survos/base-bundle:"^2.0.2 "
+composer req survos/base-bundle:"^2.0.3"
 composer req survos/tabler-bundle:dev-tac
 
 composer require symfony/webpack-encore-bundle
