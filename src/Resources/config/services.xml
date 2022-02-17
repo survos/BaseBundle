@@ -61,12 +61,12 @@
 <!--            <argument type="service" id="maker.generator"/>-->
 <!--        </service>-->
 
-        <service id="Survos\BaseBundle\Maker\MakeParamConverter"
-                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="false">
-            <argument type="service" id="maker.doctrine_helper" />
-            <argument type="service" id="maker.param_converter" />
-            <tag name="maker.command" />
-        </service>
+<!--        <service id="Survos\BaseBundle\Maker\MakeParamConverter"-->
+<!--                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="false">-->
+<!--            <argument type="service" id="maker.doctrine_helper" />-->
+<!--            <argument type="service" id="maker.param_converter" />-->
+<!--            <tag name="maker.command" />-->
+<!--        </service>-->
 
         <service id="Survos\BaseBundle\Maker\MakeCrud"
                  class="Survos\BaseBundle\Maker\MakeCrud" public="false">
