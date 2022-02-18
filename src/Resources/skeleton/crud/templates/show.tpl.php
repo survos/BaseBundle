@@ -14,9 +14,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('<?= $route_name ?>_index') }}">back to list</a>
-
     <a class="btn btn-primary" href="{{ path('<?= $route_name ?>_edit', <?= $entity_twig_var_singular ?>.rp) }}">edit</a>
-
     {{ include('<?= $route_name ?>/_delete_form.html.twig') }}
 {% endblock %}

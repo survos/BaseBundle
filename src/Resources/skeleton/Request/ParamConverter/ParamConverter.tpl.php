@@ -17,15 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class <?= $shortClassName ?> implements ParamConverterInterface
 {
-
-    private ManagerRegistry $registry;
-
-    /**
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(private ManagerRegistry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -66,13 +59,10 @@ class <?= $shortClassName ?> implements ParamConverterInterface
         }
 
         // Get actual entity manager for class.  We can also pass it in, but that won't work for the doctrine tree extension.
-        $em = $this->registry->getManagerForClass($configuration->getClass());
-        $repository = $em->getRepository($configuration->getClass());
+        $repository = $this->registry->getManagerForClass($configuration->getClass())?->getRepository($configuration->getClass());
 
-        // Try to find <?= $entity_var_name ?> by its Id
-        $<?= $entity_var_name ?> = $repository->findOneBy(['id' => $<?= $entity_unique_name ?>]);
-
-        if (null === $<?= $entity_var_name ?> || !($<?= $entity_var_name ?> instanceof <?= $entity_class_name ?>)) {
+        // Try to find the entity
+        if (!$<?= $entity_var_name ?> = $repository->findOneBy(['id' => $<?= $entity_unique_name ?>])) {
             throw new NotFoundHttpException(sprintf('%s %s object not found.', $<?= $entity_unique_name ?>, $configuration->getClass()));
         }
 

@@ -41,7 +41,7 @@ public function __construct(private EntityManagerInterface $entityManager) {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManger->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('<?= $route_name ?>_index');
         }
