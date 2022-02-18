@@ -134,6 +134,12 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
             'Controller'
         );
 
+        $entityControllerClassDetails = $generator->createClassNameDetails(
+            $entityClassDetails->getRelativeNameWithoutSuffix().'EntityController',
+            'Controller\\',
+            'Controller'
+        );
+
         $iter = 0;
         do {
             $formClassDetails = $generator->createClassNameDetails(
@@ -151,30 +157,33 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
         $entityTwigVarSingular = Str::asTwigVariable($entityVarSingular);
 
         $routeName = Str::asRouteName($controllerClassDetails->getRelativeNameWithoutSuffix());
+        $entityRouteName = Str::asRouteName($entityControllerClassDetails->getRelativeNameWithoutSuffix());
         $templatesPath = Str::asFilePath($controllerClassDetails->getRelativeNameWithoutSuffix());
 
         // otherwise, it uses the ones from symfony, because generator looks for __DIR__
         $templateRoot = __DIR__.'/../Resources/skeleton/';
-        $generator->generateController(
-            $controllerClassDetails->getFullName(),
-            $templateRoot . 'crud/controller/Controller.tpl.php',
-            array_merge([
-                'entity_full_class_name' => $entityClassDetails->getFullName(),
-                'entity_class_name' => $entityClassDetails->getShortName(),
-                'form_full_class_name' => $formClassDetails->getFullName(),
-                'form_class_name' => $formClassDetails->getShortName(),
-                'route_path' => Str::asRoutePath($controllerClassDetails->getRelativeNameWithoutSuffix()),
-                'route_name' => $routeName,
-                'templates_path' => $templatesPath,
-                'entity_var_plural' => $entityVarPlural,
-                'entity_twig_var_plural' => $entityTwigVarPlural,
-                'entity_var_singular' => $entityVarSingular,
-                'entity_twig_var_singular' => $entityTwigVarSingular,
-                'entity_identifier' => $entityDoctrineDetails->getIdentifier(),
-            ],
-                $repositoryVars
-            )
-        );
+        foreach (['Controller' => $controllerClassDetails, 'EntityController' => $entityControllerClassDetails] as $name => $cClassDetails) {
+            $generator->generateController(
+                $cClassDetails->getFullName(),
+                $templateRoot . sprintf('crud/controller/%s.tpl.php', $name),
+                array_merge([
+                    'entity_full_class_name' => $entityClassDetails->getFullName(),
+                    'entity_class_name' => $entityClassDetails->getShortName(),
+                    'form_full_class_name' => $formClassDetails->getFullName(),
+                    'form_class_name' => $formClassDetails->getShortName(),
+                    'route_path' => Str::asRoutePath($cClassDetails->getRelativeNameWithoutSuffix()),
+                    'route_name' => $routeName,
+                    'templates_path' => $templatesPath,
+                    'entity_var_plural' => $entityVarPlural,
+                    'entity_twig_var_plural' => $entityTwigVarPlural,
+                    'entity_var_singular' => $entityVarSingular,
+                    'entity_twig_var_singular' => $entityTwigVarSingular,
+                    'entity_identifier' => $entityDoctrineDetails->getIdentifier(),
+                ],
+                    $repositoryVars
+                )
+            );
+        }
 
         $this->formTypeRenderer->render(
             $formClassDetails,

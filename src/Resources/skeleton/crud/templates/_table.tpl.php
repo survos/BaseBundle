@@ -16,9 +16,12 @@
         <td>
             <a href="{{ path('<?= $route_name ?>_show', <?= $entity_rp ?>) }}">
                 <span class="fas fa-eye"></span>
+                <i class="bi bi-info"></i>
             </a>
             <a href="{{ path('<?= $route_name ?>_edit', <?= $entity_rp ?>) }}">
-                <span class="fas fa-edit"></span></a>
+                <span class="fas fa-edit"></span>
+                <i class="bi bi-pencil"></i>
+            </a>
         </td>
 
         <?php foreach ($entity_fields as $field): ?>
