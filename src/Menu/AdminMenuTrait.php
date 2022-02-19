@@ -119,7 +119,7 @@ trait AdminMenuTrait
         }
 
         if ($options['style'] === 'header') {
-            $options['attributes']['class'] = 'nav-header';
+            $options['attributes']['class'] = 'sidebar-header';
         }
 
         if (!$options['id']) {
