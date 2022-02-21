@@ -102,7 +102,7 @@ trait AdminMenuTrait
                          'show' => 'fas fa-eye',
                          'edit' => 'fas fa-wrench'
                      ] as $regex => $icon) {
-                if (preg_match("|$regex|", $options['route'])) {
+                if (preg_match("|$regex|", (string)$options['route'])) {
                     $options['data-icon'] = $icon;
                 }
             }
