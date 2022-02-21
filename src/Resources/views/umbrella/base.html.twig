@@ -16,9 +16,8 @@
 </head>
 
 {% block body_start '' %}
-<body class="env-{{ app.environment }}" {% block body_class %} {{ block('body_start') }}{% endblock %}">
+<body class="env-{{ app.environment }}" {% block body_class %} {{ block('body_start') }}{% endblock %}>
 {% block body_inner_html %}
-
     <div class="wrapper">
         {% block sidebar %}
             {% if admin_menu is not defined %}
@@ -29,6 +28,7 @@
         {% endblock %}
 
         <div class="main">
+
             {% block topbar %}
 
                 <nav class="navbar navbar-expand navbar-light navbar-bg sticky-top d-print-none">
@@ -38,6 +38,22 @@
                     </a>
 
                     <div class="{{ admin.containerClass }}">
+
+
+{#                    <nav aria-label="breadcrumb">#}
+{#                        <ol class="breadcrumb mb-0">#}
+{#                            <li class="breadcrumb-icon">#}
+{#                                <i class="uil-th me-2"></i>#}
+{#                            </li>#}
+
+
+{#                            <li class="breadcrumb-item">Datatable</li>#}
+
+{#                            <li class="breadcrumb-item active">Basic</li>#}
+{#                        </ol>#}
+{#                    </nav>#}
+
+
 
 {#                        <nav aria-label="breadcrumb">#}
 {#                            <ol class="breadcrumb">#}
@@ -64,26 +80,19 @@
                         <div class="navbar-collapse collapse">
 
                             <ul class="navbar-nav navbar-align">
-                                <li><code>{{ app.request.get('_route') }}</code></li>
                                 {% if admin.notificationEnable() %}
                                     {% include "@UmbrellaAdmin/Notification/widget.html.twig" %}
                                 {% endif %}
 
-                                <li class="nav-item">
-                                    <a class="nav-icon js-fullscreen d-none d-lg-block" href="#" is="umbrella-fullscreen-toggler">
-                                        <i class="uil uil-focus"></i>
-                                    </a>
-                                </li>
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-icon js-fullscreen d-none d-lg-block" href="#" is="umbrella-fullscreen-toggler">#}
+{#                                        <i class="uil uil-focus"></i>#}
+{#                                    </a>#}
+{#                                </li>#}
 
-                                <li class="nav-item">
-                                    <a class="nav-icon js-fullscreen d-none d-lg-block" href="#" is="umbrella-fullscreen-toggler">
-                                        <i class="uil uil-focus"></i>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Settings</button>
-                                </li>
+{#                                <li class="nav-item">#}
+{#                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Settings</button>#}
+{#                                </li>#}
 
                                 {% if not is_granted('ROLE_USER') %}
                                     <li>
@@ -115,8 +124,9 @@
 {% include "@UmbrellaCore/_toast.html.twig" %}
 
 {% block javascripts %}
-{#    {% include "@UmbrellaAdmin/_scripts.html.twig" %}#}
     {{ encore_entry_script_tags('app') }}
+    {# needed for sidebar collapse #}
+    {% include "@UmbrellaAdmin/_scripts.html.twig" %}
 {% endblock %}
 </body>
 </html>
