@@ -54,6 +54,7 @@ class Extensions extends AbstractExtension
     {
 
         return [
+            new TwigFunction('get_class', fn($entity) => $entity::class),
             new TwigFunction('locales', [$this, 'getLocales']),
             new TwigFunction('breadcrumb', [$this, 'renderBreadcrumb'], ['is_safe' => ['html_attr']]),
             new TwigFunction('h', [$this, 'rstHeader']),
