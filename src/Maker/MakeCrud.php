@@ -44,21 +44,11 @@ use function Symfony\Component\String\u;
  */
 final class MakeCrud extends AbstractMaker implements MakerInterface
 {
-    private $doctrineHelper;
-
-    private $formTypeRenderer;
     private EnglishInflector $inflector;
-
-    public function __construct(DoctrineHelper $doctrineHelper, FormTypeRenderer $formTypeRenderer)
+    public function __construct(private DoctrineHelper $doctrineHelper, private FormTypeRenderer $formTypeRenderer)
     {
+        // this is why familia and planta fail.
         $this->inflector = new EnglishInflector();
-
-        $this->doctrineHelper = $doctrineHelper;
-        $this->formTypeRenderer = $formTypeRenderer;
-//        if (class_exists(InflectorFactory::class)) {
-//            $this->inflector = InflectorFactory::create()->build();
-//        }
-
     }
 
     public static function getCommandName(): string
@@ -114,9 +104,9 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
 
         $repositoryVars = [];
 
-        if (null !== $entityDoctrineDetails->getRepositoryClass()) {
+        if (null !== $entityDoctrineDetails?->getRepositoryClass()) {
             $repositoryClassDetails = $generator->createClassNameDetails(
-                '\\'.$entityDoctrineDetails->getRepositoryClass(),
+                '\\'.$entityDoctrineDetails?->getRepositoryClass(),
                 'Repository\\',
                 'Repository'
             );
@@ -260,14 +250,6 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
      */
     public function configureDependencies(DependencyBuilder $dependencies)
     {
-        // hmm
-
-        if (0)
-        $dependencies->addClassDependency(
-            LandingController::class,
-            'controller'
-        );
-
         $dependencies->addClassDependency(
             Route::class, // Router or Annotation?
             'router'
@@ -306,24 +288,15 @@ final class MakeCrud extends AbstractMaker implements MakerInterface
 
     private function pluralize(string $word): string
     {
-        if (null !== $this->inflector) {
-            return $this->inflector->pluralize($word)[0];
-        }
-
-        return EnglishInflector::plus($word);
+        return $this->inflector->pluralize($word)[0];
     }
 
     private function singularize(string $word): string
     {
-        assert($this->inflector);
-        if (null !== $this->inflector) {
-            return $this->inflector->singularize($word)[0];
-        }
-
-        return Inflector::singularize($word);
+        return $this->inflector->singularize($word)[0];
     }
 
-    static function getCommandDescription()
+    static function getCommandDescription(): string
     {
         return "Makes crud using ParamConverter?";
     }
