@@ -13,13 +13,13 @@ console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/
 
 require('datatables.net-bs5');
 require('datatables.net-scroller-bs5');
-require('datatables.net-buttons-bs5');
+// require('datatables.net-buttons-bs5');
 require('datatables.net-select-bs5');
 
 // hacks for linking this
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-
+xx
 var commonButtons = {
     'json': {
         text: '<i class="fas fa-share"></i>',

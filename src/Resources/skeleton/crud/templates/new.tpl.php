@@ -5,5 +5,4 @@
 
     {{ include('<?= $route_name ?>/_form.html.twig') }}
 
-    <a href="{{ path('<?= $route_name ?>_index') }}">back to list</a>
 {% endblock %}
