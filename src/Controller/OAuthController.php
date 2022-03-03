@@ -63,7 +63,6 @@ class OAuthController extends AbstractController
         // look in composer.lock for the library
         $composer = $this->getParameter('kernel.project_dir') . '/composer.lock';
         if (!file_exists($composer)) {
-            dd($composer);
         }
 
         $packages = json_decode(file_get_contents($composer))->packages;
@@ -269,7 +268,6 @@ class OAuthController extends AbstractController
         } else {
             $targetUrl = $this->router->generate('app_register', ['email' => $user->getEmail()]);
         }
-        dd($targetUrl);
         return new RedirectResponse($targetUrl);
 
     }
