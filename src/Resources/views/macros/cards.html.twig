@@ -526,9 +526,10 @@
         {% set show = currentMarking ? currentMarking in transition.froms : true %}
         {% if false and show %}
         {# @todo: remove system transitions and user transitions that only happen in an edit form, like manual fetch #}
-            {% if not workflow_metadata('article', 'internal', transition)|default(false) %}
-            <span class="transition transition-{{ transition.name }}">{{ 'transitions.%s.label'|format(transition.name)|trans }}</span>
-                {% endif %}
+
+{#            {% if not workflow_metadata('article', 'internal', transition)|default(false) %}#}
+{#                <span class="transition transition-{{ transition.name }}">{{ 'transitions.%s.label'|format(transition.name)|trans }}</span>#}
+{#            {% endif %}#}
         {% endif %}
     {% endfor %}
     {% endif %}
