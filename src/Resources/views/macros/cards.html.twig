@@ -493,17 +493,17 @@
         marking: null,
     }, options|default({}), ['id']) %}
 
-    {% set api = options.api %}
-    {% set api = optionsResolver({
-        call: null,
-        filter: {},
-        groups: {},
-        properties: {}
-    }, options.api) %}
-    {# todo: add groups and properties #}
-    {% if api.call %}
-        {% set dataUrl = path(api.call, api.filter) %}
-    {% endif %}
+{#    {% set api = options.api %}#}
+{#    {% set api = optionsResolver({#}
+{#        call: null,#}
+{#        filter: {},#}
+{#        groups: {},#}
+{#        properties: {}#}
+{#    }, options.api) %}#}
+{#    #}{# todo: add groups and properties #}
+{#    {% if api.call %}#}
+{#        {% set dataUrl = path(api.call, api.filter) %}#}
+{#    {% endif %}#}
 
 
     {% set id = options.id %}
