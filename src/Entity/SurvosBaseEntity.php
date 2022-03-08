@@ -74,9 +74,12 @@ abstract class SurvosBaseEntity implements BaseEntityInterface
         return $shortName;
     }
 
-    static public function getPrefix()
+    static public function getPrefix(string $class = null)
     {
-        $shortName = strtolower(u( $x = (new \ReflectionClass(get_called_class()))->getShortName() )->snake()->lower()->ascii());
+        if (!$class) {
+            $class = get_called_class();
+        }
+        $shortName = strtolower(u( $x = (new \ReflectionClass($class))->getShortName() )->snake()->lower()->ascii());
 
 //        $shortName = strtolower( (new \ReflectionClass(get_called_class()))->getShortName() );
         return $shortName;
