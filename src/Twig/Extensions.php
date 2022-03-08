@@ -61,9 +61,40 @@ class Extensions extends AbstractExtension
             new TwigFunction('optionsResolver', [$this, 'optionsResolver']),
             new TwigFunction('tourOptions', [$this, 'tourOptions']),
             new TwigFunction('adminLinks', [$this, 'adminLinks']),
+            new TwigFunction('sortable_fields', [$this, 'sortableFields']),
         ];
     }
 
+    public function sortableFields(string $class): array
+    {
+        $reflector = new \ReflectionClass($class);
+        foreach ($reflector->getAttributes() as $attribute) {
+            if (!u($attribute->getName())->endsWith('ApiFilter')) {
+                continue;
+            }
+            $filter = $attribute->getArguments()[0];
+            if (u($filter)->endsWith('OrderFilter')) {
+                return $attribute->getArguments()['properties'];
+            }
+        }
+        return [];
+    }
+
+//
+//
+//        $sortFields = [];
+//        foreach ($classInfo->getAttributes() as $attribute) {
+////            print_r($attribute->newInstance()->testArgument);
+//            switch ($attribute->getName()) {
+//                case OrderFilter::class:
+//
+//                    dd($attribute->getName(), $attribute->getArguments());
+//                    break;
+//                default:
+//
+//
+//    }
+//
     public function renderBreadcrumb(string $text, string $url = null)
     {
 
@@ -101,9 +132,6 @@ class Extensions extends AbstractExtension
         if (!$root) {
             $root = u( (new \ReflectionClass($object))->getShortName())->lower();
         }
-
-
-
     }
 
     public function tourOptions($id, $options, $required = [])
