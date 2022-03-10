@@ -558,6 +558,9 @@
 
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-two-tabContent">
+                <div {{ stimulus_target(options.stimulusController, 'fieldSearch') }}>
+                    Search fields go here...
+                </div>
                 <table {{ stimulus_target(options.stimulusController, options.stimulusTarget) }}
                         id="{{ id }}"
                         {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
@@ -569,8 +572,6 @@
                 </table>
             </div>
         </div>
-        <!-- /.card -->
-    </div>
 
 {% endmacro %}
 
