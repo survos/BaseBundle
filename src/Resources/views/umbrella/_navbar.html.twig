@@ -58,7 +58,12 @@
                         </li>
                     {% endif %}
 
-                    {% include '@UmbrellaAdmin/_userinfo.html.twig' %}
+                    {% block navbar_profile_items %}
+                    {% embed '@UmbrellaAdmin/_userinfo.html.twig' %}
+                    {% endembed  %}
+                    {% endblock %}
+
+
                 </ul>
             </div>
         </div>

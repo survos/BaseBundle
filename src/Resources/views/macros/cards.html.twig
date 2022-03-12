@@ -562,11 +562,12 @@
                     Search fields go here...
                 </div>
                 <table {{ stimulus_target(options.stimulusController, options.stimulusTarget) }}
+
                         id="{{ id }}"
                         {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
 {#                        data-json-ld-url="{{ dataUrl }}"#}
 {#                        data-api="{{ api|json_encode }}"#}
-                        class="table table-striped no-wrap {{ options.class  }}"
+                        class="table table-striped hover table-sm no-wrap {{ options.class  }}"
                 >
                     <tfoot></tfoot>
                 </table>

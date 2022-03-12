@@ -6,8 +6,10 @@
 })(window, jQuery, Routing, swal);
 */
 
-const $ = require('jquery');
+const $ = require('jquery'); // problematic!!!
 let _ = global._;
+
+
 
 console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
 
@@ -20,6 +22,9 @@ require('datatables.net-select-bs5');
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 xx
+
+
+
 var commonButtons = {
     'json': {
         text: '<i class="fas fa-share"></i>',
