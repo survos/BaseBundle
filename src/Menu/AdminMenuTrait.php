@@ -97,13 +97,15 @@ trait AdminMenuTrait
         }
 
         // default icons, should be configurable in survos_base.yaml
-        if ($options['icon'] === null) {
-            foreach ([
-                         'show' => 'fas fa-eye',
-                         'edit' => 'fas fa-wrench'
-                     ] as $regex => $icon) {
-                if (preg_match("|$regex|", (string)$options['route'])) {
-                    $options['data-icon'] = $icon;
+        if ($route = $options['route']) {
+            if ($options['icon'] === null) {
+                foreach ([
+                             'show' => 'fas fa-eye',
+                             'edit' => 'fas fa-wrench'
+                         ] as $regex => $icon) {
+                    if (preg_match("|$regex|", $route)) {
+                        $options['data-icon'] = $icon;
+                    }
                 }
             }
         }

@@ -505,6 +505,19 @@
 {#        {% set dataUrl = path(api.call, api.filter) %}#}
 {#    {% endif %}#}
 
+        {#  can we add the modal to the entity table? #}
+        {{ include('@SurvosBase/_modal.html.twig', {
+            formUrl: '/',
+            aaController: options.stimulusController,
+            modalController: 'modal-form',
+            modalClass: 'modal-md',
+            modalTitle: 'Member show',
+            buttonLabel: 'Show MODAL',
+            modalContent: 'really should load with ajax'
+        }) }}
+
+
+
 
     {% set id = options.id %}
     <span class="js-ajax-message text-success"></span>
