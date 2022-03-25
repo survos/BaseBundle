@@ -141,6 +141,8 @@ composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.co
 composer req knplabs/knp-markdown-bundle:dev-symfony6
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer config repositories.ux-datatable '{"type": "vcs", "url": "git@github.com:tacman/ux-datatable.git"}'
+composer req tacman/ux-datatable
 
 composer require umbrella2/adminbundle
 php bin/console make:admin:home

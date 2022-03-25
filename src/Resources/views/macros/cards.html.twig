@@ -505,7 +505,6 @@
 {#        {% set dataUrl = path(api.call, api.filter) %}#}
 {#    {% endif %}#}
 
-        {#  can we add the modal to the entity table? #}
         {{ include('@SurvosBase/_modal.html.twig', {
             formUrl: '/',
             aaController: options.stimulusController,
@@ -573,6 +572,9 @@
             <div class="tab-content" id="custom-tabs-two-tabContent">
                 <div {{ stimulus_target(options.stimulusController, 'fieldSearch') }}>
                     Search fields go here...
+                </div>
+                <div {{ stimulus_target(options.stimulusController, 'message') }}>
+                    Message goes here...
                 </div>
                 <table {{ stimulus_target(options.stimulusController, options.stimulusTarget) }}
 
