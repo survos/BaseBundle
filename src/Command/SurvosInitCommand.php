@@ -405,7 +405,6 @@ class SurvosInitCommand extends Command
 
     /**
      * @param SymfonyStyle $io
-     * @param string $output
      */
     private function createConfigs(SymfonyStyle $io): void
     {

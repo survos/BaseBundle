@@ -9,6 +9,7 @@ class SurvosBaseConfiguration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
+
         $rootName = 'survos_base';
         $treeBuilder = new TreeBuilder($rootName);
         $rootNode = $treeBuilder->getRootNode();

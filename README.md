@@ -1,3 +1,27 @@
+# Quick Start
+
+Add the recipe repo, and until basebundle is ready for production, add the repo.  Umbrella Admin Bundle is required for BaseBundle ^2.0
+
+composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
+composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/maker-bundle.git"}'
+
+composer req umbrella2/adminbundle
+composer req survos/base-bundle
+composer req survos/maker-bundle --dev
+
+
+
+
+
+
+## UX Datatable (work in progress)
+composer config repositories.ux-datatable '{"type": "vcs", "url": "git@github.com:tacman/ux-datatable.git"}'
+composer req tacman/ux-datatable
+
+
+
 How KnpMenu works.
 
 The MenuBuilderService in Survos\BaseBundle\Menu is registered because it's configured in services.yaml in this bundle.
@@ -121,6 +145,9 @@ composer req webapp && yarn install && yarn encore dev
         
 * Create the project on heroku, after logging in.  Optionally create database.
 
+DBNAME=test
+echo "DATABASE_URL=postgresql://main:main@127.0.0.1:5432/$DBNAME" > .env.local
+
   
 OR if you're using Sqlite.
 
@@ -130,6 +157,8 @@ heroku addons:create heroku-postgresql:hobby-dev
 echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.heroku.local
 # Without heroku, use sqlite (or setup MySQL)
 echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
+echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
+
 ```
 
 We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.  Set the MAILER_URL to the default.
@@ -157,6 +186,10 @@ sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FI
 ```bash
 composer config minimum-stability dev
 composer config prefer-stable true
+
+composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
+
+composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
 
 composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
 composer req knplabs/knp-markdown-bundle:dev-symfony6

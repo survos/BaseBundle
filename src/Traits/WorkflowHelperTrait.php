@@ -3,13 +3,13 @@
 
 namespace Survos\BaseBundle\Traits;
 
-
 use Doctrine\ORM\EntityManagerInterface;
-use Survos\WorkflowBundle\Traits\MarkingInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Workflow\WorkflowInterface;
+use Survos\WorkflowBundle\Traits\MarkingInterface;
 
 trait WorkflowHelperTrait
 {

@@ -5,12 +5,12 @@ namespace Survos\BaseBundle\Traits;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-trait GithubTrait
+trait OAuthTrait
 {
     /**
-     * @ORM\Column(type="integer", nullable=true, unique=true)
+     * @ORM\Column(type="json", nullable=true, unique=true)
      */
-    private $githubId = null;
+    private $authKeys = [];
 
     public function getGithubId(): ?int
     {

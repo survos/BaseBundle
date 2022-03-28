@@ -6,9 +6,6 @@
 
     <services>
         <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
-
-
-        <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
         <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >
             <argument type="string" />
             <argument type="service" id="oauth2.registry"/>
@@ -17,16 +14,15 @@
 
         <service id="Survos\BaseBundle\Security\AppEmailAuthenticator" alias="survos_base_bundle.app_email_authenticator" public="true"/>
         <service id="survos_base_bundle.app_email_authenticator" class="Survos\BaseBundle\Security\AppEmailAuthenticator" >
-            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
+            <argument type="service" id="router.default"/>
         </service>
 
         <service id="Survos\BaseBundle\Security\BaseAuthenticator" alias="survos_base_bundle.base_authenticator" public="true"/>
         <service id="survos_base_bundle.base_authenticator" class="Survos\BaseBundle\Security\BaseAuthenticator" >
             <argument type="service" id="KnpU\OAuth2ClientBundle\Client\ClientRegistry"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface"/>
-            <argument type="service" id="security.user.provider.concrete.app_user_provider" />
-
+            <argument type="service" id="router.default"/>
+<!--            <argument type="service" id="doctrine.orm.security.user.provider" />-->
         </service>
 
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">
@@ -77,7 +73,7 @@
 
         <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
             <argument type="service" id="security.password_hasher" />
-            <argument type="service" id="security.user.provider.concrete.app_user_provider" />
+            <argument type="service" id="security.user_providers" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="console.command" />
