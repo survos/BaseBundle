@@ -8,7 +8,6 @@
         "ext-json": "*",
         "ext-zip": "*",
         "doctrine/common": "^2.0|^3.0",
-        "kevinpapst/tabler-bundle": "dev-tac",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^v2.10.0",
@@ -29,7 +28,8 @@
         "symfony/webpack-encore-bundle": "^v1.13.1",
         "symfony/yaml": "*",
         "tabler/tabler": "dev-main",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "umbrella2/adminbundle": "^6.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
