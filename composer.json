@@ -56,7 +56,10 @@
         "psr/simple-cache-implementation": "If you wish to enable caching features, provide an PSR-16 cache."
     },
 
+    "bin": ["bin/reset-postgres-database"],
+
     "config": {
+        "bin-dir": "bin",
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true

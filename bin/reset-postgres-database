@@ -1,0 +1,17 @@
+dbname=(the directory name)?
+username=main
+
+while getopts u:d: flag
+do
+    case "${flag}" in
+        u) username=${OPTARG};;
+        d) dbname=${OPTARG};;
+    esac
+done
+echo "dbname: $dbname";
+
+echo "drop database if exists $dbname; create database $dbname; grant all privileges on database $dbname to $username; " | sudo -u postgres psql
+echo "CREATE EXTENSION pg_trgm;" | sudo -u postgres psql -d $dbname
+echo "CREATE EXTENSION hstore;" | sudo -u postgres psql -d $dbname
+echo "database $dbname now ready for migrations or restore"
+
