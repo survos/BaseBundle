@@ -8,6 +8,7 @@
         "ext-json": "*",
         "ext-zip": "*",
         "doctrine/common": "^2.0|^3.0",
+        "kevinpapst/tabler-bundle": "dev-tac",
         "knplabs/knp-menu": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^v2.10.0",
@@ -16,6 +17,7 @@
         "symfony/config": ">= 5.4",
         "symfony/form": ">= 5.4",
         "symfony/mailer": "*",
+        "symfony/maker-bundle": "^1.36",
         "symfony/options-resolver": ">= 5.4",
         "symfony/process": ">= 5.4",
         "symfony/security-bundle": ">= 5.4",
@@ -26,8 +28,8 @@
         "symfony/validator": ">= 5.4",
         "symfony/webpack-encore-bundle": "^v1.13.1",
         "symfony/yaml": "*",
-        "twig/twig": "^3.3",
-        "symfony/maker-bundle": "^1.36"
+        "tabler/tabler": "dev-main",
+        "twig/twig": "^3.3"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
@@ -72,6 +74,18 @@
             "email": "tacman@gmail.com"
         }
     ],
+    "repositories": {
+        "tabler_bundle": {
+            "type": "vcs",
+            "url": "git@github.com:survos/TablerBundle.git"
+        },
+        "tabler": {
+            "type": "vcs",
+            "url": "git@github.com:tacman/tabler.git"
+        }
+
+    },
+
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.5"

@@ -62,7 +62,7 @@
         </service>
 
         <service id="Survos\BaseBundle\Maker\MakeParamConverter"
-                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="false">
+                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="true">
             <argument type="service" id="maker.doctrine_helper" />
             <argument type="service" id="maker.param_converter" />
             <tag name="maker.command" />

@@ -1,3 +1,24 @@
+How KnpMenu works.
+
+The MenuBuilderService in Survos\BaseBundle\Menu is registered because it's configured in services.yaml in this bundle.
+
+```yaml
+  Survos\BaseBundle\Menu\MenuBuilder:
+    class: Survos\BaseBundle\Menu\MenuBuilder
+    arguments:
+      - "@knp_menu.factory"
+      - "@event_dispatcher"
+    tags:
+      - { name: knp_menu.menu_builder, method: createSidebarMenu, alias: survos_sidebar_menu }
+      - { name: knp_menu.menu_builder, method: createPageMenu, alias: survos_page_menu }
+```
+
+This means that whenever knp_menu_get is called with the alias (e.g. survos_sidebar_menu), MenuBuilder.php creates a root element and emits an event, which SidebarMenuSubscriber (in the application) picks up.
+
+Then we can build the menus.
+
+
+
 @TODO:
 
 * Extend from Umbrella
