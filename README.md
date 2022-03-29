@@ -12,6 +12,7 @@ composer req survos/base-bundle
 composer req survos/maker-bundle --dev
 
 
+sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 
 
 
@@ -189,7 +190,8 @@ composer config prefer-stable true
 
 composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
 
-composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
+
+composer config extra.symfony.endpoint --json '["/home/tac/survos/bundles/recipes/index.json","https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
 
 composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
 composer req knplabs/knp-markdown-bundle:dev-symfony6
