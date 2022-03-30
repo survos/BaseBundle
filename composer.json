@@ -91,7 +91,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "2.2"
+            "dev-master": "2.3"
         },
         "symfony": {
             "allow-contrib": "true",
