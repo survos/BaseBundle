@@ -22,7 +22,6 @@
     <div class="wrapper">
 
         {% block sidebar %}
-
             {% if admin_menu is not defined %}
                 {% set admin_menu = get_menu(admin.menuName()) %}
             {% endif %}

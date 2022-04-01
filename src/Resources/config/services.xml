@@ -52,25 +52,6 @@
             <tag name="console.command" />
         </service>
 
-        <!-- this is used by the Survos Workflow bundle -->
-        <service id="maker.param_converter" class="Survos\BaseBundle\Renderer\ParamConverterRenderer" public="true">
-            <argument type="service" id="maker.generator"/>
-        </service>
-
-        <service id="Survos\BaseBundle\Maker\MakeParamConverter"
-                 class="Survos\BaseBundle\Maker\MakeParamConverter" public="true">
-            <argument type="service" id="maker.doctrine_helper" />
-            <argument type="service" id="maker.param_converter" />
-            <tag name="maker.command" />
-        </service>
-
-        <service id="Survos\BaseBundle\Maker\MakeCrud"
-                 class="Survos\BaseBundle\Maker\MakeCrud" public="false">
-            <argument type="service" id="maker.doctrine_helper" />
-            <argument type="service" id="maker.renderer.form_type_renderer" />
-            <tag name="maker.command" />
-        </service>
-
         <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
             <argument type="service" id="security.password_hasher" />
             <argument type="service" id="security.user_providers" />

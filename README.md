@@ -1,18 +1,56 @@
 # Quick Start
 
-Add the recipe repo, and until basebundle is ready for production, add the repo.  Umbrella Admin Bundle is required for BaseBundle ^2.0
 
+```bash
+script ~/session.log
+symfony ...
+exit
+bin/console make:docs-from-log (get commits, etc.)
+````
+
+
+Add the recipe repo, and until basebundle is ready for production, add the repo.  Umbrella Admin Bundle is required for BaseBundle 2.0, it is likely that BaseBundle 3 will use Tabler.
+
+"/home/tac/survos/bundles/recipes/index.json",
+
+
+```bash
+REPO=bbtest
+symfony new --webapp $REPO && cd $REPO && yarn install 
 composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
+composer config minimum-stability dev
+composer config prefer-stable true
+
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
-composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/maker-bundle.git"}'
+composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
 
 composer req umbrella2/adminbundle
-composer req survos/base-bundle
 composer req survos/maker-bundle --dev
 
-
+composer req survos/base-bundle:*
 sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
+
+//return new RedirectResponse($this->urlGenerator->generate('some_route'));
+bin/console make:user --is-entity --identity-property-name=email --with-password User -n
+echo "1,AppAuthenticator,,," | sed "s/,/\n/g"  | bin/console make:auth
+
+sed  -i "s|some_route|app_homepage|" ^Cc/Security/AppAuthenticator.php 
+sed  -i "s|//return|return|" src/Security/AppAuthenticator.php 
+sed  -i "s|throw new|//throw new|" src/Security/AppAuthenticator.php 
+
+
+
+bin/console survos:make:menu AdminMenu (maybe just copy during recipe)?
+
+```
+
+
+
+## Create on github
+
+```bash
+```
 
 
 

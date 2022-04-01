@@ -1,11 +1,12 @@
-dbname=(the directory name)?
+dbname=test
 username=main
 
-while getopts u:d: flag
+while getopts u:d:e: flag
 do
     case "${flag}" in
         u) username=${OPTARG};;
         d) dbname=${OPTARG};;
+        e) env=${OPTARG};;
     esac
 done
 echo "dbname: $dbname";
@@ -14,4 +15,11 @@ echo "drop database if exists $dbname; create database $dbname; grant all privil
 echo "CREATE EXTENSION pg_trgm;" | sudo -u postgres psql -d $dbname
 echo "CREATE EXTENSION hstore;" | sudo -u postgres psql -d $dbname
 echo "database $dbname now ready for migrations or restore"
+set -x
+    cat << EOF > $env
+DATABASE_URL="postgresql://$username:main@127.0.0.1:5432/$dbname?serverVersion=13&charset=utf8"
+EOF
 
+if [ -f "$env" ]; then
+    cat .env.local
+fi

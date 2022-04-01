@@ -71,6 +71,15 @@ class LandingController extends AbstractController
     }
 
     /**
+     * @Route("/blank_page", name="app_blank_page")
+     */
+    public function blank_page(Request $request)
+    {
+        return $this->render("@SurvosBase/blank.html.twig", [
+        ]);
+    }
+
+    /**
      * @Route("/heroku", name="app_heroku")
      */
     public function heroku(Request $request)
