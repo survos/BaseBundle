@@ -88,7 +88,7 @@ class Extensions extends AbstractExtension
 //            switch ($attribute->getName()) {
 //                case OrderFilter::class:
 //
-//                    dd($attribute->getName(), $attribute->getArguments());
+//                    throw new \Exception($attribute->getName(), $attribute->getArguments());
 //                    break;
 //                default:
 //

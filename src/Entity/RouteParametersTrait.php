@@ -11,7 +11,7 @@ trait RouteParametersTrait
         return [strtolower( (new \ReflectionClass($this))->getShortName() ) . 'Id' => $this->getId()];
     }
 
-    #[Groups(['rp'])]
+    #[Groups(['rp','transitions'])]
     public function getRP(?array $addlParams=[]): array
     {
         return array_merge($this->getUniqueIdentifiers(), $addlParams);

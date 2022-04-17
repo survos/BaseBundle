@@ -61,11 +61,11 @@ class SurvosBaseExtension extends Extension
                     "The bundle $bundleName needs to be registered in order to use ".  __CLASS__
                 );
                 $def = $container->findDefinition('oauth2.registry');
-                dd($def, $container);
+                throw new \Exception($def, $container);
             }
         }
 
-        // dd($bundles); die();
+        // throw new \Exception($bundles); die();
 
         // $configManager = $container->get('easyadmin.config.manager');
         // $definition->setArgument(1, $configManager);

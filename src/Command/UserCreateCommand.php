@@ -59,7 +59,7 @@ class UserCreateCommand extends Command
         $email = $input->getArgument('email');
         $username = $input->getOption('username') ?: $email;
 
-//        dd($this->baseBundleConfig->)
+//        throw new \Exception($this->baseBundleConfig->)
 
         try {
             // security.yaml defines what field this is!

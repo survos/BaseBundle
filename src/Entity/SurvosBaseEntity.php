@@ -53,17 +53,17 @@ abstract class SurvosBaseEntity implements BaseEntityInterface
 //                try {
 //                    $this->{$setter}($val);
 //                } catch (\Exception $exception) {
-//                    dd($setter, $val);
+//                    throw new \Exception($setter, $val);
 //                }
 //            } elseif (property_exists($this, $var)) {
 //                $this->{$var} = $val;
 ////                dump($var, $val, $options, $this);
 //            } else {
 //                //not mapped.  @todo: check for source_date v sourceDate (and convert dates!)
-////                dd($var, $val, $options, $this, __METHOD__);
+////                throw new \Exception($var, $val, $options, $this, __METHOD__);
 //            }
         }
-//        dd($options, $this, __METHOD__);
+//        throw new \Exception($options, $this, __METHOD__);
         return $this;
     }
 

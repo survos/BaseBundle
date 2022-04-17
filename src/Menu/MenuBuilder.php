@@ -1,10 +1,10 @@
 <?php
 
 /*
- * This file is part of the AdminLTE bundle.
+ * This file base based on the MenuBuilder for KnpMenu in Kevin Papst's AdminLTE bundle.
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file that was distributed with that source code.
  */
 
 namespace Survos\BaseBundle\Menu;
@@ -21,6 +21,13 @@ class MenuBuilder
 
     public function __construct(private FactoryInterface $factory, private EventDispatcherInterface $eventDispatcher)
     {
+    }
+
+    public function createAppMenu(array $options): ItemInterface
+    {
+        $menu = $this->factory->createItem('menuroot');
+        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options));
+        return $menu;
     }
 
     public function createSidebarMenu(array $options): ItemInterface

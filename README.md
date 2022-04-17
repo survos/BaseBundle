@@ -24,6 +24,7 @@ composer config prefer-stable true
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
 composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
+composer config repositories.ics_bundle '{"type": "vcs", "url": "git@github.com:tacman/IcsBundle.git"}'
 
 composer req umbrella2/adminbundle
 composer req survos/maker-bundle --dev
@@ -226,8 +227,7 @@ sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FI
 composer config minimum-stability dev
 composer config prefer-stable true
 
-composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
-
+composer config repositories.knp_dictionary '{"type": "vcs", "url": "git@github.com:tacman/DictionaryBundle.git"}'
 
 composer config extra.symfony.endpoint --json '["/home/tac/survos/bundles/recipes/index.json","https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
 
@@ -244,8 +244,9 @@ php bin/console make:admin:home
 composer config repositories.cs_fixer '{"type": "vcs", "url": "git@github.com:tacman/PHP-CS-Fixer.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
 composer config repositories.tabler '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
-composer req survos/base-bundle:"^2.0.3"
 composer req survos/tabler-bundle:dev-tac
+
+composer req survos/base-bundle:"^2.0.3"
 
 composer require symfony/webpack-encore-bundle
 yarn install

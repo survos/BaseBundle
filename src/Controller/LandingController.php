@@ -203,14 +203,14 @@ class LandingController extends AbstractController
         $packageData = json_decode(file_get_contents($packageFile));
         $packageDependencies = $packageData->dependencies ?? [];
         $packageDevDependencies = $packageData->devDependencies ?? [];
-        // dd($packageDevDependencies);
+        // throw new \Exception($packageDevDependencies);
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
 
 
         /*
         if (file_exists($yarnLockFile)) {
             $yarnLock = YarnLock::fromString($yarnData = file_get_contents($yarnLockFile));
-            dd($yarnLock, $yarnData);
+            throw new \Exception($yarnLock, $yarnData);
             $allPackages = $yarnLock->getPackages();
         } else {
             $allPackages = []; // no yarn packages
@@ -227,12 +227,12 @@ class LandingController extends AbstractController
         $modules = array_map(function($libData) {
             if ($libData) {
                 $x = Yaml::parse($libData);
-                dd($libData, $x);
+                throw new \Exception($libData, $x);
             }
         }, explode("\n", $yarnLock));
 
         $modules = Yaml::parse($yarnLock);
-        dd($modules);
+        throw new \Exception($modules);
         */
 
         /*

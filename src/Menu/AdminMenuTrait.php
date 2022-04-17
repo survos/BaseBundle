@@ -71,7 +71,7 @@ trait AdminMenuTrait
         } elseif (is_array($options['rp'])) {
             $options['routeParameters'] = $options['rp'];
         }
-        // if (isset($options['rp'])) { dd($options);}
+        // if (isset($options['rp'])) { throw new \Exception($options);}
         unset($options['rp']);
         if (empty($options['label']) && ($routeLabel = $options['route'])) {
             // _index is commonly used to list entities

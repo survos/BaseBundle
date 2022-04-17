@@ -23,6 +23,7 @@ trait QueryBuilderHelperTrait
         return $counts;
     }
 
+
     public function findBygetCountsByField($field = 'marking', $filters = []): array
     {
         $filters = (new OptionsResolver())

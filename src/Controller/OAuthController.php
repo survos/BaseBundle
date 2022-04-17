@@ -5,7 +5,6 @@ namespace Survos\BaseBundle\Controller;
 # use App\Security\AppAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
-use Survos\BaseBundle\Security\AppEmailAuthenticator as AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\Github;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
@@ -71,7 +70,7 @@ class OAuthController extends AbstractController
         });
 
 
-        // dd($provider['class'], class_exists($provider['class']));
+        // throw new \Exception($provider['class'], class_exists($provider['class']));
 
         return $this->render('@SurvosBase/oauth/provider.html.twig', [
             'provider' => $provider,
@@ -128,7 +127,7 @@ class OAuthController extends AbstractController
             ->redirect($scopes[$clientKey] ?? [], []);
 //        dump($redirect->getTargetUrl());
         $redirect->setTargetUrl(str_replace('http%3A', 'https%3A', $redirect->getTargetUrl()));
-//         dd($redirect);
+//         throw new \Exception($redirect);
         return $redirect;
     }
 
@@ -171,7 +170,7 @@ class OAuthController extends AbstractController
 
             // do something with all this new power!
             // e.g. $name = $user->getFirstName();
-//            dd($oAuthUser); die;
+//            throw new \Exception($oAuthUser); die;
             // ...
 
         try {
@@ -236,7 +235,7 @@ class OAuthController extends AbstractController
 //            // something went wrong!
 //            // probably you should return the reason to the user
 //            echo $e->getResponseBody();
-//            dd($e, $e->getMessage());
+//            throw new \Exception($e, $e->getMessage());
 //        }
 
         return new RedirectResponse($this->generateUrl('app_register', [

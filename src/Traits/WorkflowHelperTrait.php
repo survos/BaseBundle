@@ -18,7 +18,11 @@ trait WorkflowHelperTrait
     protected function _transition(Request $request, MarkingInterface $entity, $transition, WorkflowInterface $stateMachine, EntityManagerInterface $entityManager, $class, $_format = 'json'): Response
     {
 //        $repo = $this->entityManager->getRepository($entity::class);
-        $stateMachine->apply($entity, $transition);
+        if ($transition === '_hard_reset') {
+            $entity->setMarking($stateMachine->getDefinition()->getInitialPlaces()[0]);
+        } else {
+            $stateMachine->apply($entity, $transition);
+        }
         $entityManager->flush();
         return $this->jsonResponse($entity, $request, $_format);
     }

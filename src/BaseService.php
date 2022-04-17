@@ -154,7 +154,7 @@ class BaseService
             $provider['comments'] = $comments;
 
             $providers[$key] = $provider;
-            // dd($provider, $classToTypeMap);
+            // throw new \Exception($provider, $classToTypeMap);
 
         }
         /* not sure why this doesn't work
@@ -178,7 +178,7 @@ class BaseService
             if (!key_exists($type, $providers)) {
                 throw new \Exception("Missing $type ($class) in providers");
             }
-            // dd($class, $client, $clientProvider, $type, $providerClass);
+            // throw new \Exception($class, $client, $clientProvider, $type, $providerClass);
 
             $providers[$type]['clients'][$key]  = $client;
         }

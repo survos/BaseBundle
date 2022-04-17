@@ -106,7 +106,6 @@ class BaseMenuSubscriber
         return $child;
 
     }
-//    /** @deprecated Avoid if possible, so this can be private. */
     private function menuOptions(array $options, array $extra = []): array
     {
         // idea: make the label a . version of the route, e.g. project_show could be project.show
@@ -143,7 +142,7 @@ class BaseMenuSubscriber
         } elseif (is_array($options['rp'])) {
             $options['routeParameters'] = $options['rp'];
         }
-        // if (isset($options['rp'])) { dd($options);}
+        // if (isset($options['rp'])) { throw new \Exception($options);}
         unset($options['rp']);
         if (empty($options['label']) && ($routeLabel = $options['route'])) {
             // _index is commonly used to list entities
@@ -208,7 +207,8 @@ class BaseMenuSubscriber
         return $this->authorizationChecker ? $this->authorizationChecker->isGranted($attribute, $subject): false;
     }
 
-    public function cleanupMenu(ItemInterface $menu): ItemInterface
+    /** @deprecated  */
+    private function cleanupMenu(ItemInterface $menu): ItemInterface
     {
 
         $menu->setChildrenAttribute('class', 'navbar-nav');
