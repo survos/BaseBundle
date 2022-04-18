@@ -97,7 +97,7 @@ abstract class SurvosBaseEntity implements BaseEntityInterface
     }
 
     // default, so this works with the default for ParamConverter
-    function getUniqueIdentifiers(): array
+    public function getUniqueIdentifiers(): array
     {
         return [$this->getRoutePrefix() . 'Id' => $this->getId()];
     }
