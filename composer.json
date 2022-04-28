@@ -1,6 +1,6 @@
 {
     "name": "survos/base-bundle",
-    "description": "Add some tools and resources to a Symfony5/6 application",
+    "description": "Add some tools and resources to a Symfony 6 application",
     "type": "symfony-bundle",
     "keywords": ["generator", "symfony5"],
     "require": {
@@ -25,6 +25,7 @@
         "symfony/security-http": ">= 5.4",
         "symfony/string": ">= 5.4",
         "symfony/twig-bundle": ">= 5.4",
+        "symfony/workflow": ">= 5.4",
         "symfony/validator": ">= 5.4",
         "symfony/webpack-encore-bundle": "^v1.13.1",
         "symfony/yaml": "*",

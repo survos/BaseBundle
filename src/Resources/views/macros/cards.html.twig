@@ -488,10 +488,11 @@
         class: null,
         workflow: null,
         searchField: 'name',
-        stimulusTarget: null,
+        id: null,
+        stimulusTarget: 'table',
         stimulusController: null,
         marking: null,
-    }, options|default({}), ['id']) %}
+    }, options|default({}), ['stimulusController']) %}
 
 {#    {% set api = options.api %}#}
 {#    {% set api = optionsResolver({#}
