@@ -74,6 +74,11 @@
             <main class="content">
                 <div class="{{ admin.containerClass }}">
                     {% block content %}
+
+                        {% block page_header %}
+                        {% endblock %}
+
+
                         {{ block('body') }}
                     {% endblock %}
                 </div>
