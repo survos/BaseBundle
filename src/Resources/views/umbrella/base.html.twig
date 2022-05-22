@@ -11,6 +11,12 @@
         {% include "@UmbrellaAdmin/_stylesheets.html.twig" %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        {# needed for sidebar collapse #}
+        {% include "@UmbrellaAdmin/_scripts.html.twig" %}
+    {% endblock %}
+
 </head>
 
 {% set _menu_controller = 'mmenu_light' %}
@@ -90,11 +96,6 @@
 
 {% include "@UmbrellaCore/_toast.html.twig" %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {# needed for sidebar collapse #}
-    {% include "@UmbrellaAdmin/_scripts.html.twig" %}
-{% endblock %}
 </body>
 </html>
 

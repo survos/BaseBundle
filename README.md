@@ -272,6 +272,13 @@ yarn add datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-scroller d
 
 
   # Survos Dev only
+    composer config repositories.knp_dictionary '{"type": "path", "url": "/home/tac/survos/bundles/DictionaryBundle"}'
+    composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle/"}'
+
+
+    composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+
+
     composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
     composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
     composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'

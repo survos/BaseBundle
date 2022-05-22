@@ -11,11 +11,17 @@
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('bootstrap') }}
     {% endblock %}
 </head>
 
+
+
 {% block body_start_tag %}<body {% block body_start %} {% endblock %}>{% endblock %}
-{% block body %}empty body {{ _self }}{% endblock %}
+{% block body %}
+    empty body {{ _self }}
+{% endblock %}
+
 </body>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
