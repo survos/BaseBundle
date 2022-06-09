@@ -26,6 +26,7 @@ composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github
 composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
 composer config repositories.ics_bundle '{"type": "vcs", "url": "git@github.com:tacman/IcsBundle.git"}'
 
+
 composer req umbrella2/adminbundle
 composer req survos/maker-bundle --dev
 
@@ -277,6 +278,7 @@ yarn add datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-scroller d
 
 
     composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.survos_maker-bundle '{"type": "path", "url": "/home/tac/bundles/maker-bundle"}' && composer req survos/maker-bundle:*@dev
 
 
     composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
