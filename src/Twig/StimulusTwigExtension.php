@@ -25,7 +25,7 @@ final class StimulusTwigExtension extends AbstractExtension
         ];
     }
 
-    private function renderData(Environment $env, array $data, string $controllerName, string $suffix): array
+    private function renderData(Environment $env, array $data, string $controllerName, string $suffix=""): array
     {
         $values = [];
         foreach ($data as $key => $value) {
@@ -44,7 +44,7 @@ final class StimulusTwigExtension extends AbstractExtension
             $key = twig_escape_filter($env, $this->normalizeKeyName($key), 'html_attr');
             $value = twig_escape_filter($env, $value, 'html_attr');
 
-            $values[] = 'data-'.$controllerName.'-'.$key.'-value="'.$value.'"';
+            $values[] = 'data-'.$controllerName.'-'.$key. $suffix.'="'.$value.'"';
         }
         return $values;
 

@@ -22,12 +22,20 @@ composer config minimum-stability dev
 composer config prefer-stable true
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer config repositories.tacman_hello '{"type": "vcs", "url": "git@github.com:tacman/TacmanHelloBundle.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+
 composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
+composer config repositories.survos_maker '{"type": "path", "url": "/home/tac/survos/bundles/maker-bundle"}'
+composer req survos/maker-bundle:*@dev && git diff config
+
+composer config repositories.survos_base_bundle '{"type": "path", "url": "/home/tac/survos/bundles/BaseBundle"}'
+composer req survos/base-bundle:*@dev && git diff config
+
 composer config repositories.ics_bundle '{"type": "vcs", "url": "git@github.com:tacman/IcsBundle.git"}'
 
-
 composer req umbrella2/adminbundle
+composer req symfony/workflow
 composer req survos/maker-bundle --dev
 
 composer req survos/base-bundle:*
@@ -226,7 +234,45 @@ sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FI
 
 ```bash
 composer config minimum-stability dev
+composer config minimum-stability beta
 composer config prefer-stable true
+
+composer config repositories.tacman_hello '{"type": "path", "url": "/home/tac/survos/bundles/TacmanHelloBundle"}'
+
+composer config repositories.html_prettify '{"type": "path", "url": "/home/tac/survos/bundles/HtmlPrettifyBundle"}'
+COMPOSER_DISABLE_NETWORK=1 composer req survos/html-prettify-bundle:*@dev
+
+composer config repositories.barcode '{"type": "path", "url": "/home/tac/survos/bundles/BarcodeBundle"}'
+composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle"}'
+
+composer config repositories.survos_maker '{"type": "path", "url": "/home/tac/survos/bundles/maker-bundle"}'
+composer req survos/maker-bundle:*@dev && git diff config
+
+# composer req survos/barcode-bundle:*@dev
+git checkout . && composer req survos/barcode-bundle:*@dev && git diff config
+
+composer config repositories.survos_tree '{"type": "path", "url": "/home/tac/survos/bundles/SurvosTreeBundle"}'
+composer req survos/tree-bundle:*@dev && git diff config
+
+composer config repositories.foo '{"type": "path", "url": "/home/tac/survos/bundles/FooBundle"}'
+composer req survos/foo-bundle:*@dev
+
+composer config repositories.barcode '{"type": "vcs", "url": "git@github.com:survos/BarcodeBundle"}'
+
+composer config repositories.barcode '{"type": "path", "url": "/home/tac/survos/bundles/BarcodeBundle"}'
+composer req survos/barcode-bundle:*@dev && git diff config
+composer req survos/barcode-bundle && git diff config
+
+
+#git checkout . && composer req knpuniversity/lorem-ipsum-bundle:*@dev && git diff config
+
+
+
+composer config repositories.lorum '{"type": "vcs", "url": "git@github.com:tacman/lorem-ipsum-bundle.git"}'
+
+composer config repositories.lorum '{"type": "path", "url": "/home/tac/survos/bundles/lorem-ipsum-bundle"}'
+git checkout . && composer req knpuniversity/lorem-ipsum-bundle:*@dev && git diff config
+
 
 composer config repositories.knp_dictionary '{"type": "vcs", "url": "git@github.com:tacman/DictionaryBundle.git"}'
 
@@ -273,17 +319,22 @@ yarn add datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-scroller d
 
 
   # Survos Dev only
-    composer config repositories.knp_dictionary '{"type": "path", "url": "/home/tac/survos/bundles/DictionaryBundle"}'
-    composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle/"}'
+composer config repositories.knp_dictionary '{"type": "path", "url": "/home/tac/survos/bundles/DictionaryBundle"}'
+composer config repositories.ux_datatables '{"type": "path", "url": "/home/tac/survos/bundles/ux-datatable"}'
+composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle/"}'
+
+composer config repositories.tacman_twig_tree '{"type": "path", "url": "/home/tac/survos/bundles/twig-tree-tag/"}'
+COMPOSER_DISABLE_NETWORK=1 composer req jordanlev/twig-tree-tag:*@dev
 
 
-    composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
-composer config repositories.survos_maker-bundle '{"type": "path", "url": "/home/tac/bundles/maker-bundle"}' && composer req survos/maker-bundle:*@dev
+
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.kickass_subtitles '{"type": "vcs", "url": "git@github.com:tacman/open-subtitles.git"}'
 
 
-    composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
-    composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
-    composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
+composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
+composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
+composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
     
     
 ## @TODO: recipes!

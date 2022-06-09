@@ -21,7 +21,7 @@
 
 {% set _menu_controller = 'mmenu_light' %}
 {#{{ stimulus_controller(_menu_controller) }}#}
-<body  class="env-{{ app.environment }}" {% block body_class %} {% block body_start '' %}{% endblock %}>
+<body data-turbo='false'  class="env-{{ app.environment }}" {% block body_class %} {% block body_start '' %}{% endblock %}>
 
 {% block body_inner_html %}
 
