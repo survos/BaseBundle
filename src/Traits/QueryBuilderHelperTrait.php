@@ -24,7 +24,7 @@ trait QueryBuilderHelperTrait
     }
 
 
-    public function findBygetCountsByField($field = 'marking', $filters = []): array
+    public function findBygetCountsByField($field = 'marking', $filters = [], ?string $idField='id'): array
     {
         $filters = (new OptionsResolver())
             ->setDefaults([
@@ -33,7 +33,7 @@ trait QueryBuilderHelperTrait
 
         $qb = $this->createQueryBuilder('article')
             // ->where("h.currentState = 'new'")
-            ->select(sprintf('COUNT(article.id) as c, article.%s as field ', $field));
+            ->select(sprintf('COUNT(article%s) as c, article.%s as field ', $idField ? '.'.$idField:'', $field));
 
         foreach ($filters as $table=>$value) {
             if ($value = $filters[$table]) {
