@@ -11,14 +11,6 @@ abstract class SurvosBaseEntity implements BaseEntityInterface
 {
     function getId() {}
 
-    // hack for https://github.com/symfony/symfony/issues/35574
-//    public function __sleep() { return []; }
-
-    public function getRP(?array $addlParams=[]): array
-    {
-        return array_merge($this->getUniqueIdentifiers(), $addlParams);
-    }
-
     public function __toString()
     {
         return join('-', array_values($this->getUniqueIdentifiers()));
