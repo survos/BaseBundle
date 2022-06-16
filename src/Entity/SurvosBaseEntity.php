@@ -2,13 +2,16 @@
 
 namespace Survos\BaseBundle\Entity;
 
+use Survos\CoreBundle\Entity\RouteParametersInterface;
+use Survos\CoreBundle\Entity\RouteParametersTrait;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use function Symfony\Component\String\u;
 
-abstract class SurvosBaseEntity implements BaseEntityInterface
+abstract class SurvosBaseEntity implements BaseEntityInterface, RouteParametersInterface
 {
+    use RouteParametersTrait;
     function getId() {}
 
     public function __toString()
@@ -63,17 +66,6 @@ abstract class SurvosBaseEntity implements BaseEntityInterface
     {
         // this or self?
         $shortName = strtolower( (new \ReflectionClass($this))->getShortName() );
-        return $shortName;
-    }
-
-    static public function getPrefix(string $class = null)
-    {
-        if (!$class) {
-            $class = get_called_class();
-        }
-        $shortName = strtolower(u( $x = (new \ReflectionClass($class))->getShortName() )->snake()->lower()->ascii());
-
-//        $shortName = strtolower( (new \ReflectionClass(get_called_class()))->getShortName() );
         return $shortName;
     }
 

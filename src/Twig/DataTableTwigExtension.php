@@ -5,10 +5,12 @@ namespace Survos\BaseBundle\Twig;
 use ApiPlatform\Core\Api\IriConverterInterface;
 //use ApiPlatform\Api\IriConverterInterface;
 //use ApiPlatform\Api\UrlGeneratorInterface;
+use JetBrains\PhpStorm\Deprecated;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
+#[Deprecated("Use extension from datatable")]
 class DataTableTwigExtension extends AbstractExtension
 {
 
@@ -19,8 +21,8 @@ class DataTableTwigExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('api_route', [$this, 'apiCollectionRoute']),
-            new TwigFunction('api_item_route', [$this, 'apiCollectionRoute']),
+//            new TwigFunction('api_route', [$this, 'apiCollectionRoute']),
+//            new TwigFunction('api_item_route', [$this, 'apiCollectionRoute']),
         ];
     }
 
@@ -35,8 +37,7 @@ class DataTableTwigExtension extends AbstractExtension
 
     public function apiItemRoute($entityOrClass, $id)
     {
-
-        $x = $this->iriConverter->getIriFromResource($entityOrClass);
+        $x = $this->iriConverter->getItemFromIri($entityOrClass, $id);
         return $x;
     }
 
