@@ -1,13 +1,19 @@
 {% extends '@SurvosBase/knp_menu.html.twig' %}
 
 {% block root %}
-    {{ _self }}
+    <b>bs5 top menu</b>
     {% set listAttributes = item.childrenAttributes %}
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
 
-    {% set listAttributes = item.childrenAttributes %}
-    <nav class="mt-2 navbar navbar-expand navbar-white navbar-light float-right">
-        {{ block('list') -}}
-    </nav>
+{#        {{ block('list') -}}#}
+        {{ block('children') -}}
+    </ul>
 {% endblock %}
 
 {% block item %}
