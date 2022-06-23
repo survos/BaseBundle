@@ -9,6 +9,8 @@
 
 namespace Survos\BaseBundle\Event;
 
-class SidebarMenuEvent extends MenuEvent
+use Symfony\Contracts\EventDispatcher\Event;
+
+class SidebarMenuEvent extends Event
 {
 }

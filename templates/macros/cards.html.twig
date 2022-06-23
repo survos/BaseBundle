@@ -488,20 +488,35 @@
         class: null,
         workflow: null,
         searchField: 'name',
+        id: null,
+        stimulusTarget: 'table',
+        stimulusController: null,
         marking: null,
-    }, options|default({}), ['api', 'id']) %}
+    }, options|default({}), ['stimulusController']) %}
 
-    {% set api = options.api %}
-    {% set api = optionsResolver({
-        call: null,
-        filter: {},
-        groups: {},
-        properties: {}
-    }, options.api) %}
-    {# todo: add groups and properties #}
-    {% if api.call %}
-        {% set dataUrl = path(api.call, api.filter) %}
-    {% endif %}
+{#    {% set api = options.api %}#}
+{#    {% set api = optionsResolver({#}
+{#        call: null,#}
+{#        filter: {},#}
+{#        groups: {},#}
+{#        properties: {}#}
+{#    }, options.api) %}#}
+{#    #}{# todo: add groups and properties #}
+{#    {% if api.call %}#}
+{#        {% set dataUrl = path(api.call, api.filter) %}#}
+{#    {% endif %}#}
+
+        {{ include('@SurvosBase/_modal.html.twig', {
+            formUrl: '/',
+            aaController: options.stimulusController,
+            modalController: 'modal-form',
+            modalClass: 'modal-md',
+            modalTitle: 'Member show',
+            buttonLabel: 'Show MODAL',
+            modalContent: 'really should load with ajax'
+        }) }}
+
+
 
 
     {% set id = options.id %}
@@ -524,9 +539,10 @@
         {% set show = currentMarking ? currentMarking in transition.froms : true %}
         {% if false and show %}
         {# @todo: remove system transitions and user transitions that only happen in an edit form, like manual fetch #}
-            {% if not workflow_metadata('article', 'internal', transition)|default(false) %}
-            <span class="transition transition-{{ transition.name }}">{{ 'transitions.%s.label'|format(transition.name)|trans }}</span>
-                {% endif %}
+
+{#            {% if not workflow_metadata('article', 'internal', transition)|default(false) %}#}
+{#                <span class="transition transition-{{ transition.name }}">{{ 'transitions.%s.label'|format(transition.name)|trans }}</span>#}
+{#            {% endif %}#}
         {% endif %}
     {% endfor %}
     {% endif %}
@@ -549,25 +565,30 @@
             </li>
             {% endif %}
         {% endfor %}
-    {% endif %}
-            </ul>
+        </ul>
         </div>
+    {% endif %}
 
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-two-tabContent">
-                <table
+                <div {{ stimulus_target(options.stimulusController, 'fieldSearch') }}>
+                    Search fields go here...
+                </div>
+                <div {{ stimulus_target(options.stimulusController, 'message') }}>
+                    Message goes here...
+                </div>
+                <table {{ stimulus_target(options.stimulusController, options.stimulusTarget) }}
+
                         id="{{ id }}"
                         {% if options.extraColumns %}data-extra-columns='{{ options.extraColumns|json_encode }}'{% endif %}
-                        data-json-ld-url="{{ dataUrl }}"
-                        data-api="{{ api|json_encode }}"
-                        class="table table-striped no-wrap {{ options.class  }}"
+{#                        data-json-ld-url="{{ dataUrl }}"#}
+{#                        data-api="{{ api|json_encode }}"#}
+                        class="table table-striped hover table-sm no-wrap {{ options.class  }}"
                 >
                     <tfoot></tfoot>
                 </table>
             </div>
         </div>
-        <!-- /.card -->
-    </div>
 
 {% endmacro %}
 

@@ -1,6 +1,7 @@
 {% extends '@KnpMenu/menu.html.twig' %}
 
 {% block root %}
+    <h1>{{ _self }}</h1>
     {% set listAttributes = item.childrenAttributes %}
     <nav class="{{ item.attributes|join(' ') }}">
         {{ block('list') -}}
@@ -28,7 +29,6 @@
     And set the the use_multilevel = true
     #}
     {% set use_multilevel = true %}
-
 
     {% if item.displayed %}
         {%- set attributes = item.attributes %}

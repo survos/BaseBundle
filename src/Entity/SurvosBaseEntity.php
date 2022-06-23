@@ -2,20 +2,17 @@
 
 namespace Survos\BaseBundle\Entity;
 
+use Survos\CoreBundle\Entity\RouteParametersInterface;
+use Survos\CoreBundle\Entity\RouteParametersTrait;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use function Symfony\Component\String\u;
 
-abstract class SurvosBaseEntity
+abstract class SurvosBaseEntity implements BaseEntityInterface, RouteParametersInterface
 {
-
-    // hack for https://github.com/symfony/symfony/issues/35574
-//    public function __sleep() { return []; }
-
-    public function getRP(?array $addlParams=[]): array
-    {
-        return array_merge($this->getUniqueIdentifiers(), $addlParams);
-    }
+    use RouteParametersTrait;
+    function getId() {}
 
     public function __toString()
     {
@@ -51,17 +48,17 @@ abstract class SurvosBaseEntity
 //                try {
 //                    $this->{$setter}($val);
 //                } catch (\Exception $exception) {
-//                    dd($setter, $val);
+//                    throw new \Exception($setter, $val);
 //                }
 //            } elseif (property_exists($this, $var)) {
 //                $this->{$var} = $val;
 ////                dump($var, $val, $options, $this);
 //            } else {
 //                //not mapped.  @todo: check for source_date v sourceDate (and convert dates!)
-////                dd($var, $val, $options, $this, __METHOD__);
+////                throw new \Exception($var, $val, $options, $this, __METHOD__);
 //            }
         }
-//        dd($options, $this, __METHOD__);
+//        throw new \Exception($options, $this, __METHOD__);
         return $this;
     }
 
@@ -84,7 +81,7 @@ abstract class SurvosBaseEntity
     }
 
     // default, so this works with the default for ParamConverter
-    function getUniqueIdentifiers()
+    public function getUniqueIdentifiers(): array
     {
         return [$this->getRoutePrefix() . 'Id' => $this->getId()];
     }

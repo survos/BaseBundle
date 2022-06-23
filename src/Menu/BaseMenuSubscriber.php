@@ -106,7 +106,6 @@ class BaseMenuSubscriber
         return $child;
 
     }
-//    /** @deprecated Avoid if possible, so this can be private. */
     private function menuOptions(array $options, array $extra = []): array
     {
         // idea: make the label a . version of the route, e.g. project_show could be project.show
@@ -143,12 +142,13 @@ class BaseMenuSubscriber
         } elseif (is_array($options['rp'])) {
             $options['routeParameters'] = $options['rp'];
         }
-        // if (isset($options['rp'])) { dd($options);}
+        // if (isset($options['rp'])) { throw new \Exception($options);}
         unset($options['rp']);
-        if (empty($options['label']) && ($route = $options['route'])) {
+        if (empty($options['label']) && ($routeLabel = $options['route'])) {
             // _index is commonly used to list entities
-            $route = preg_replace('/_index$/', '', $route);
-            $options['label'] = u($route)->replace('_', ' ')->title(true)->afterLast(' ')->toString();
+            $routeLabel = preg_replace('/_index$/', '', $routeLabel);
+            $routeLabel = preg_replace('/^app_/', '', $routeLabel);
+            $options['label'] = u($routeLabel)->replace('_', ' ')->title(true)->toString();
         }
 
         if (empty($options['label']) && $options['menu_code']) {
@@ -173,8 +173,11 @@ class BaseMenuSubscriber
                          'show' => 'fas fa-eye',
                          'edit' => 'fas fa-wrench'
                      ] as $regex=>$icon) {
-                if (preg_match("|$regex|", $options['route'])) {
-                    $options['data-icon'] = $icon;
+
+                if ($route = $options['route']) {
+                    if (preg_match("|$regex|", $route)) {
+                        $options['data-icon'] = $icon;
+                    }
                 }
             }
         }
@@ -204,7 +207,8 @@ class BaseMenuSubscriber
         return $this->authorizationChecker ? $this->authorizationChecker->isGranted($attribute, $subject): false;
     }
 
-    public function cleanupMenu(ItemInterface $menu): ItemInterface
+    /** @deprecated  */
+    private function cleanupMenu(ItemInterface $menu): ItemInterface
     {
 
         $menu->setChildrenAttribute('class', 'navbar-nav');

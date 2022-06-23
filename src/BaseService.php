@@ -9,29 +9,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class BaseService
 {
-//    // could be moved to a EasyAdminHelper service
-//    private $entityClasses;
-
-    /**
-     * @var ClientRegistry
-     */
-    private $clientRegistry;
-    /**
-     * @var ProviderFactory
-     */
-    private $provider;
-
-    public function __construct(ClientRegistry $clientRegistry, ProviderFactory $provider)
+    public function __construct(private string $userClass, private ClientRegistry $clientRegistry, private ProviderFactory $provider)
     {
-//        $this->entityClasses = $entityClasses;
-        $this->clientRegistry = $clientRegistry;
-        $this->provider = $provider;
     }
 
-//    public function getEntities()
-//    {
-//        return $this->entityClasses;
-//    }
+    public function getUserClass(): string
+    {
+        return $this->userClass;
+    }
 
     public function getOauthClientKeys(): array {
         return $this->clientRegistry->getEnabledClientKeys();
@@ -156,7 +141,7 @@ class BaseService
             $provider['comments'] = $comments;
 
             $providers[$key] = $provider;
-            // dd($provider, $classToTypeMap);
+            // throw new \Exception($provider, $classToTypeMap);
 
         }
         /* not sure why this doesn't work
@@ -180,7 +165,7 @@ class BaseService
             if (!key_exists($type, $providers)) {
                 throw new \Exception("Missing $type ($class) in providers");
             }
-            // dd($class, $client, $clientProvider, $type, $providerClass);
+            // throw new \Exception($class, $client, $clientProvider, $type, $providerClass);
 
             $providers[$type]['clients'][$key]  = $client;
         }

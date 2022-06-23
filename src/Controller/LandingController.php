@@ -40,23 +40,23 @@ class LandingController extends AbstractController
     private $baseService;
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
-    private UserProviderInterface $userProvider;
     /**
      * @var ParameterBagInterface
      */
     private $parameterBag;
 
-    public function __construct(BaseService $baseService,
+    public function __construct(
+//        private  UserProviderInterface $userProvider,
+        BaseService $baseService,
                                 EntityManagerInterface $entityManager,
                                 MailerInterface $mailer,
                                 ParameterBagInterface $parameterBag,
-                                UserProviderInterface $userProvider)
+    )
     {
         $this->baseService = $baseService;
         $this->entityManager = $entityManager;
 
         $this->mailer = $mailer;
-        $this->userProvider = $userProvider;
         $this->parameterBag = $parameterBag;
     }
 
@@ -67,6 +67,15 @@ class LandingController extends AbstractController
     public function landing(Request $request)
     {
         return $this->render("@SurvosBase/landing.html.twig", [
+        ]);
+    }
+
+    /**
+     * @Route("/blank_page", name="app_blank_page")
+     */
+    public function blank_page(Request $request)
+    {
+        return $this->render("@SurvosBase/blank.html.twig", [
         ]);
     }
 
@@ -120,7 +129,7 @@ class LandingController extends AbstractController
         header('Content-Type: image/png');
         imagepng($rasterImage);
         */
-        
+
     }
 
     /**
@@ -166,20 +175,20 @@ class LandingController extends AbstractController
     }
 
 
-    /**
-     * @Route("/impersonate", name="redirect_to_impersonate")
-     */
-    public function impersonate(Request $request)
-    {
-        $id = $request->get('id');
-        if (!$user = $this->entityManager->find(User::class, $id)) {
-            return new NotFoundHttpException("Hmm, user $id wasn't found!");
-        }
-
-        $redirectUrl =$this->generateUrl('app_homepage', ['_switch_user' => $user->getEmail() ]);
-        return new RedirectResponse($redirectUrl);
-    }
-
+//    /**
+//     * @Route("/impersonate", name="redirect_to_impersonate")
+//     */
+//    public function impersonate(Request $request)
+//    {
+//        $id = $request->get('id');
+//        if (!$user = $this->entityManager->find(User::class, $id)) {
+//            return new NotFoundHttpException("Hmm, user $id wasn't found!");
+//        }
+//
+//        $redirectUrl =$this->generateUrl('app_homepage', ['_switch_user' => $user->getEmail() ]);
+//        return new RedirectResponse($redirectUrl);
+//    }
+//
     /**
      * @Route("/credits/{type}", name="survos_base_credits")
      */
@@ -194,14 +203,14 @@ class LandingController extends AbstractController
         $packageData = json_decode(file_get_contents($packageFile));
         $packageDependencies = $packageData->dependencies ?? [];
         $packageDevDependencies = $packageData->devDependencies ?? [];
-        // dd($packageDevDependencies);
+        // throw new \Exception($packageDevDependencies);
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
 
 
         /*
         if (file_exists($yarnLockFile)) {
             $yarnLock = YarnLock::fromString($yarnData = file_get_contents($yarnLockFile));
-            dd($yarnLock, $yarnData);
+            throw new \Exception($yarnLock, $yarnData);
             $allPackages = $yarnLock->getPackages();
         } else {
             $allPackages = []; // no yarn packages
@@ -218,12 +227,12 @@ class LandingController extends AbstractController
         $modules = array_map(function($libData) {
             if ($libData) {
                 $x = Yaml::parse($libData);
-                dd($libData, $x);
+                throw new \Exception($libData, $x);
             }
         }, explode("\n", $yarnLock));
 
         $modules = Yaml::parse($yarnLock);
-        dd($modules);
+        throw new \Exception($modules);
         */
 
         /*
@@ -263,39 +272,38 @@ class LandingController extends AbstractController
         // the authenticator should catch this
     }
 
-    private function getLoginMessage($email, $loginUrl) {
-        $message = (new \Swift_Message('One Time Login'))
-            ->setFrom('tacman@gmail.com')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    '@SurvosBase/email/forgot.html.twig',
-                    ['email' => $email, 'url' => $loginUrl]
-                ),
-                'text/html'
-            )
-
-            // you can remove the following code if you don't define a text version for your emails
-                /*
-            ->addPart(
-                $this->renderView(
-                // templates/emails/registration.txt.twig
-                    'emails/registration.txt.twig',
-                    ['name' => $name]
-                ),
-                'text/plain'
-            )
-                */
-        ;
-
-        return $message;
-
-    }
+//    private function getLoginMessage($email, $loginUrl) {
+//        $message = (new \Swift_Message('One Time Login'))
+//            ->setFrom('tacman@gmail.com')
+//            ->setTo($email)
+//            ->setBody(
+//                $this->renderView(
+//                // templates/emails/registration.html.twig
+//                    '@SurvosBase/email/forgot.html.twig',
+//                    ['email' => $email, 'url' => $loginUrl]
+//                ),
+//                'text/html'
+//            )
+//
+//            // you can remove the following code if you don't define a text version for your emails
+//                /*
+//            ->addPart(
+//                $this->renderView(
+//                // templates/emails/registration.txt.twig
+//                    'emails/registration.txt.twig',
+//                    ['name' => $name]
+//                ),
+//                'text/plain'
+//            )
+//                */
+//        ;
+//
+//        return $message;
+//
+//    }
 
     /**
      * @Route("/one-time-login-request", name="app_one_time_login_request")
-     */
     public function oneTimeLoginRequest(Request $request)
     {
         $form = $this->createForm(ForgotPasswordFormType::class);
@@ -339,5 +347,8 @@ class LandingController extends AbstractController
 
 
     }
+     *
+     */
+
 
 }

@@ -9,8 +9,9 @@
 
 namespace Survos\BaseBundle\Event;
 
-use Survos\BaseBundle\Model\NavBarUserLink;
-use Survos\BaseBundle\Model\UserInterface;
+//use Survos\BaseBundle\Model\NavBarUserLink;
+//use Survos\BaseBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Collect the UserInterface object that should be rendered in the user section.
@@ -29,9 +30,7 @@ abstract class ShowUserEvent extends ThemeEvent
      * @var bool
      */
     private $showLogoutLink = true;
-    /**
-     * @var NavBarUserLink[]
-     */
+
     private $links = [];
 
     /**
@@ -53,19 +52,16 @@ abstract class ShowUserEvent extends ThemeEvent
         return $this->user;
     }
 
-    /**
-     * @return NavBarUserLink[]
-     */
     public function getLinks(): array
     {
         return $this->links;
     }
 
     /**
-     * @param NavBarUserLink $link
+     * @todo: should be NavBarUserLink $link
      * @return ShowUserEvent
      */
-    public function addLink(NavBarUserLink $link)
+    public function addLink(string $link)
     {
         $this->links[] = $link;
 

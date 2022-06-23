@@ -247,7 +247,7 @@ class SurvosInitCommand extends Command
 
         $packageDependencies = $packageData->dependencies ?? [];
         $packageDevDependencies = $packageData->devDependencies ?? [];
-        // dd($packageDevDependencies);
+        // throw new \Exception($packageDevDependencies);
         $allPackages = array_merge((array)$packageDevDependencies, (array)$packageDependencies);
 
         $missing = [];
@@ -273,7 +273,7 @@ class SurvosInitCommand extends Command
             }
         }
 
-        // dd($allPackages, $missing); // in package.json
+        // throw new \Exception($allPackages, $missing); // in package.json
 
         /* old way...
         $json = exec(sprintf('yarn list  --json') );
@@ -284,18 +284,18 @@ class SurvosInitCommand extends Command
                     list($name, $version) = explode('@', $moduleData['name']);
                     return [$name => $version];
                 } catch (\Exception $e) {
-                    dd($moduleData);
+                    throw new \Exception($moduleData);
                 }
                 }, $data);
 
             $missing = array_filter(self::requiredJsLibraries, function ($needle) use ($yarnModules) {
 
                 $missingModule =  !in_array($needle, array_keys($yarnModules));
-                dd(array_keys($yarnModules), $missingModule, $needle);
+                throw new \Exception(array_keys($yarnModules), $missingModule, $needle);
                 $this->consoleLogger->warning(($missingModule ? 'Missing' : 'found')  . ' ' . $needle, [$needle]);
 
             });
-            dd($missing);
+            throw new \Exception($missing);
 
         try {
             $modules = array_map(function ($tree) {
@@ -405,7 +405,6 @@ class SurvosInitCommand extends Command
 
     /**
      * @param SymfonyStyle $io
-     * @param string $output
      */
     private function createConfigs(SymfonyStyle $io): void
     {

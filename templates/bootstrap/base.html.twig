@@ -44,6 +44,8 @@ fixed, layout-boxed, layout-top-nav, sidebar-collapse, sidebar-mini
 
 
     {% block navbar %}
+        {{ include('@SurvosBase/bootstrap/_navbar.html.twig') }}
+
         <nav class="main-header navbar navbar-expand fixed-top navbar-dark">
             <ul class="navbar-nav">
                 {% block navbar_toggle %}

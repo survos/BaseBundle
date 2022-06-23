@@ -6,19 +6,24 @@
 })(window, jQuery, Routing, swal);
 */
 
-const $ = require('jquery');
+const $ = require('jquery'); // problematic!!!
 let _ = global._;
+
+
 
 console.warn('As expected, this is the SurvosDataTable.js in base-bundle/public/js!!');
 
 require('datatables.net-bs5');
 require('datatables.net-scroller-bs5');
-require('datatables.net-buttons-bs5');
+// require('datatables.net-buttons-bs5');
 require('datatables.net-select-bs5');
 
 // hacks for linking this
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+xx
+
+
 
 var commonButtons = {
     'json': {
@@ -369,6 +374,7 @@ export default class SurvosDataTable {
     }
 
     render() {
+        console.warning('calling render()');
         $('<div class="loading">Loading</div>').appendTo('body');
 
         // var url = this.el.data('ajax'); // or options?

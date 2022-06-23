@@ -1,3 +1,105 @@
+# Quick Start
+
+
+```bash
+script ~/session.log
+symfony ...
+exit
+bin/console make:docs-from-log (get commits, etc.)
+````
+
+
+Add the recipe repo, and until basebundle is ready for production, add the repo.  Umbrella Admin Bundle is required for BaseBundle 2.0, it is likely that BaseBundle 3 will use Tabler.
+
+"/home/tac/survos/bundles/recipes/index.json",
+
+
+```bash
+REPO=bbtest
+symfony new --webapp $REPO && cd $REPO && yarn install 
+composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
+composer config minimum-stability dev
+composer config prefer-stable true
+
+composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer config repositories.tacman_hello '{"type": "vcs", "url": "git@github.com:tacman/TacmanHelloBundle.git"}'
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+
+composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
+composer config repositories.survos_maker '{"type": "path", "url": "/home/tac/survos/bundles/maker-bundle"}'
+composer req survos/maker-bundle:*@dev && git diff config
+
+composer config repositories.survos_base_bundle '{"type": "path", "url": "/home/tac/survos/bundles/BaseBundle"}'
+composer req survos/base-bundle:*@dev && git diff config
+
+composer config repositories.ics_bundle '{"type": "vcs", "url": "git@github.com:tacman/IcsBundle.git"}'
+
+composer req umbrella2/adminbundle
+composer req symfony/workflow
+composer req survos/maker-bundle --dev
+
+composer req survos/base-bundle:*
+sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
+
+//return new RedirectResponse($this->urlGenerator->generate('some_route'));
+bin/console make:user --is-entity --identity-property-name=email --with-password User -n
+echo "1,AppAuthenticator,,," | sed "s/,/\n/g"  | bin/console make:auth
+
+sed  -i "s|some_route|app_homepage|" ^Cc/Security/AppAuthenticator.php 
+sed  -i "s|//return|return|" src/Security/AppAuthenticator.php 
+sed  -i "s|throw new|//throw new|" src/Security/AppAuthenticator.php 
+
+
+
+bin/console survos:make:menu AdminMenu (maybe just copy during recipe)?
+
+```
+
+
+
+## Create on github
+
+```bash
+```
+
+
+
+
+## UX Datatable (work in progress)
+composer config repositories.ux-datatable '{"type": "vcs", "url": "git@github.com:tacman/ux-datatable.git"}'
+composer req tacman/ux-datatable
+
+
+
+How KnpMenu works.
+
+The MenuBuilderService in Survos\BaseBundle\Menu is registered because it's configured in services.yaml in this bundle.
+
+```yaml
+  Survos\BaseBundle\Menu\MenuBuilder:
+    class: Survos\BaseBundle\Menu\MenuBuilder
+    arguments:
+      - "@knp_menu.factory"
+      - "@event_dispatcher"
+    tags:
+      - { name: knp_menu.menu_builder, method: createSidebarMenu, alias: survos_sidebar_menu }
+      - { name: knp_menu.menu_builder, method: createPageMenu, alias: survos_page_menu }
+```
+
+This means that whenever knp_menu_get is called with the alias (e.g. survos_sidebar_menu), MenuBuilder.php creates a root element and emits an event, which SidebarMenuSubscriber (in the application) picks up.
+
+Then we can build the menus.
+
+
+
+@TODO:
+
+* Extend from Umbrella
+* Add DataTableBundle (ux component)
+* Add #[RouteParameter] to Entity Properties.
+* Make ParamConverter listen via Attributes
+* Add LandingBundle (make:landing)
+* Symfony 5.4 or 6
 
 # Survos Admin Bundle
 
@@ -85,11 +187,15 @@ on github.com with no files (no README or license), clone it to some directory a
 * Create the Symfony Skeleton WITHOUT a git repo, then ADD the repo.  Allow recipes
 
 ```bash
-rm LICENSE && rm README.md && mv .git .. && symfony new --full . --no-git  && mv ../.git . && git checkout .
+rm -f LICENSE && rm -f README.md && mv .git .. && symfony new --full . --no-git --version=5.4 && mv ../.git . && git checkout .
 composer config extra.symfony.allow-contrib true
+composer req webapp && yarn install && yarn encore dev
 ```     
         
 * Create the project on heroku, after logging in.  Optionally create database.
+
+DBNAME=test
+echo "DATABASE_URL=postgresql://main:main@127.0.0.1:5432/$DBNAME" > .env.local
 
   
 OR if you're using Sqlite.
@@ -100,13 +206,15 @@ heroku addons:create heroku-postgresql:hobby-dev
 echo "DATABASE_URL=$(heroku config:get DATABASE_URL)" > .env.heroku.local
 # Without heroku, use sqlite (or setup MySQL)
 echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
+echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db" > .env.local
+
 ```
 
 We always want some security, so certain routes can be secured. Create a User entity, and then a LoginFormAuthenticator.  Tweak AppAuthenciator to return to home after a successful login.  Set the MAILER_URL to the default.
 
 ```bash
 bin/console make:user User --is-entity --identity-property-name=email --with-password -n
-sed -i "s|public function getEmail| public function getUsername() { return \$this->getEmail(); }\n\n public function getEmail|" src/Entity/User.php
+#sed -i "s|public function getEmail| public function getUsername() { return \$this->getEmail(); }\n\n public function getEmail|" src/Entity/User.php
 
 sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 
@@ -126,15 +234,69 @@ sed -i "s|throw new \\Exception\('TODO\: provide a valid redirect inside '\.__FI
 
 ```bash
 composer config minimum-stability dev
+composer config minimum-stability beta
 composer config prefer-stable true
 
-composer req knplabs/knp-markdown-bundle
+composer config repositories.tacman_hello '{"type": "path", "url": "/home/tac/survos/bundles/TacmanHelloBundle"}'
+
+composer config repositories.html_prettify '{"type": "path", "url": "/home/tac/survos/bundles/HtmlPrettifyBundle"}'
+COMPOSER_DISABLE_NETWORK=1 composer req survos/html-prettify-bundle:*@dev
+
+composer config repositories.barcode '{"type": "path", "url": "/home/tac/survos/bundles/BarcodeBundle"}'
+composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle"}'
+
+composer config repositories.survos_maker '{"type": "path", "url": "/home/tac/survos/bundles/maker-bundle"}'
+composer req survos/maker-bundle:*@dev && git diff config
+
+# composer req survos/barcode-bundle:*@dev
+git checkout . && composer req survos/barcode-bundle:*@dev && git diff config
+
+composer config repositories.survos_tree '{"type": "path", "url": "/home/tac/survos/bundles/SurvosTreeBundle"}'
+composer req survos/tree-bundle:*@dev && git diff config
+
+composer config repositories.foo '{"type": "path", "url": "/home/tac/survos/bundles/FooBundle"}'
+composer req survos/foo-bundle:*@dev
+
+composer config repositories.barcode '{"type": "vcs", "url": "git@github.com:survos/BarcodeBundle"}'
+
+composer config repositories.barcode '{"type": "path", "url": "/home/tac/survos/bundles/BarcodeBundle"}'
+composer req survos/barcode-bundle:*@dev && git diff config
+composer req survos/barcode-bundle && git diff config
+
+
+#git checkout . && composer req knpuniversity/lorem-ipsum-bundle:*@dev && git diff config
+
+
+
+composer config repositories.lorum '{"type": "vcs", "url": "git@github.com:tacman/lorem-ipsum-bundle.git"}'
+
+composer config repositories.lorum '{"type": "path", "url": "/home/tac/survos/bundles/lorem-ipsum-bundle"}'
+git checkout . && composer req knpuniversity/lorem-ipsum-bundle:*@dev && git diff config
+
+
+composer config repositories.knp_dictionary '{"type": "vcs", "url": "git@github.com:tacman/DictionaryBundle.git"}'
+
+composer config extra.symfony.endpoint --json '["/home/tac/survos/bundles/recipes/index.json","https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
+
+composer config repositories.knp_markdown '{"type": "vcs", "url": "git@github.com:tacman/KnpMarkdownBundle.git"}'
+composer req knplabs/knp-markdown-bundle:dev-symfony6
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
-composer req survos/base-bundle:"*@dev"
+composer config repositories.ux-datatable '{"type": "vcs", "url": "git@github.com:tacman/ux-datatable.git"}'
+composer req tacman/ux-datatable
+
+composer require umbrella2/adminbundle
+php bin/console make:admin:home
+
+composer config repositories.cs_fixer '{"type": "vcs", "url": "git@github.com:tacman/PHP-CS-Fixer.git"}'
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.tabler '{"type": "vcs", "url": "git@github.com:survos/TablerBundle.git"}'
+composer req survos/tabler-bundle:dev-tac
+
+composer req survos/base-bundle:"^2.0.3"
 
 composer require symfony/webpack-encore-bundle
-yarn install0
+yarn install
 yarn add sass-loader@^11.0.0 sass --dev
 yarn add https://github.com/survos/adminkit.git
 
@@ -157,9 +319,22 @@ yarn add datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-scroller d
 
 
   # Survos Dev only
-    composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
-    composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
-    composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
+composer config repositories.knp_dictionary '{"type": "path", "url": "/home/tac/survos/bundles/DictionaryBundle"}'
+composer config repositories.ux_datatables '{"type": "path", "url": "/home/tac/survos/bundles/ux-datatable"}'
+composer config repositories.survos_workflow '{"type": "path", "url": "/home/tac/survos/bundles/WorkflowBundle/"}'
+
+composer config repositories.tacman_twig_tree '{"type": "path", "url": "/home/tac/survos/bundles/twig-tree-tag/"}'
+COMPOSER_DISABLE_NETWORK=1 composer req jordanlev/twig-tree-tag:*@dev
+
+
+
+composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.kickass_subtitles '{"type": "vcs", "url": "git@github.com:tacman/open-subtitles.git"}'
+
+
+composer config repositories.survos_base_bundle '{"type": "path", "url": "../Survos/BaseBundle"}'
+composer config repositories.geonames '{"type": "path", "url": "../Survos/geonames-bundle"}'
+composer config repositories.phpspreadsheet '{"type": "path", "url": "../Survos/phpspreadsheet-bundle"}'
     
     
 ## @TODO: recipes!
@@ -239,7 +414,8 @@ Install the bundle, then go through the setup to add and configure the tools.
     xterm -e "yarn run encore dev-server" &
     
     composer req "kevinpapst/adminlte-bundle"
-    bin/console make:subscriber KnpMenuSubscriber "KevinPapst\AdminLTEBundle\Event\KnpMenuEvent"
+    composer require knplabs/knp-menu-bundle
+    bin/console make:subscriber KnpMenuSubscriber "Survos\BaseBundle\Event\KnpMenuEvent"
     
     bin/console survos:init
     
@@ -377,7 +553,8 @@ App\Entity\Song:
 
 ### Deploy to heroku
 
-    heroku create $projectName --buildpack heroku/php
+    heroku create $projectName 
+    heroku buildpacks:add heroku/php
     heroku buildpacks:add heroku/nodejs
     
     echo "web:  vendor/bin/heroku-php-nginx -C heroku-nginx.conf  -F fpm_custom.conf public/" > Procfile
