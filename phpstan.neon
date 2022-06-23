@@ -17,10 +17,6 @@ parameters:
         message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\).#'
         path: src/Configuration
 
-    -
-        message: '#Variable \$[a-zA-Z0-9\\_]+ might not be defined#'
-        path: ./src/Resources/skeleton
-
         # False positive: clients are not dependencies of this project.
 #        -
 #            message: '#Return typehint of method KnpU\\OAuth2ClientBundle\\Client\\Provider\\[a-zA-Z0-9\\_]+::fetchUserFromToken\(\) has invalid type [a-zA-Z0-9\\_]#'

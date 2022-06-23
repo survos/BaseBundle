@@ -9,7 +9,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class BaseService
 {
-    public function __construct(private string $userClass, private ClientRegistry $clientRegistry, private ProviderFactory $provider)
+    public function __construct(
+//        private string $userClass,
+                                private ClientRegistry $clientRegistry,
+//                                private ProviderFactory $provider
+    )
     {
     }
 
