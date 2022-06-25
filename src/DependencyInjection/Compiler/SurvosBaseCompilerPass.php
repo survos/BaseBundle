@@ -11,8 +11,6 @@ class SurvosBaseCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $definition = $container->getDefinition('survos_base_bundle.base_service');
-
-
         $definition->setArgument(1, new Reference('oauth2.registry'));
     }
 }

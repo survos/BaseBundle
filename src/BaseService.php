@@ -19,11 +19,15 @@ class BaseService
     private $provider;
     private string $userClass;
 
-    public function __construct(string $userClass, ClientRegistry $clientRegistry, ProviderFactory $provider)
+    public function __construct(
+//        string $userClass,
+//        private ClientRegistry $clientRegistry,
+//        private ProviderFactory $provider
+)
     {
-        $this->clientRegistry = $clientRegistry;
-        $this->provider = $provider;
-        $this->userClass = $userClass;
+//        $this->clientRegistry = $clientRegistry;
+//        $this->provider = $provider;
+//        $this->userClass = $userClass;
     }
 
     public function getUserClass(): string

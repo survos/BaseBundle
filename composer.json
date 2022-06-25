@@ -97,6 +97,7 @@
             "dev-master": "2.4-dev"
         },
         "symfony": {
+            "require": "^6.1",
             "allow-contrib": "true",
             "id": "base-bundle.survos.com"
         }
