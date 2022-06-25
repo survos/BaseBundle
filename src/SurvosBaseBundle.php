@@ -10,9 +10,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SurvosBaseBundle extends AbstractBundle
 {
-    public function getPath(): string {
-        return __DIR__;
-    }
+//    public function getPath(): string {
+//        return __DIR__;
+//    }
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $builder->register('survos_base_bundle.base_service', BaseService::class)
