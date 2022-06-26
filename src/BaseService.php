@@ -9,20 +9,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class BaseService
 {
-    /**
-     * @var ClientRegistry
-     */
-    private $clientRegistry;
-    /**
-     * @var ProviderFactory
-     */
-    private $provider;
-    private string $userClass;
 
     public function __construct(
-//        string $userClass,
-//        private ClientRegistry $clientRegistry,
-//        private ProviderFactory $provider
+        private string $userClass,
+        private ClientRegistry $clientRegistry,
+        private ProviderFactory $provider
 )
     {
 //        $this->clientRegistry = $clientRegistry;
@@ -35,8 +26,8 @@ class BaseService
         return $this->userClass;
     }
 
-    public function getOauthClientKeys(): array {
-        return $this->clientRegistry->getEnabledClientKeys();
+    public function getOauthClientKeys(): ?array {
+        return $this->clientRegistry?->getEnabledClientKeys();
     }
 
     // hack to get client id
@@ -93,7 +84,7 @@ class BaseService
     // the hand-curated list of URLs.  Written by hand
     protected static function getOAuthProviderUrlPath(): string
     {
-        return __DIR__ . '/Resources/data/oauth_provider_urls.yaml';
+        return __DIR__ . '/../data/oauth_provider_urls.yaml';
     }
 
     // the data from KNPU's list of providers plus the urls to link to for configurating.
@@ -102,7 +93,7 @@ class BaseService
     // when read by BaseService->authProviderConfigurationData.  Does include project-specific data (needs ClientRegistry)
     protected static function getOAuthProviderCombinedPath(): string
     {
-        return __DIR__ . '/Resources/data/oauth_provider.yaml';
+        return __DIR__ . '/../data/oauth_provider.yaml';
     }
 
     public function writeCombinedOauthData($data)

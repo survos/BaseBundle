@@ -3,6 +3,7 @@
 namespace Survos\BaseBundle\Controller;
 
 # use App\Security\AppAuthenticator;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +33,7 @@ class OAuthController extends AbstractController
 {
 
     public function __construct(private BaseService            $baseService,
-                                private EntityManagerInterface $entityManager,
+                                private Registry $entityManager,
                                 private RouterInterface        $router,
                                 private ClientRegistry         $clientRegistry,
 //                                private UserProviderInterface  $userProvider

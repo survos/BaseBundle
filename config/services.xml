@@ -30,14 +30,6 @@
             <tag name="controller.service_arguments" />
         </service>
 
-        <service id="Survos\BaseBundle\Controller\OAuthController" public="true" autowire="true">
-            <tag name="container.service_subscriber" />
-            <tag name="controller.service_arguments" />
-        </service>
-
-        <service id="Survos\BaseBundle\Twig\Extensions" public="true" autowire="true">
-            <tag name="twig.extension" />
-        </service>
 
         <service id="Survos\BaseBundle\Twig\StimulusTwigExtension" public="true" autowire="true">
             <tag name="twig.extension" priority="-1024" />

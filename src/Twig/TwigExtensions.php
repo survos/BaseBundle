@@ -18,7 +18,7 @@ use function Symfony\Component\String\u;
 /**
  * Multiple Twig extensions: filters and functions
  */
-class Extensions extends AbstractExtension
+class TwigExtensions extends AbstractExtension
 {
     /**
      * {@inheritdoc}
