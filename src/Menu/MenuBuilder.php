@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file base based on the MenuBuilder for KnpMenu in Kevin Papst's AdminLTE bundle.
+ * This file is based on the MenuBuilder for KnpMenu in Kevin Papst's AdminLTE bundle.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with that source code.
