@@ -161,11 +161,13 @@ final class StimulusTwigExtension extends AbstractExtension
      */
     public function renderStimulusTarget(Environment $env, $dataOrControllerName, string $targetNames = null, array $params = []): string
     {
+        assert(!is_null($dataOrControllerName), "Missing controller name");
         if (\is_string($dataOrControllerName)) {
             $data = [$dataOrControllerName => $targetNames];
         } else {
             if ($targetNames) {
-                throw new \InvalidArgumentException('You cannot pass a string to the second argument while passing an array to the first argument of stimulus_target(): check the documentation.');
+                throw new \InvalidArgumentException('You cannot pass a string to the second argument while passing an array to the first argument of stimulus_target( ' .
+                    json_encode($dataOrControllerName) . '): check the documentation.' . json_encode($targetNames));
             }
 
             $data = $dataOrControllerName;
