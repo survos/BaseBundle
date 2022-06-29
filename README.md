@@ -80,7 +80,7 @@ The MenuBuilderService in Survos\BaseBundle\Menu is registered because it's conf
     class: Survos\BaseBundle\Menu\MenuBuilder
     arguments:
       - "@knp_menu.factory"
-      - "@event_dispatcher"
+      - "@event_dispatcher" 
     tags:
       - { name: knp_menu.menu_builder, method: createSidebarMenu, alias: survos_sidebar_menu }
       - { name: knp_menu.menu_builder, method: createPageMenu, alias: survos_page_menu }

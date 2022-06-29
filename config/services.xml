@@ -49,7 +49,7 @@
         </service>
 
         <service id="Survos\BaseBundle\Command\UserCreateCommand" class="Survos\BaseBundle\Command\UserCreateCommand" public="false">
-            <argument type="service" id="security.password_hasher" />
+            <argument type="service" id="security.user_password_hasher" />
             <argument type="service" id="security.user_providers" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="doctrine.orm.entity_manager" />

@@ -1,11 +1,16 @@
+
     <nav class="navbar navbar-expand navbar-light navbar-bg sticky-top d-print-none">
 
         <a class="sidebar-toggle js-sidebar-toggle">
             <i class="hamburger align-self-center"></i>
         </a>
 
-        <div class="{{ admin.containerClass }}">
+        {{ _self }}
 
+
+
+
+        <div class="{{ admin.containerClass }}">
 
             {% block breadcrumb_wrapper %}
                 <nav aria-label="breadcrumb float-end">
@@ -20,13 +25,18 @@
                 </nav>
             {% endblock %}
 
-            <div class="navbar-collapse collapse">
-                <ul class="navbar-nav navbar-align">
+            <div class="navbar navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-align">
+                    {% set menu = knp_menu_get('survos_navbar_menu') %}
+                    {{ knp_menu_render(menu, {style: 'navbar', template: 'top-menu-bs5.html.twig'}) }}
+
+
                     {% if admin.notificationEnable() %}
                         {% include "@UmbrellaAdmin/Notification/widget.html.twig" %}
                     {% endif %}
 
                     {% block top_bar_navbar_items %}
+
                         {#                                    <li class="nav-item">#}
                         {#                                        projects#}
                         {#                                    </li>#}
