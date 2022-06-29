@@ -494,6 +494,9 @@
         marking: null,
     }, options|default({}), ['stimulusController']) %}
 
+{% if options.stimulusController is empty %}
+    <h1>Missing stimulus controller!!</h1>
+{% else %}
 {#    {% set api = options.api %}#}
 {#    {% set api = optionsResolver({#}
 {#        call: null,#}
@@ -516,6 +519,7 @@
             modalContent: 'really should load with ajax'
         }) }}
 
+{% endif %}
 
 
 

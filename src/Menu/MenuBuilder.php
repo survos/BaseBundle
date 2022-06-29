@@ -10,15 +10,12 @@
 namespace Survos\BaseBundle\Menu;
 
 use Knp\Menu\ItemInterface;
-use Survos\BaseBundle\Event\KnpMenuEvent;
 use Knp\Menu\FactoryInterface;
+use Survos\BaseBundle\Event\KnpMenuEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MenuBuilder
 {
-    const PAGE_MENU_EVENT = 'page_menu';
-    const SIDEBAR_MENU_EVENT = 'sidebar_menu';
-
     public function __construct(private FactoryInterface $factory, private EventDispatcherInterface $eventDispatcher)
     {
     }
@@ -27,6 +24,18 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('menuroot');
         $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options));
+        return $menu;
+    }
+
+    public function createNavbarMenu(array $options): ItemInterface
+    {
+        $menu = $this->factory->createItem('menuroot', [
+//            'currentClass' => 'text-danger current-class active show',
+
+        ]);
+        $menu->setChildrenAttribute('class', 'nav navbar-nav');
+
+        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options), KnpMenuEvent::NAVBAR_MENU_EVENT);
         return $menu;
     }
 
@@ -62,7 +71,7 @@ class MenuBuilder
         ];
 
         $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions),
-            self::SIDEBAR_MENU_EVENT);
+            KnpMenuEvent::SIDEBAR_MENU_EVENT);
 
         return $menu;
     }
@@ -92,7 +101,7 @@ class MenuBuilder
             'labelAttributes' => ['safe_html' => true, 'data-toggle' => 'xxcollapse'],
         ];
 
-        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions), self::PAGE_MENU_EVENT);
+        $this->eventDispatcher->dispatch(new KnpMenuEvent($menu, $this->factory, $options, $childOptions), KnpMenuEvent::PAGE_MENU_EVENT);
 
         return $menu;
     }

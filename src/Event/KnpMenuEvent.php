@@ -20,6 +20,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 class KnpMenuEvent extends Event
 {
 
+    const NAVBAR_MENU_EVENT = 'navbar_menu';
+    const PAGE_MENU_EVENT = 'page_menu';
+    const SIDEBAR_MENU_EVENT = 'sidebar_menu';
+
+
     public function __construct(protected ItemInterface $menu, protected FactoryInterface $factory, private array $options = [], private array $childOptions = [])
     {
     }
