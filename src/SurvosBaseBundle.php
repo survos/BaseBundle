@@ -3,6 +3,8 @@ namespace Survos\BaseBundle;
 
 use Survos\BaseBundle\Controller\OAuthController;
 use Survos\BaseBundle\DependencyInjection\Compiler\SurvosBaseCompilerPass;
+use Survos\BaseBundle\Event\KnpMenuEvent;
+use Survos\BaseBundle\Menu\MenuBuilder;
 use Survos\BaseBundle\Twig\TwigExtensions;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,6 +38,14 @@ class SurvosBaseBundle extends AbstractBundle
 //        $builder->autowire(SurvosWorkflowDumpCommand::class)
 //            ->addTag('console.command')
 //        ;
+
+        $builder->autowire(MenuBuilder::class)
+            ->setArgument('$factory', new Reference('knp_menu.factory'))
+            ->setArgument('$eventDispatcher', new Reference('event_dispatcher'))
+            ->addTag('knp_menu.menu_builder', ['method' => 'createSidebarMenu', 'alias' => 'survos_sidebar_menu'])
+            ->addTag('knp_menu.menu_builder', ['method' => 'createPageMenu', 'alias' => 'survos_page_menu'])
+            ->addTag('knp_menu.menu_builder', ['method' => 'createNavbarMenu', 'alias' => KnpMenuEvent::NAVBAR_MENU_EVENT])
+            ;
 
         $builder->autowire(OAuthController::class)
             ->addArgument(new Reference($serviceId))
