@@ -5,6 +5,7 @@ namespace Survos\BaseBundle\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Survos\BaseBundle\BaseService;
 use Survos\BaseBundle\DependencyInjection\Configuration;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,10 +22,11 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Survos\BaseBundle\Event\UserCreatedEvent;
 
+#[AsCommand(
+    name: 'survos:user:create',
+)]
 class UserCreateCommand extends Command
 {
-    protected static $defaultName = 'survos:user:create';
-
     public function __construct(private UserPasswordHasherInterface $passwordEncoder,
                                 private UserProviderInterface       $userProvider,
                                 private EventDispatcherInterface    $eventDispatcher,

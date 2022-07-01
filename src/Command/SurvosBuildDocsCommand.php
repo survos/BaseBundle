@@ -2,6 +2,7 @@
 
 namespace Survos\BaseBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,9 +12,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Twig\Environment;
 
+#[AsCommand(
+    name: 'survos:build-docs',
+    description: 'Compile .rst.twig files',
+)]
 class SurvosBuildDocsCommand extends Command
 {
-    protected static $defaultName = 'survos:build-docs';
+    protected static $defaultName = '';
     /**
      * @var Environment
      */
@@ -28,7 +33,6 @@ class SurvosBuildDocsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Compile .rst.twig files')
             ->addArgument('template-dir', InputArgument::OPTIONAL, 'Template Directory',  './templates/')
             ->addArgument('template-subdir', InputArgument::OPTIONAL, 'Template Subdirectory', 'docs/')
             ->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'Output Directory (the .rst file)',  './docs')

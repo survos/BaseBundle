@@ -4,6 +4,7 @@ namespace Survos\BaseBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,9 +17,12 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 
+#[AsCommand(
+    name: 'survos:configure',
+    description: 'Setup libraries and basic base page',
+)]
 class SurvosSetupCommand extends Command
 {
-    protected static $defaultName = 'survos:configure';
 
     protected $projectDir;
     private $kernel;
@@ -52,7 +56,6 @@ class SurvosSetupCommand extends Command
     {
 
         $this
-            ->setDescription('Setup libraries and basic base page')
             ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;

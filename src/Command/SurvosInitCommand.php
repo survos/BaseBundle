@@ -4,6 +4,7 @@ namespace Survos\BaseBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,10 +21,11 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
 
+#[AsCommand(
+    name: 'survos:init',
+)]
 class SurvosInitCommand extends Command
 {
-    protected static $defaultName = 'survos:init';
-
     protected $projectDir;
     private $kernel;
     private $em;
