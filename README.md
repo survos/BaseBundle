@@ -17,8 +17,12 @@ Add the recipe repo, and until basebundle is ready for production, add the repo.
 ```bash
 REPO=bbtest
 symfony new --webapp $REPO && cd $REPO && yarn install 
+composer config minimum-stability beta
+composer req api-platform/core:^2.7
+composer req api-platform/core:^3.0
+
 composer config extra.symfony.endpoint --json '["https://api.github.com/repos/survos/recipes/contents/index.json", "flex://defaults"]'
-composer config minimum-stability dev
+composer config minimum-stability beta
 composer config prefer-stable true
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'

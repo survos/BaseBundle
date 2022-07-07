@@ -8,6 +8,7 @@ use Survos\BaseBundle\Menu\MenuBuilder;
 use Survos\BaseBundle\Twig\TwigExtensions;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -28,12 +29,13 @@ class SurvosBaseBundle extends AbstractBundle
             ->setPublic(true)
             ->setAutowired(true);
 
-        $container->services()->alias(BaseService::class, $serviceId);
-
-        $definition = $builder
-            ->autowire('survos.base_twig', TwigExtensions::class)
+        $builder
+            ->setDefinition('survos.base_twig', new Definition(TwigExtensions::class))
             ->addTag('twig.extension')
+            ->setPublic(false)
         ;
+
+        $container->services()->alias(BaseService::class, $serviceId);
 
 //        $builder->autowire(SurvosWorkflowDumpCommand::class)
 //            ->addTag('console.command')
