@@ -23,7 +23,8 @@ class BaseAuthenticator extends OAuth2Authenticator
     private $entityManager;
     private $router;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager,
+    public function __construct(ClientRegistry $clientRegistry,
+                                EntityManagerInterface $entityManager,
                                 RouterInterface $router,
     private UserProviderInterface $userProvider
     )

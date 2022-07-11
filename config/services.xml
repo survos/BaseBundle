@@ -22,7 +22,7 @@
             <argument type="service" id="KnpU\OAuth2ClientBundle\Client\ClientRegistry"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="router.default"/>
-<!--            <argument type="service" id="doctrine.orm.security.user.provider" />-->
+            <argument type="service" id="security.user.provider.concrete.app_user_provider" />
         </service>
 
         <service id="Survos\BaseBundle\Controller\LandingController" public="true" autowire="true">

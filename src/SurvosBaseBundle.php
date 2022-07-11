@@ -16,9 +16,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SurvosBaseBundle extends AbstractBundle
 {
-//    public function getPath(): string {
-//        return __DIR__;
-//    }
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $serviceId = 'survos_base.base';
@@ -49,15 +46,17 @@ class SurvosBaseBundle extends AbstractBundle
             ->addTag('knp_menu.menu_builder', ['method' => 'createNavbarMenu', 'alias' => KnpMenuEvent::NAVBAR_MENU_EVENT])
             ;
 
-        $builder->autowire(OAuthController::class)
+        $x = $builder->autowire(OAuthController::class)
             ->addArgument(new Reference($serviceId))
             ->addArgument(new Reference('doctrine'))
             ->addArgument(new Reference('router'))
-            ->addArgument(new Reference('knpu.oauth2.registry'))
+            ->setArgument('$clientRegistry', new Reference('knpu.oauth2.registry'))
+            ->setArgument('$userProvider', new Reference('security.user.provider.concrete.app_user_provider'))
             ->addTag('container.service_subscriber')
             ->addTag('controller.service_argument')
             ->setPublic(true)
         ;
+//        dd($x);
 
     $container->import('../config/services.xml');
 

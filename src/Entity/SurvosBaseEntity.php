@@ -9,6 +9,7 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use function Symfony\Component\String\u;
 
+/* @deprecated */
 abstract class SurvosBaseEntity implements BaseEntityInterface, RouteParametersInterface
 {
     use RouteParametersTrait;

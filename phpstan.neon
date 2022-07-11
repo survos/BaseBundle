@@ -11,15 +11,12 @@ parameters:
        analyse:
                   - ./vendor
 
+
     ignoreErrors:
 #        https://github.com/keboola/php-component/issues/8
     -
         message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\).#'
-        path: src/Configuration
-
-    -
-        message: '#Variable \$[a-zA-Z0-9\\_]+ might not be defined#'
-        path: ./src/Resources/skeleton
+        path: src/SurvosBaseBundle.php
 
         # False positive: clients are not dependencies of this project.
 #        -

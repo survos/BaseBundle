@@ -18,7 +18,6 @@ use Twig\Environment;
 )]
 class SurvosBuildDocsCommand extends Command
 {
-    protected static $defaultName = '';
     /**
      * @var Environment
      */

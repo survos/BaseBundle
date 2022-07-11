@@ -26,8 +26,10 @@ composer config minimum-stability beta
 composer config prefer-stable true
 
 composer config repositories.survos_base_bundle '{"type": "vcs", "url": "git@github.com:survos/BaseBundle.git"}'
+composer config repositories.survos_bootstrap_bundle '{"type": "vcs", "url": "git@github.com:survos/BootstrapBundle.git"}'
 composer config repositories.tacman_hello '{"type": "vcs", "url": "git@github.com:tacman/TacmanHelloBundle.git"}'
 composer config repositories.survos_workflow '{"type": "vcs", "url": "git@github.com:survos/workflow-bundle.git"}'
+composer config repositories.tacman_tree_tag_tag '{"type": "vcs", "url": "git@github.com:tacman/twig-tree-tag.git"}'
 
 composer config repositories.survos_maker '{"type": "vcs", "url": "git@github.com:survos/AdminMakerBundle.git"}'
 composer config repositories.survos_maker '{"type": "path", "url": "/home/tac/survos/bundles/maker-bundle"}'

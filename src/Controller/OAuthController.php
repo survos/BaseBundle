@@ -36,9 +36,10 @@ class OAuthController extends AbstractController
                                 private Registry $entityManager,
                                 private RouterInterface        $router,
                                 private ClientRegistry         $clientRegistry,
-//                                private UserProviderInterface  $userProvider
+                                private UserProviderInterface  $userProvider
     )
     {
+//        dd($this->clientRegistry);
 //        $this->clientRegistry = $this->baseService->getClientRegistry();
     }
 
@@ -139,10 +140,10 @@ class OAuthController extends AbstractController
      * @Route("/connect/controller/{clientKey}", name="oauth_connect_check")
      */
     public function connectCheckWithController(Request        $request,
-                                               ClientRegistry $clientRegistry,
                                                string         $clientKey)
     {
         $route = $request->get('_route');
+        $clientRegistry = $this->clientRegistry;
 
         /** @var OAuth2ClientInterface $client */
         $client = $clientRegistry->getClient($clientKey);
@@ -198,8 +199,9 @@ class OAuthController extends AbstractController
         try {
             /** @var UserInterface $user */
             $user = $this->userProvider->loadUserByIdentifier($email);
+
         } catch (UserNotFoundException $exception) {
-            return new RedirectResponse($this->generateUrl('app_register', ['email' => $identifier, 'githubId = ']));
+            return new RedirectResponse($this->generateUrl('app_register', ['email' => $email, 'id' => $identifier, 'client'=>$clientKey]));
         }
 
 //        if ($user = $em->getRepository(User::class)->findOneBy(['email' => $email])) {
