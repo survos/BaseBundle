@@ -27,15 +27,23 @@
 
             <div class="navbar navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-align">
-                    {% set menu = knp_menu_get('survos_navbar_menu') %}
-                    {{ knp_menu_render(menu, {style: 'navbar', template: 'top-menu-bs5.html.twig'}) }}
+                    <nav class="navbar  navbar-expand-sm">
 
+                        {% block navbar_menu %}
+                            {% set menu = knp_menu_get('navbar_menu') %}
+                            {% set menuHtml = knp_menu_render(menu, {style: 'navbar',
+                                template: '@SurvosBootstrap/knp_top_menu.html.twig'}) %}
+                            {{ menuHtml|raw }}
+                        {% endblock %}
+                    </nav>
 
                     {% if admin.notificationEnable() %}
                         {% include "@UmbrellaAdmin/Notification/widget.html.twig" %}
                     {% endif %}
 
                     {% block top_bar_navbar_items %}
+                        {{ include("@SurvosBase/umbrella/_top_navbar_items.html.twig") }}
+
 
                         {#                                    <li class="nav-item">#}
                         {#                                        projects#}

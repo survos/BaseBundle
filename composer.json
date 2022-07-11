@@ -14,6 +14,7 @@
         "knpuniversity/oauth2-client-bundle": "^v2.10.0",
         "mindscreen/yarnlock": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
+        "survos/bootstrap-bundle": "*@dev",
         "survos/core-bundle": "^1.0",
         "symfony/config": ">= 5.4",
         "symfony/form": ">= 5.4",
@@ -82,6 +83,10 @@
         }
     ],
     "repositories": {
+        "bootstrap": {
+            "type": "path",
+            "url": "//home/tac/survos/bundles/bootstrap-bundle"
+        },
         "tabler_bundle": {
             "type": "vcs",
             "url": "git@github.com:survos/TablerBundle.git"
