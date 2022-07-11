@@ -3,6 +3,8 @@
     "description": "Add some tools and resources to a Symfony 6 application",
     "type": "symfony-bundle",
     "keywords": ["generator", "symfony5"],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">= 8.0",
         "ext-json": "*",
@@ -15,7 +17,7 @@
         "mindscreen/yarnlock": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
         "survos/core-bundle": "^1.0",
-        "survos/bootstrap-bundle": "dev-master",
+        "survos/bootstrap-bundle": "*",
         "symfony/config": ">= 5.4",
         "symfony/form": ">= 5.4",
         "symfony/mailer": "*",
@@ -83,10 +85,6 @@
         }
     ],
     "repositories": {
-        "survos_bootstrap_bundle": {
-            "type": "vcs",
-            "url": "git@github.com:survos/BootstrapBundle.git"
-        },
         "tabler_bundle": {
             "type": "vcs",
             "url": "git@github.com:survos/TablerBundle.git"
