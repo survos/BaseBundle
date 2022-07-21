@@ -5,6 +5,7 @@
 {% set iconLink = block('iconLink') is defined ? block('iconLink') : iconLink|default(false)  %}
 {% set h1 = block('h1') is defined ? block('h1') : h1|default('h1')  %}
 {% set card_content = block('card_content') is defined ? block('card_content') : card_content|default('no card_content passed in...')  %}
+{% set card_footer = block('card_footer') is defined ? block('card_footer') : card_footer|default('')  %}
 
 {#<div class="card">#}
 {#    <div class="card-body">#}
@@ -64,6 +65,9 @@
         <div class="card-body px-4">
             {{ card_content|raw }}
 {#            <div id="world_map" style="height:350px;"></div>#}
+        </div>
+        <div class="card-footer">
+            {{ card_footer|raw }}
         </div>
     </div>
 </div>
