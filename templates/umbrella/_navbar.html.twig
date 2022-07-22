@@ -24,7 +24,7 @@
                     <nav class="navbar  navbar-expand-sm">
 
                         {% block navbar_menu %}
-                            {% set menu = knp_menu_get('navbar_menu') %}
+                            {% set menu = knp_menu_get('survos_navbar_menu') %}
                             {% set menuHtml = knp_menu_render(menu, {style: 'navbar',
                                 template: '@SurvosBootstrap/knp_top_menu.html.twig'}) %}
                             {{ menuHtml|raw }}
