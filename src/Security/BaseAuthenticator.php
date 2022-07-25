@@ -16,22 +16,24 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class BaseAuthenticator extends OAuth2Authenticator
+class BaseAuthenticator extends OAuth2Authenticator implements ServiceSubscriberInterface
 {
     private $clientRegistry;
-    private $entityManager;
     private $router;
+    private ?UserProviderInterface  $userProvider = null;
 
     public function __construct(ClientRegistry $clientRegistry,
-                                EntityManagerInterface $entityManager,
                                 RouterInterface $router,
-    private UserProviderInterface $userProvider
     )
     {
         $this->clientRegistry = $clientRegistry;
-        $this->entityManager = $entityManager;
         $this->router = $router;
+    }
+
+    public function setUserProvider(UserProviderInterface  $userProvider) {
+        $this->userProvider = $userProvider;
     }
 
     public function supports(Request $request): ?bool
@@ -70,7 +72,7 @@ class BaseAuthenticator extends OAuth2Authenticator
 //                $this->entityManager->persist($user);
 //                $this->entityManager->flush();
 
-                return $user;
+                return $userFromToken;
             })
         );
     }
@@ -91,5 +93,17 @@ class BaseAuthenticator extends OAuth2Authenticator
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
         return new Response($message, Response::HTTP_FORBIDDEN);
+    }
+
+
+    public function setContainer(null|\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        return []; // obviously wrong.
+        // TODO: Implement getSubscribedServices() method.
     }
 }

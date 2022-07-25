@@ -5,6 +5,7 @@ use Survos\BaseBundle\Controller\OAuthController;
 use Survos\BaseBundle\DependencyInjection\Compiler\SurvosBaseCompilerPass;
 use Survos\BaseBundle\Event\KnpMenuEvent;
 use Survos\BaseBundle\Menu\MenuBuilder;
+use Survos\BaseBundle\Security\BaseAuthenticator;
 use Survos\BaseBundle\Twig\TwigExtensions;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,6 +14,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 class SurvosBaseBundle extends AbstractBundle
 {
@@ -46,17 +48,38 @@ class SurvosBaseBundle extends AbstractBundle
             ->addTag('knp_menu.menu_builder', ['method' => 'createNavbarMenu', 'alias' => KnpMenuEvent::NAVBAR_MENU_EVENT])
             ;
 
-        $x = $builder->autowire(OAuthController::class)
+        $definition = $builder->autowire(OAuthController::class)
             ->addArgument(new Reference($serviceId))
-            ->addArgument(new Reference('doctrine'))
-            ->addArgument(new Reference('router'))
+            ->addArgument('$registry', new Reference('doctrine'))
+            ->setArgument('$router', new Reference('router'))
+            ->setArgument('$userClass', $config['user_class'])
             ->setArgument('$clientRegistry', new Reference('knpu.oauth2.registry'))
-            ->setArgument('$userProvider', new Reference('security.user.provider.concrete.app_user_provider'))
             ->addTag('container.service_subscriber')
             ->addTag('controller.service_argument')
-            ->setPublic(true)
-        ;
-//        dd($x);
+            ->setPublic(true);
+
+        if ($userProviderServiceId = $config['user_provider']) {
+            $definition
+                ->addMethodCall('setUserProvider', [new Reference($userProviderServiceId)])
+            ;
+
+        }
+
+        $definition = $builder->autowire(BaseAuthenticator::class)
+            ->addArgument('$registry', new Reference('doctrine'))
+            ->setArgument('$router', new Reference('router'))
+            ->setArgument('$clientRegistry', new Reference('knpu.oauth2.registry'))
+            ->addTag('container.service_subscriber')
+            ->addTag('controller.service_argument')
+            ->setPublic(true);
+
+        if ($userProviderServiceId = $config['user_provider']) {
+            $definition
+                ->addMethodCall('setUserProvider', [new Reference($userProviderServiceId)])
+            ;
+
+        }
+
 
     $container->import('../config/services.xml');
 
@@ -72,8 +95,12 @@ class SurvosBaseBundle extends AbstractBundle
                  ->info('the theme code for rendering templates')
                  ->end()
             ->scalarNode('user_class')
-            ->info('Class for the authenticated user')
-            ->defaultValue('App\Entity\User')
+                ->info('Class for the authenticated user')
+                ->defaultValue('App\Entity\User')
+            ->end()
+            ->scalarNode('user_provider')
+                ->info('Class for the authenticated user')
+                ->defaultValue(null)
             ->end()
                  ->arrayNode('routes')
                  ->normalizeKeys(false)

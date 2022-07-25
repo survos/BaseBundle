@@ -23,6 +23,35 @@ trait QueryBuilderHelperTrait
         return $counts;
     }
 
+    public function getCountsWithSortDoesntWork($field, string $alias = 'e', array $orderBy = []): array
+    {
+        $selectFields = ["$alias.$field, count($alias) as count"];
+        $groupByFields = [$alias . '.' . $field];
+        $qb = $this->createQueryBuilder($alias);
+
+        foreach ($orderBy as $orderByField=>$sortOrder) {
+            $selectFields[] = "$alias.$orderByField";
+            $groupByFields[] = "$alias.$orderByField";
+            $qb
+                ->orderBy($alias . '.' . $orderByField, $sortOrder);
+        }
+        $results = $qb
+//            ->groupBy(join(',', $groupByFields))
+            ->groupBy($selectFields)
+            ->select($selectFields)
+            ->getQuery()
+            ->getArrayResult();
+        $counts = [];
+        foreach ($results as $r) {
+            $counts[$r[$field]] = $r['count'];
+        }
+        dd($results);
+
+        return $counts;
+    }
+
+
+
 
     public function findBygetCountsByField($field = 'marking', $filters = [], ?string $idField='id'): array
     {
