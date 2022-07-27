@@ -33,7 +33,7 @@ class TwigExtensions extends AbstractExtension
 //            new TwigFilter('money', [$this, 'money']),
 //            new TwigFilter('currency', [$this, 'currency']),
             new TwigFilter('country', [$this, 'country']),
-            new TwigFilter('route_alias', fn($str) => $str ), // so templates from adminlte bundle run
+//            new TwigFilter('route_alias', fn($str) => $str ), // so templates from adminlte bundle run
             new TwigFilter('clean', function($s) { return $s . "!!"; }),
         ];
     }
