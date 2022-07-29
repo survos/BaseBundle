@@ -46,6 +46,7 @@ class SurvosBaseBundle extends AbstractBundle
             ->addTag('knp_menu.menu_builder', ['method' => 'createSidebarMenu', 'alias' => 'survos_sidebar_menu'])
             ->addTag('knp_menu.menu_builder', ['method' => 'createPageMenu', 'alias' => 'survos_page_menu'])
             ->addTag('knp_menu.menu_builder', ['method' => 'createNavbarMenu', 'alias' => KnpMenuEvent::NAVBAR_MENU_EVENT])
+            ->addTag('knp_menu.menu_builder', ['method' => 'createNavbarMenu', 'alias' => 'survos_navbar_menu'])
             ;
 
         $definition = $builder->autowire(OAuthController::class)
