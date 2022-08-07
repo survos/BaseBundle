@@ -19,7 +19,7 @@ class BaseMenuSubscriber
     private ?array $options;
     private $childOptions;
 
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
     {
         $this->authorizationChecker = $authorizationChecker;
     }

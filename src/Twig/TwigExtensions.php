@@ -61,24 +61,24 @@ class TwigExtensions extends AbstractExtension
             new TwigFunction('optionsResolver', [$this, 'optionsResolver']),
             new TwigFunction('tourOptions', [$this, 'tourOptions']),
             new TwigFunction('adminLinks', [$this, 'adminLinks']),
-            new TwigFunction('sortable_fields', [$this, 'sortableFields']),
+//            new TwigFunction('sortable_fields', [$this, 'sortableFields']),
         ];
     }
 
-    public function sortableFields(string $class): array
-    {
-        $reflector = new \ReflectionClass($class);
-        foreach ($reflector->getAttributes() as $attribute) {
-            if (!u($attribute->getName())->endsWith('ApiFilter')) {
-                continue;
-            }
-            $filter = $attribute->getArguments()[0];
-            if (u($filter)->endsWith('OrderFilter')) {
-                return $attribute->getArguments()['properties'];
-            }
-        }
-        return [];
-    }
+//    public function sortableFields(string $class): array
+//    {
+//        $reflector = new \ReflectionClass($class);
+//        foreach ($reflector->getAttributes() as $attribute) {
+//            if (!u($attribute->getName())->endsWith('ApiFilter')) {
+//                continue;
+//            }
+//            $filter = $attribute->getArguments()[0];
+//            if (u($filter)->endsWith('OrderFilter')) {
+//                return $attribute->getArguments()['properties'];
+//            }
+//        }
+//        return [];
+//    }
 
 //
 //

@@ -1,0 +1,5 @@
+{{ _self }}
+{% if admin_menu is not defined %}
+    {% set admin_menu = get_menu(admin.menuName()) %}
+{% endif %}
+{{ render_menu(admin_menu) }}

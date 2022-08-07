@@ -2,15 +2,41 @@
 
 namespace Survos\BaseBundle\Menu;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Umbrella\CoreBundle\Menu\Builder\MenuItemBuilder;
 use function Symfony\Component\String\u;
 
 trait AdminMenuTrait
 {
+    private ?AuthorizationCheckerInterface $authorizationChecker=null;
+    private ?ParameterBagInterface $bag=null;
+
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
+
+    public function getAuthorizationChecker(): ?AuthorizationCheckerInterface
+    {
+        return $this->authorizationChecker;
+    }
+
+    public function isGranted($attribute, $subject=null): bool
+    {
+        if (!$this->authorizationChecker) {
+            throw new \Exception("call setAuthorizationChecker() before making this call.");
+        }
+        return $this->authorizationChecker ? $this->authorizationChecker->isGranted($attribute, $subject): false;
+    }
+
     public function addMenuItem(MenuItemBuilder $menu, $options): MenuItemBuilder
     {
         $options = $this->menuOptions($options);
+        if (!array_key_exists('icon', $options)) {
+            dd($options);
+        }
 
         $item = $menu->add($options['id'])
             ->label($options['label'])
@@ -35,7 +61,7 @@ trait AdminMenuTrait
 
     }
 
-    private function menuOptions(array $options, array $extra = []): array
+    public function menuOptions(array $options, array $extra = []): array
     {
         // idea: make the label a . version of the route, e.g. project_show could be project.show
         // we could also set a default icon for things like edit, show
