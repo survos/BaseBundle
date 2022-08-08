@@ -99,16 +99,13 @@
 
 {#                collapsible {{  matcher.isAncestor(item, options.matchingDepth) ? 'ancestor' : 'not ancestor' }}#}
                 <a data-bs-target="#{{ ulId }}"
-                   data-bs-toggle="show"
+                   data-bs-toggle="collapse"
                    aria-expanded="false"
                    class="sidebar-link nav-link {{ matcher.isAncestor(item, options.matchingDepth)? ' active' }}">
                     <!-- icon -->
 {#                    <span class="nav-icon {{ item.attribute('data-icon') is not empty ? item.attribute('data-icon') : 'fas fa-circle' }}"></span>#}
-
-                    <p>
                         {{ block('spanElement') }}
 {#                        <span class="end fas fa-angle-left"></span>#}
-                    </p>
                 </a>
                 {% else %}
                     {{ block('spanElement') }}
@@ -120,7 +117,7 @@
             {%- set childrenClasses = childrenClasses|merge(['nav-treeview menu_level_' ~ item.level]) %}
 {#            {%- set childrenClasses = childrenClasses|merge(['nav-treeview']) %}#}
             {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
-{#            {%- set listAttributes = listAttributes|merge({'id': ulId, 'class': matcher.isAncestor(item, options.matchingDepth) ? 'show' : 'collapse' }} }) %}#}
+            {%- set listAttributes = listAttributes|merge({'id': ulId, 'class':  matcher.isAncestor(item, options.matchingDepth) ? 'show' : 'collapse' }) %}
             {{ block('list') }}
         </li>
     {% endif %}
