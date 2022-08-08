@@ -86,18 +86,28 @@
         {% import _self as knp_menu %}
         <li{{ knp_menu.attributes(attributes) }}>
             {# if uri is set, it must be a leaf. #}
+{#            {{ dump(item) }}#}
+            {% set ulId = item.name %}
             {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
                 {{ block('linkElement') }}
             {%- else %}
                 {% if item.hasChildren %}
-                <!-- collapsible {{  matcher.isAncestor(item, options.matchingDepth) ? 'ancestor' : 'not ancestor' }}-->
-                <a class=" nav-link {{ matcher.isAncestor(item, options.matchingDepth)? ' active' }}">
+{#                    <a data-bs-target="#{{ ulId }}" data-bs-toggle="collapse" class="sidebar-link" aria-expanded="true">#}
+{#                        <i class="uil-table"></i>#}
+{#                        <span class="align-middle">Locations</span>#}
+{#                    </a>#}
+
+{#                collapsible {{  matcher.isAncestor(item, options.matchingDepth) ? 'ancestor' : 'not ancestor' }}#}
+                <a data-bs-target="#{{ ulId }}"
+                   data-bs-toggle="show"
+                   aria-expanded="false"
+                   class="sidebar-link nav-link {{ matcher.isAncestor(item, options.matchingDepth)? ' active' }}">
                     <!-- icon -->
-                    <span class="nav-icon {{ item.attribute('data-icon') is not empty ? item.attribute('data-icon') : 'fas fa-circle' }}"></span>
+{#                    <span class="nav-icon {{ item.attribute('data-icon') is not empty ? item.attribute('data-icon') : 'fas fa-circle' }}"></span>#}
 
                     <p>
                         {{ block('spanElement') }}
-                        <span class="end fas fa-angle-left"></span>
+{#                        <span class="end fas fa-angle-left"></span>#}
                     </p>
                 </a>
                 {% else %}
@@ -110,6 +120,7 @@
             {%- set childrenClasses = childrenClasses|merge(['nav-treeview menu_level_' ~ item.level]) %}
 {#            {%- set childrenClasses = childrenClasses|merge(['nav-treeview']) %}#}
             {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+{#            {%- set listAttributes = listAttributes|merge({'id': ulId, 'class': matcher.isAncestor(item, options.matchingDepth) ? 'show' : 'collapse' }} }) %}#}
             {{ block('list') }}
         </li>
     {% endif %}

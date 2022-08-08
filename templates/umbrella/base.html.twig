@@ -28,7 +28,15 @@
     <div class="wrapper">
 
         {% block sidebar %}
-            {{ include("@SurvosBase/umbrella/_sidebar.html.twig") }}
+        <nav id="sidebar" class="sidebar" is="umbrella-sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-brand mx-auto"> <span>Admin</span> </div>
+                {{ include("@SurvosBase/umbrella/knp_sidebar.html.twig") }}
+{#                {{ include("@SurvosBase/umbrella/_example_sidebar.html.twig") }}#}
+
+
+            </div>
+        </nav>
         {% endblock %}
 
         <div class="main" {{ stimulus_target(_menu_controller, 'page') }}>

@@ -1,0 +1,18 @@
+<nav id="sidebar" class="sidebar" is="umbrella-sidebar">
+    <div class="sidebar-content">
+
+
+        <div  class="sidebar-brand">
+            <span>Admin Demo</span>
+        </div>
+
+
+        <div class="sidebar-nav">
+
+            <div class="simplebar-content" style="padding: 0px;">
+                {{ include('@SurvosBase/umbrella/render_sidebar_menu.html.twig', {menuCode: 'survos_sidebar_menu'}) }}
+                {#                {{ include('@SurvosBase/umbrella/_sidebar_elements.html.twig') }}#}
+            </div>
+        </div>
+    </div>
+</nav>

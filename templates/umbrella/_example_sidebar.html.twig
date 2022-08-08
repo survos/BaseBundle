@@ -1,12 +1,33 @@
-<nav id="sidebar" class="sidebar" is="umbrella-sidebar">
-    <div class="sidebar-content">
-        <div class="sidebar-brand mx-auto"> <span>Admin</span> </div>
-        <div class="sidebar-nav">
+        <ul class="sidebar-nav">
+
 
             <li class="sidebar-item " data-search="Home">
                 <a class="sidebar-link" href="/admin"> <i class="mdi mdi-home"></i> <span class="align-middle">Home!!</span> </a>
                 <a class="sidebar-link" href="/admin"> <i class="mdi mdi-home"></i> <span class="align-middle">Test!!</span> </a>
             </li>
-        </div>
-    </div>
-</nav>
+
+            <li class="sidebar-item " data-search="Form">
+                <a data-bs-target="#menu-item-form-1" data-bs-toggle="collapse" class="sidebar-link" aria-expanded="true">
+                    <i class="uil-check-square"></i>
+                    <span class="align-middle">Form</span>
+
+                </a>
+                <ul id="menu-item-form-1" data-bs-parent="#sidebar" class="sidebar-dropdown mb-0 list-unstyled collapse show" style="">
+                    <li class="sidebar-item " data-search="Common">
+                        <a class="sidebar-link" href="/form/common">
+                            <span class="align-middle">Common</span>
+
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item " data-search="Advanced select">
+                        <a class="sidebar-link" href="/form/select">
+                            <span class="align-middle">Advanced select</span>
+
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+        </ul>

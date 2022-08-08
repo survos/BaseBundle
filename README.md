@@ -51,11 +51,9 @@ sed -i "s|# MAILER_DSN|MAILER_DSN|" .env
 bin/console make:user --is-entity --identity-property-name=email --with-password User -n
 echo "1,AppAuthenticator,,," | sed "s/,/\n/g"  | bin/console make:auth
 
-sed  -i "s|some_route|app_homepage|" ^Cc/Security/AppAuthenticator.php 
+sed  -i "s|some_route|app_homepage|" src/Security/AppAuthenticator.php 
 sed  -i "s|//return|return|" src/Security/AppAuthenticator.php 
 sed  -i "s|throw new|//throw new|" src/Security/AppAuthenticator.php 
-
-
 
 bin/console survos:make:menu AdminMenu (maybe just copy during recipe)?
 
