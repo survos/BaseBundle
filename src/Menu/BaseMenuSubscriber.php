@@ -19,6 +19,12 @@ class BaseMenuSubscriber
     private ?array $options;
     private $childOptions;
 
+    protected function supports(string $attribute, $subject): bool
+    {
+        return true;
+    }
+
+
     public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
     {
         $this->authorizationChecker = $authorizationChecker;
