@@ -9,6 +9,7 @@
 
 namespace Survos\BaseBundle\Twig;
 
+use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -64,6 +65,25 @@ class TwigExtensions extends AbstractExtension
 //            new TwigFunction('sortable_fields', [$this, 'sortableFields']),
         ];
     }
+    /**
+     * Takes the list of codes of the locales (languages) enabled in the
+     * application and returns an array with the name of each locale written
+     * in its own language (e.g. English, Français, Español, etc.).
+     */
+    public function getLocales(array $localeCodes): array
+    {
+//        if (null !== $this->locales) {
+//            return $this->locales;
+//        }
+
+        $this->locales = [];
+        foreach ($localeCodes as $localeCode) {
+            $this->locales[] = ['code' => $localeCode, 'name' => Locales::getName($localeCode, $localeCode)];
+        }
+
+        return $this->locales;
+    }
+
 
 //    public function sortableFields(string $class): array
 //    {
