@@ -5,12 +5,12 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>
-        <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >
-            <argument type="string" />
-            <argument type="service" id="oauth2.registry"/>
-            <argument type="service" id="knpu.oauth2.provider_factory"/>
-        </service>
+<!--        <service id="Survos\BaseBundle\BaseService" alias="survos_base_bundle.base_service" public="true"/>-->
+<!--        <service id="survos_base_bundle.base_service" class="Survos\BaseBundle\BaseService" >-->
+<!--            <argument type="string" />-->
+<!--            <argument type="service" id="oauth2.registry"/>-->
+<!--            <argument type="service" id="knpu.oauth2.provider_factory"/>-->
+<!--        </service>-->
 
         <service id="Survos\BaseBundle\Security\AppEmailAuthenticator" alias="survos_base_bundle.app_email_authenticator" public="true"/>
         <service id="survos_base_bundle.app_email_authenticator" class="Survos\BaseBundle\Security\AppEmailAuthenticator" >

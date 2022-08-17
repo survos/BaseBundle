@@ -25,13 +25,21 @@
 
 {% block body_inner_html %}
 
-    <div class="wrapper">
+    <div class="wrapper" id="container">
 
         {% block sidebar %}
         <nav id="sidebar" class="sidebar" is="umbrella-sidebar">
             <div class="sidebar-content">
                 <div class="sidebar-brand mx-auto"> <span>Admin</span> </div>
-                {{ include("@SurvosBase/umbrella/knp_sidebar.html.twig") }}
+
+                {{ baseConfig()['menu'] }}
+                {% if baseConfig()['menu'] == 'umbrella' %}
+                    {{ include("@SurvosBase/umbrella/_sidebar.html.twig") }}
+                {% else %}
+                                {{ include("@SurvosBase/umbrella/knp_sidebar.html.twig") }}
+                {% endif %}
+{#                {{ include("@SurvosBase/umbrella/knp_sidebar.html.twig") }}#}
+{#                {{ include("@SurvosBase/umbrella/Menu/sidebar.html.twig") }}#}
 {#                {{ include("@SurvosBase/umbrella/_example_sidebar.html.twig") }}#}
 
 

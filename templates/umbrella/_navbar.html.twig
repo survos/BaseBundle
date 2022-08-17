@@ -61,11 +61,11 @@
                     {#                                <li class="nav-item">#}
                     {#                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Settings</button>#}
                     {#                                </li>#}
-
+                    {% if baseService().allowLogin %}
                     {% if not is_granted('ROLE_USER') %}
                         <li>
                             <a href="{{ path('app_login') }}" class="dropdown-item">
-                                <span>{{ 'label.sign_in' | trans }}</span>
+                                <span>{{ 'login.sign_in' | trans({}, 'UmbrellaAdmin') }}</span>
                             </a>
                         </li>
                     {% endif %}
@@ -74,6 +74,7 @@
                     {% embed '@UmbrellaAdmin/_userinfo.html.twig' %}
                     {% endembed  %}
                     {% endblock %}
+                    {% endif %}
 
 
                 </ul>

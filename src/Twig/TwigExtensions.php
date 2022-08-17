@@ -9,6 +9,7 @@
 
 namespace Survos\BaseBundle\Twig;
 
+use Survos\BaseBundle\BaseService;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Extension\AbstractExtension;
@@ -21,6 +22,12 @@ use function Symfony\Component\String\u;
  */
 class TwigExtensions extends AbstractExtension
 {
+    public function __construct(
+        private BaseService $baseService,
+        private array $config)
+    {
+
+    }
     /**
      * {@inheritdoc}
      */
@@ -62,6 +69,9 @@ class TwigExtensions extends AbstractExtension
             new TwigFunction('optionsResolver', [$this, 'optionsResolver']),
             new TwigFunction('tourOptions', [$this, 'tourOptions']),
             new TwigFunction('adminLinks', [$this, 'adminLinks']),
+            new TwigFunction('baseConfig', fn() => $this->config),
+            new TwigFunction('baseService', fn() => $this->baseService),
+//            new TwigFunction('allowLogin', fn() => $this->config['allowLogin'] !== 'none'),
 //            new TwigFunction('sortable_fields', [$this, 'sortableFields']),
         ];
     }

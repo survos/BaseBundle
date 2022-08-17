@@ -18,11 +18,23 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 class SurvosBaseBundle extends AbstractBundle
 {
+//    public function boot()
+//    {
+//        $twig = $this->container->get('twig');
+//
+//        $twig->addGlobal('backend', array(
+//            'title' => $this->container->getParameter('backend.title')
+//        ));
+//    }
+
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $serviceId = 'survos_base.base';
+        $serviceId = 'survos_base.base_service';
+        $container->services()->alias(BaseService::class, $serviceId);
+
         $builder->register($serviceId, BaseService::class)
             ->setArgument('$userClass', $config['user_class'])
+            ->setArgument('$config', $config)
             ->setArgument('$clientRegistry', new Reference('oauth2.registry'))
             ->setArgument('$provider', new Reference('knpu.oauth2.provider_factory'))
             ->setPublic(true)
@@ -32,14 +44,15 @@ class SurvosBaseBundle extends AbstractBundle
             ->setDefinition('survos.base_twig', new Definition(TwigExtensions::class))
             ->addTag('twig.extension')
             ->setPublic(false)
+            ->setArgument('$baseService', new Reference($serviceId))
+            ->setArgument('$config', $config)
         ;
-
-        $container->services()->alias(BaseService::class, $serviceId);
 
 //        $builder->autowire(SurvosWorkflowDumpCommand::class)
 //            ->addTag('console.command')
 //        ;
 
+        // really only if umbrella
         $builder->autowire(MenuBuilder::class)
             ->setArgument('$factory', new Reference('knp_menu.factory'))
             ->setArgument('$eventDispatcher', new Reference('event_dispatcher'))
@@ -98,6 +111,14 @@ class SurvosBaseBundle extends AbstractBundle
             ->scalarNode('user_class')
                 ->info('Class for the authenticated user')
                 ->defaultValue('App\Entity\User')
+            ->end()
+            ->scalarNode('allow_login')
+                ->info('what login is allowed (none, existing_only, allow_registration')
+                ->defaultValue('none')
+            ->end()
+            ->scalarNode('menu')
+                ->info('menu system (knp or umbrella)')
+                ->defaultValue('umbrella')
             ->end()
             ->scalarNode('user_provider')
                 ->info('Class for the authenticated user')

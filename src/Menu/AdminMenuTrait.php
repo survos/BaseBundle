@@ -1,4 +1,4 @@
-<?php
+<?php // for use with UMBRELLA menus only
 
 namespace Survos\BaseBundle\Menu;
 

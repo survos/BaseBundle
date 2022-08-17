@@ -12,6 +12,7 @@ class BaseService
 
     public function __construct(
         private string $userClass,
+        private array $config,
         private ClientRegistry $clientRegistry,
         private ProviderFactory $provider
 )
@@ -19,6 +20,11 @@ class BaseService
 //        $this->clientRegistry = $clientRegistry;
 //        $this->provider = $provider;
 //        $this->userClass = $userClass;
+    }
+
+    public function allowLogin(): bool
+    {
+        return $this->config['allow_login'] !== 'none';
     }
 
     public function getUserClass(): string
