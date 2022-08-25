@@ -40,6 +40,7 @@ class SurvosBaseBundle extends AbstractBundle
             ->setPublic(true)
             ->setAutowired(true);
 
+
         $builder
             ->setDefinition('survos.base_twig', new Definition(TwigExtensions::class))
             ->addTag('twig.extension')
@@ -86,13 +87,6 @@ class SurvosBaseBundle extends AbstractBundle
             ->addTag('container.service_subscriber')
             ->addTag('controller.service_argument')
             ->setPublic(true);
-
-        if ($userProviderServiceId = $config['user_provider']) {
-            $definition
-                ->addMethodCall('setUserProvider', [new Reference($userProviderServiceId)])
-            ;
-
-        }
 
 
     $container->import('../config/services.xml');
