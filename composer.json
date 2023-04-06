@@ -32,7 +32,7 @@
         "symfony/string": ">= 5.4",
         "symfony/twig-bundle": ">= 5.4",
         "symfony/validator": ">= 5.4",
-        "symfony/webpack-encore-bundle": "^v1.13.1",
+        "symfony/webpack-encore-bundle": "^1.6 || ^2",
         "symfony/workflow": ">= 5.4",
         "symfony/yaml": "*",
         "twig/twig": "^3.3",
