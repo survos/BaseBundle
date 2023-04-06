@@ -18,7 +18,7 @@
         "sensio/framework-extra-bundle": "^6.2",
         "survos/core-bundle": "^1.0",
         "survos/bootstrap-bundle": "*",
-        "symfony/config": ">= 5.4",
+        "symfony/config": "^6.0",
         "symfony/form": ">= 5.4",
         "symfony/mailer": "*",
         "symfony/maker-bundle": "^1.36",
